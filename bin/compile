@@ -1,33 +1,43 @@
-#!/bin/sh
+#!/bin/bash
 # Usage: bin/compile <build-dir> <cache-dir>
 
-# fail fast
 set -e
 
-# parse args
-BUILD_DIR=$1
-CACHE_DIR=$2
-
-indent() {
-  sed -u 's/^/       /'
+function indent() {
+  c='s/^/       /'
+  case $(uname) in
+    Darwin) sed -l "$c";;
+    *)      sed -u "$c";;
+  esac
 }
 
-mktmpdir() {
-  dir=$(mktemp -t wp-$1-XXXX)
-  rm -rf $dir
-  mkdir -p $dir
-  echo $dir
-}
+build=$1
+cache=$2
 
-# config
-ZLIB_VERSION="1.2.5"
-ZLIB_PACKAGE="http://zlib.net/zlib-${ZLIB_VERSION}.tar.gz"
-VENDORED_ZLIB="$(mktmpdir zlib)"
+#ensure it exists
+mkdir -p ${build} ${cache}
 
 echo "-----> Fetching Wordpress dependencies"
-mkdir -p $VENDORED_ZLIB  && curl $ZLIB_PACKAGE -s -o -  | tar xzf - -C $VENDORED_ZLIB
 
-pushd "${VENDORED_ZLIB}/zlib-${ZLIB_VERSION}"
-./configure -prefix="modules/zlib" && make && make install
-popd
-cp -a "${VENDORED_ZLIB}/zlib-${ZLIB_VERSION}/modules/zlib" "${BUILD_DIR}/zlib"
+zlib_version="1.2.5"
+zlib_base_url="http://zlib.net"
+zlib_file="zlib-${zlib_version}"
+zlib_url="${zlib_base_url}/${zlib_file}.tar.gz"
+cache_target="${cache}/${zlib_file}"
+
+build_target="${build}/src"
+# build_zlib="${build}/local/zlib"
+
+mkdir -p $build_target
+
+echo "No cached compile detected. Bulding..." | indent
+cd $build_target
+
+echo "Compiling zlib v${zlib_version}..." | indent
+curl -s ${zlib_url} > "${zlib_file}.tar.gz"
+tar zxf "${zlib_file}.tar.gz"
+cd ${zlib_file}
+./configure --prefix="../../local/zlib" | indent
+make | indent
+make install | indent
+cd ..
