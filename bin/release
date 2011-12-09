@@ -8,4 +8,7 @@ cat << EOF
 config_vars:
   PATH: /usr/local/bin:/usr/bin:/bin
   LD_LIBRARY_PATH: "${build}/local/zlib/lib"
+default_process_types:
+  web: sh boot.sh
+
 EOF
