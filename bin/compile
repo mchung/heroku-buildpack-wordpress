@@ -1,0 +1,33 @@
+#!/bin/sh
+# Usage: bin/compile <build-dir> <cache-dir>
+
+# fail fast
+set -e
+
+# parse args
+BUILD_DIR=$1
+CACHE_DIR=$2
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+mktmpdir() {
+  dir=$(mktemp -t wp-$1-XXXX)
+  rm -rf $dir
+  mkdir -p $dir
+  echo $dir
+}
+
+# config
+ZLIB_VERSION="1.2.5"
+ZLIB_PACKAGE="http://zlib.net/zlib-${ZLIB_VERSION}.tar.gz"
+VENDORED_ZLIB="$(mktmpdir zlib)"
+
+echo "-----> Fetching Wordpress dependencies"
+mkdir -p $VENDORED_ZLIB  && curl $ZLIB_PACKAGE -s -o -  | tar xzf - -C $VENDORED_ZLIB
+
+pushd "${VENDORED_ZLIB}/zlib-${ZLIB_VERSION}"
+./configure -prefix="modules/zlib" && make && make install
+popd
+cp -a "${VENDORED_ZLIB}/zlib-${ZLIB_VERSION}/modules/zlib" "${BUILD_DIR}/zlib"
