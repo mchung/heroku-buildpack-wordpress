@@ -11,13 +11,29 @@ function indent() {
   esac
 }
 
-build=$1
+build=$1 # /app
 cache=$2
 
 #ensure it exists
-mkdir -p ${build} ${cache}
-
+mkdir -p $build $cache
 echo "-----> Install nginx"
+
+cd $build
+ls -la
+
+cd $cache
+ls -la
+
+# Move wordpress into a /app/www
+cd $build
+mkdir -p $cache/www
+mv * $cache/www
+mv $cache/www .
+
+# Keep Procfile in root.
+if [ -f www/Procfile ]; then
+  mv www/Procfile .
+fi
 
 # echo "-----> Fetching Wordpress dependencies"
 # 
