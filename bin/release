@@ -12,6 +12,6 @@ addons:
 config_vars:
   PATH: /usr/local/bin:/usr/bin:/bin
 default_process_types:
-  web: erb conf/nginx.conf.erb > conf/nginx.conf && touch logs/access.log logs/error.log && (tail -f -n 0 logs/*.log &) && sbin/nginx -p .
+  web: erb nginx/conf/nginx.conf.erb > nginx/conf/nginx.conf && touch nginx/logs/access.log nginx/logs/error.log && (tail -f -n 0 nginx/logs/*.log &) && nginx/sbin/nginx -p .
 
 EOF
