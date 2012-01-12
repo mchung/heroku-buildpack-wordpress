@@ -5,10 +5,13 @@ build=$1
 
 cat << EOF
 ---
+addons:
+  - cleardb:ignite
+  - sendgrid:starter
+  - ssl:piggyback
 config_vars:
   PATH: /usr/local/bin:/usr/bin:/bin
-  LD_LIBRARY_PATH: "${build}/local/zlib/lib"
 default_process_types:
-  web: sh boot.sh
+  web: erb conf/nginx.conf.erb > conf/nginx.conf && touch logs/access.log logs/error.log && (tail -f -n 0 logs/*.log &) && sbin/nginx -p .
 
 EOF
