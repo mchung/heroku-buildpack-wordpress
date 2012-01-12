@@ -17,27 +17,29 @@ cache=$2
 #ensure it exists
 mkdir -p ${build} ${cache}
 
-echo "-----> Fetching Wordpress dependencies"
+echo "-----> Install nginx"
 
-zlib_version="1.2.5"
-zlib_base_url="http://zlib.net"
-zlib_file="zlib-${zlib_version}"
-zlib_url="${zlib_base_url}/${zlib_file}.tar.gz"
-cache_target="${cache}/${zlib_file}"
-
-build_target="${build}/src"
-# build_zlib="${build}/local/zlib"
-
-mkdir -p $build_target
-
-echo "No cached compile detected. Bulding..." | indent
-cd $build_target
-
-echo "Compiling zlib v${zlib_version}..." | indent
-curl -s ${zlib_url} > "${zlib_file}.tar.gz"
-tar zxf "${zlib_file}.tar.gz"
-cd ${zlib_file}
-./configure --prefix="../../local/zlib" | indent
-make | indent
-make install | indent
-cd ..
+# echo "-----> Fetching Wordpress dependencies"
+# 
+# zlib_version="1.2.5"
+# zlib_base_url="http://zlib.net"
+# zlib_file="zlib-${zlib_version}"
+# zlib_url="${zlib_base_url}/${zlib_file}.tar.gz"
+# cache_target="${cache}/${zlib_file}"
+# 
+# build_target="${build}/src"
+# # build_zlib="${build}/local/zlib"
+# 
+# mkdir -p $build_target
+# 
+# echo "No cached compile detected. Bulding..." | indent
+# cd $build_target
+# 
+# echo "Compiling zlib v${zlib_version}..." | indent
+# curl -s ${zlib_url} > "${zlib_file}.tar.gz"
+# tar zxf "${zlib_file}.tar.gz"
+# cd ${zlib_file}
+# ./configure --prefix="../../local/zlib" | indent
+# make | indent
+# make install | indent
+# cd ..
