@@ -11,5 +11,5 @@ addons:
 config_vars:
   PATH: /app/vendor/nginx/sbin:/app/vendor/php/bin:/usr/local/bin:/usr/bin:/bin
 default_process_types:
-  web: sh config/boot.sh
+  web: sh boot.sh
 EOF
