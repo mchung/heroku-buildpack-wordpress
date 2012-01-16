@@ -34,7 +34,7 @@ echo "-----> Installing Nginx"
 if [ ! -d ./vendor/nginx ]; then
   echo "-----> Bundling Nginx v${NGINX_VERSION}"
   mkdir -p ./vendor/nginx && cd ./vendor/nginx
-  curl --silent --max-time 60 --location $NGINX_URL | tar xz
+  curl --max-time 60 --location $NGINX_URL | tar xz
 fi
 
 # PHP
@@ -42,5 +42,5 @@ echo "-----> Installing PHP"
 if [ ! -d ./vendor/php ]; then
   echo "-----> Bundling PHP v${PHP_VERSION}"
   mkdir -p ./vendor/php && cd ./vendor/php
-  curl --silent --max-time 60 --location $PHP_URL | tar xz
+  curl --max-time 60 --location $PHP_URL | tar xz
 fi
