@@ -1,0 +1,43 @@
+#!/bin/sh
+
+set -e
+
+# node_version="$1"
+
+# if [ "$node_version" == "" ]; then
+#   echo "usage: $0 VERSION"
+#   exit 1
+# fi
+
+if [ "$AWS_ID" == "" ]; then
+  echo "must set AWS_ID"
+  exit 1
+fi
+
+if [ "$AWS_SECRET" == "" ]; then
+  echo "must set AWS_SECRET"
+  exit 1
+fi
+
+if [ "$S3_BUCKET" == "" ]; then
+  echo "must set S3_BUCKET"
+  exit 1
+fi
+
+basedir="$( cd -P "$( dirname "$0" )" && pwd )"
+
+# make a temp directory
+tempdir="$( mktemp -t node_XXXX )"
+rm -rf $tempdir
+mkdir -p $tempdir
+pushd $tempdir
+
+# download and extract nginx
+curl -L http://us.php.net/get/php-5.3.9.tar.bz2/from/www.php.net/mirror -o php.tgz
+tar xzvf php.tgz
+
+# build and package nginx for heroku
+vulcan build -v -s php-5.3.9 -o $tempdir/php-5.3.9-heroku.tar.gz -p /app/vendor/php -c './configure --prefix=/app/vendor/php --with-mysql --with-pdo-mysql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/vendor/php --with-openssl && make install' 
+
+# upload to s3
+$basedir/aws/s3 put $S3_BUCKET php-5.3.9-heroku.tar.gz $tempdir/php-5.3.9-heroku.tar.gz
