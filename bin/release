@@ -4,11 +4,12 @@
 cat <<EOF
 ---
 addons:
+  - logging
   - cleardb:ignite
   - sendgrid:starter
   - ssl:piggyback
 config_vars:
   PATH: ${HOME}vendor/nginx/sbin:${HOME}vendor/php/bin:/usr/local/bin:/usr/bin:/bin
 default_process_types:
-  web: sh boot.sh
+  web: sh config/boot.sh
 EOF

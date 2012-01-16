@@ -40,19 +40,7 @@ fi
 # PHP
 echo "-----> Installing PHP"
 if [ ! -d ./vendor/php ]; then
-  echo "-----> Bundling PHP v${NGINX_VERSION}"
+  echo "-----> Bundling PHP v${PHP_VERSION}"
   mkdir -p ./vendor/php && cd ./vendor/php
   curl --silent --max-time 60 --location $PHP_URL | tar xz
 fi
-
-# Setup web script
-cd ${BUILD_DIR}
-cat >>boot.sh <<EOF
-erb ./vendor/nginx/conf/nginx.conf.erb > ./vendor/nginx/conf/nginx.conf
-touch ./vendor/nginx/logs/access.log ./vendor/nginx/logs/error.log
-mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
-(tail -f -n 0 ./vendor/nginx/logs/*.log &)
-PHP_FCGI_CHILDREN=5 PHP_FCGI_MAX_REQUESTS=1000 php-cgi -b /tmp/php-fastcgi.socket &
-nginx -p ./vendor/nginx
-EOF
-chmod +x boot.sh
