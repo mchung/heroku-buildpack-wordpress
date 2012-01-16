@@ -27,20 +27,20 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 mkdir -p $BUILD_DIR $CACHE_DIR
 
-cd ${BUILD_DIR}
-
 # Nginx
 echo "-----> Installing Nginx"
+cd ${BUILD_DIR}
 if [ ! -d ./vendor/nginx ]; then
   echo "-----> Bundling Nginx v${NGINX_VERSION}"
   mkdir -p ./vendor/nginx && cd ./vendor/nginx
-  curl --max-time 60 --location $NGINX_URL | tar xz
+  curl --silent --max-time 60 --location $NGINX_URL | tar xz
 fi
 
 # PHP
 echo "-----> Installing PHP"
+cd ${BUILD_DIR}
 if [ ! -d ./vendor/php ]; then
   echo "-----> Bundling PHP v${PHP_VERSION}"
   mkdir -p ./vendor/php && cd ./vendor/php
-  curl --max-time 60 --location $PHP_URL | tar xz
+  curl --silent --max-time 60 --location $PHP_URL | tar xz
 fi
