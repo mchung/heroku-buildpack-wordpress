@@ -45,13 +45,98 @@ if [ ! -d ./vendor/php ]; then
   curl --silent --max-time 60 --location $PHP_URL | tar xz
 fi
 
+# setup nginx.conf
+cd /app/vendor/nginx/conf
+cat >>nginx.conf.erb <<EOF
+worker_processes  1;
+daemon off;
+
+events {
+  worker_connections  1024;
+}
+
+http {
+  include             mime.types;
+  default_type        application/octet-stream;
+  sendfile            on;
+  keepalive_timeout   65;
+  gzip  on;
+
+  server {
+    listen            <%= ENV['PORT'] %>;
+    server_name       localhost;
+
+    location / {
+      root            /app/;
+      index           index.php;
+
+      # wordpress fancy rewrites
+      if (-f $request_filename) {
+        break;
+      }
+      if (-d $request_filename) {
+        break;
+      }
+
+      # Add trailing slash to */wp-admin requests.
+      # rewrite         /wp-admin$ $scheme://$host$uri/ permanent;
+
+      # redirect to feedburner.
+      # if ($http_user_agent !~ FeedBurner) {
+      #   rewrite ^/feed/?$ http://feeds.feedburner.com/feedburner-feed-id last;
+      # }
+
+      rewrite         ^(.+)$ /index.php?q=$1 last;
+    }
+
+    location ~ .*\.php[345]?$ {
+      include         /app/vendor/nginx/conf/fastcgi_params;
+      fastcgi_param   HTTPS on; # force SSL
+
+      fastcgi_pass    unix:/tmp/php-fastcgi.socket;
+      fastcgi_index   index.php;
+      fastcgi_param   SCRIPT_FILENAME /app$fastcgi_script_name;
+      # fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
+    # location = /favicon.ico {
+    #   return 204;
+    #   access_log      off;
+    #   log_not_found   off;
+    # }
+
+    # location ~*  \.(jpg|jpeg|png|gif|css|js|ico)$ {
+    #   expires max;
+    #   log_not_found off;
+    # }
+
+    # Deny all attempts to access hidden files such as .htaccess, .htpasswd, .DS_Store (Mac).
+    # location ~ /\. {
+    #   deny all;
+    #   access_log off;
+    #   log_not_found off;
+    # }
+
+    # location = /robots.txt {
+    #   allow all;
+    #   log_not_found off;
+    #   access_log off;
+    # }
+
+    # location / {
+    #   try_files $uri $uri/ /index.php?$args;
+    # }
+  }
+}
+EOF
+
 # setup web script
 cd $BUILD_DIR
 cat >>boot.sh <<EOF
 #!/usr/bin/env bash
 
-erb ${HOME}/config/nginx.conf.erb > ${HOME}/vendor/nginx/conf/nginx.conf
-touch ${HOME}/vendor/nginx/logs/access.log ${HOME}/vendor/nginx/logs/error.log
+erb /app/vendor/nginx/conf/nginx.conf.erb > /app/vendor/nginx/conf/nginx.conf
+touch /app/vendor/nginx/logs/access.log /app/vendor/nginx/logs/error.log
 mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
 (tail -f -n 0 ${HOME}/vendor/nginx/logs/*.log &)
 PHP_FCGI_CHILDREN=5 PHP_FCGI_MAX_REQUESTS=1000 php-cgi -b /tmp/php-fastcgi.socket &
