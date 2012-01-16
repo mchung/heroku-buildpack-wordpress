@@ -1,17 +1,14 @@
 #!/usr/bin/env bash
 # bin/release <build-dir>
 
-build=$1
-
-cat << EOF
+cat <<EOF
 ---
 addons:
   - cleardb:ignite
   - sendgrid:starter
   - ssl:piggyback
 config_vars:
-  PATH: /usr/local/bin:/usr/bin:/bin
+  PATH: ${HOME}vendor/nginx/sbin:${HOME}vendor/php/bin:/usr/local/bin:/usr/bin:/bin
 default_process_types:
-  web: erb nginx/conf/nginx.conf.erb > nginx/conf/nginx.conf && touch nginx/logs/access.log nginx/logs/error.log && (tail -f -n 0 nginx/logs/*.log &) && nginx/sbin/nginx
-
+  web: sh boot.sh
 EOF
