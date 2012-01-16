@@ -9,7 +9,7 @@ addons:
   - sendgrid:starter
   - ssl:piggyback
 config_vars:
-  PATH: ${HOME}vendor/nginx/sbin:${HOME}vendor/php/bin:/usr/local/bin:/usr/bin:/bin
+  PATH: /app/vendor/nginx/sbin:/app/vendor/php/bin:/usr/local/bin:/usr/bin:/bin
 default_process_types:
   web: sh config/boot.sh
 EOF
