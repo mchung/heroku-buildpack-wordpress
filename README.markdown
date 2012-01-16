@@ -1,7 +1,7 @@
 Heroku buildpack: Wordpress
 ===========================
 
-This is a buildpack for Wordpress on Heroku. Uses a version of [Wordpress for Heroku](http://github.com/mchung/wordpress-on-heroku.
+This is a buildpack for Wordpress on Heroku. Uses a version of [Wordpress for Heroku](http://github.com/mchung/wordpress-on-heroku).
 
 Usage
 -----
