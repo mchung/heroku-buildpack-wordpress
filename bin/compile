@@ -34,20 +34,8 @@ if [ ! -d ./vendor/nginx ]; then
   echo "-----> Bundling Nginx v${NGINX_VERSION}"
   mkdir -p ./vendor/nginx && cd ./vendor/nginx
   curl --silent --max-time 60 --location $NGINX_URL | tar xz
-fi
-
-# PHP
-echo "-----> Installing PHP"
-cd ${BUILD_DIR}
-if [ ! -d ./vendor/php ]; then
-  echo "-----> Bundling PHP v${PHP_VERSION}"
-  mkdir -p ./vendor/php && cd ./vendor/php
-  curl --silent --max-time 60 --location $PHP_URL | tar xz
-fi
-
-# setup nginx.conf
-cd /app/vendor/nginx/conf
-cat >>nginx.conf.erb <<EOF
+  cd conf
+  cat >>nginx.conf.erb <<EOF
 worker_processes  1;
 daemon off;
 
@@ -129,6 +117,17 @@ http {
   }
 }
 EOF
+  fi
+
+# PHP
+echo "-----> Installing PHP"
+cd ${BUILD_DIR}
+if [ ! -d ./vendor/php ]; then
+  echo "-----> Bundling PHP v${PHP_VERSION}"
+  mkdir -p ./vendor/php && cd ./vendor/php
+  curl --silent --max-time 60 --location $PHP_URL | tar xz
+fi
+
 
 # setup web script
 cd $BUILD_DIR
