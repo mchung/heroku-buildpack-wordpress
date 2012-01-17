@@ -1,0 +1,53 @@
+#!/usr/bin/env sh
+
+RETVAL=0
+
+function indent() {
+  c='s/^/       /'
+  case $(uname) in
+    Darwin) sed -l "$c";;
+    *)      sed -u "$c";;
+  esac
+}
+
+case "$1" in
+   "")
+      echo "Usage: $0 [-c|--create] [-d|--destroy] your_wordpress_site.herokuapp.com"
+      RETVAL=1
+      ;;
+   --create|-c)
+      full_domain=$2
+      instance_name=${full_domain/.herokuapp.com/}
+
+      echo "-----> Installing Wordpress on Heroku"
+      git clone git://github.com/mchung/wordpress-on-heroku.git $full_domain
+      cd $full_domain
+
+      echo "-----> Acquiring Heroku dynos"
+      heroku create --stack cedar --buildpack git@github.com:mchung/heroku-buildpack-wordpress.git $instance_name
+
+      echo "-----> Engage!"
+      git push heroku master | indent
+      heroku open $instance_name
+      ;;
+
+   --destroy|-d)
+      full_domain=$2
+      instance_name=${full_domain/.herokuapp.com/}
+
+      echo "-----> Uninstalling Wordpress :("
+      heroku destroy --app $instance_name --confirm $instance_name
+
+      # echo "-----> Erase your local copy with:"
+      # echo ""
+      # echo "rm -rf $full_domain" | indent
+      # echo ""
+
+      if [ -d ./$full_domain ]; then
+         echo "-----> Erasing local copy"
+         rm -rf $full_domain
+      fi
+      ;;
+esac
+
+exit $RETVAL
