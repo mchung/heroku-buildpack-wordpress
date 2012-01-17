@@ -26,8 +26,8 @@ Example usage:
 
 The buildpack will detect your app as `Wordpress` if it has a `wp-config.php` in the root directory. If you look at Wordpress on Heroku, you'll also see a `config` directory that has an `nginx.conf.erb` and `php.ini` configuration files. These files are copied over at deploy time. You may modify them to fit your own needs.
 
-The `support` directory contains compilation and deployment assets.
+The `support` directory also contains a handful of compilation and deployment scripts to automate several processes.
 
-* *package_nginx* - Used to compile and upload the latest version of Nginx to S3
-* *package_php* - Used to compile and upload the latest version of PHP to S3
-* *wordup* - Helper script. Used to create and destroy instances of Wordpress on Heroku.
+* **package_nginx** - Used to compile and upload the latest version of Nginx to S3
+* **package_php** - Used to compile and upload the latest version of PHP to S3
+* ***wordup* - Helper script. Used to create and destroy instances of Wordpress on Heroku.
