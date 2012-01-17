@@ -68,7 +68,7 @@ sys	0m1.018s
 
 ## How to install themes or plugins
 
-Zlib isn't installed (I'm working on it) so, if you want to add themes or plugins, you'll need to use the following instructions:
+You can't upload files to Heroku because of their ephemeral filesystem. If you want to add themes or plugins, you'll need to use the following instructions:
 
 Copy your themes or plugins into `wp-content/plugins` or `wp-content/themes`.
 
@@ -81,9 +81,3 @@ Copy your themes or plugins into `wp-content/plugins` or `wp-content/themes`.
 * Installs Wordpress 3.3.
 * Requires git.
 * Requires a Heroku account.
-
-
-## TODO
-
-* Need to handle the 'update' this repo usecase
-* Remove origin?

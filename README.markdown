@@ -30,4 +30,4 @@ The `support` directory also contains a handful of compilation and deployment sc
 
 * **package_nginx** - Used to compile and upload the latest version of Nginx to S3
 * **package_php** - Used to compile and upload the latest version of PHP to S3
-* ***wordup* - Helper script. Used to create and destroy instances of Wordpress on Heroku.
+* **wordup** - Helper script. Used to create and destroy instances of Wordpress on Heroku.
