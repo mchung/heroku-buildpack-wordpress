@@ -54,7 +54,7 @@ echo "Booting nginx"
 erb /app/config/nginx.conf.erb > /app/vendor/nginx/conf/nginx.conf
 touch /app/vendor/nginx/logs/access.log /app/vendor/nginx/logs/error.log
 mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
-(tail -f -n 0 ${HOME}/vendor/nginx/logs/*.log &)
+(tail -f -n 0 /app/vendor/nginx/logs/*.log &)
 php-cgi -b /tmp/php-fastcgi.socket &
 nginx
 EOF
