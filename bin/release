@@ -10,8 +10,6 @@ addons:
   - ssl:piggyback
 config_vars:
   PATH: /app/vendor/nginx/sbin:/app/vendor/php/bin:/usr/local/bin:/usr/bin:/bin
-  PHP_FCGI_CHILDREN: 5
-  PHP_FCGI_MAX_REQUESTS: 1000
 default_process_types:
   web: sh boot.sh
 EOF
