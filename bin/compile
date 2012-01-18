@@ -50,6 +50,7 @@ cd $BUILD_DIR
 cat >>boot.sh <<EOF
 #!/usr/bin/env bash
 
+echo "Booting nginx"
 erb /app/config/nginx.conf.erb > /app/vendor/nginx/conf/nginx.conf
 touch /app/vendor/nginx/logs/access.log /app/vendor/nginx/logs/error.log
 mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
