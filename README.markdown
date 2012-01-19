@@ -5,6 +5,8 @@ This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for
 
 In order to satisfy Heroku's constraints, I suggest using my slightly customized version of [Wordpress on Heroku](http://github.com/mchung/wordpress-on-heroku). 
 
+Uses PHP-FPM to manage PHP processes.
+
 Usage
 -----
 
@@ -32,7 +34,5 @@ The `support` directory also contains a handful of compilation and deployment sc
 * **package_php** - Used to compile and upload the latest version of PHP to S3
 * **wordup** - Helper script. Used to create and destroy instances of Wordpress on Heroku.
 
-TODO
-----
 
-* Figure out PHP_FCGI_CHILDREN and PHP_FCGI_MAX_REQUESTS 
+
