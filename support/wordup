@@ -25,7 +25,7 @@ case "$1" in
       echo "-----> Acquiring Heroku dynos"
       heroku create \
          --stack cedar \
-         --buildpack git@github.com:mchung/heroku-buildpack-wordpress-fpm.git $instance_name | indent
+         --buildpack git@github.com:mchung/heroku-buildpack-wordpress.git $instance_name | indent
 
       echo "-----> Engage!"
       git push heroku master | indent
