@@ -40,4 +40,4 @@ tar xzvf php.tgz
 vulcan build -v -s php-5.3.9 -o $tempdir/php-5.3.9-heroku.tar.gz -p /app/vendor/php -c './configure --prefix=/app/vendor/php --with-mysql --with-pdo-mysql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/vendor/php --with-openssl --enable-fpm && make install' 
 
 # upload to s3
-$basedir/aws/s3 put $S3_BUCKET php-5.3.9-heroku.tar.gz $tempdir/php-5.3.9-with-fpm-heroku.tar.gz
+$basedir/aws/s3 put $S3_BUCKET php-5.3.9-with-fpm-heroku.tar.gz $tempdir/php-5.3.9-with-fpm-heroku.tar.gz
