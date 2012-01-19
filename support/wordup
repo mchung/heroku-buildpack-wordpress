@@ -12,19 +12,20 @@ function indent() {
 
 case "$1" in
    "")
-      echo "Usage: $0 [-c|--create] [-d|--destroy] your_wordpress_site.herokuapp.com"
+      echo "Usage: $0 [-c|--create] [-d|--destroy] your_wordpress_site"
       RETVAL=1
       ;;
    --create|-c)
-      full_domain=$2
-      instance_name=${full_domain/.herokuapp.com/}
+      instance_name=$2
 
       echo "-----> Installing Wordpress on Heroku"
-      git clone git://github.com/mchung/wordpress-on-heroku.git $full_domain
-      cd $full_domain
+      git clone git://github.com/mchung/wordpress-on-heroku.git $instance_name | indent
+      cd $instance_name
 
       echo "-----> Acquiring Heroku dynos"
-      heroku create --stack cedar --buildpack git@github.com:mchung/heroku-buildpack-wordpress.git $instance_name
+      heroku create \
+         --stack cedar \
+         --buildpack git@github.com:mchung/heroku-buildpack-wordpress-fpm.git $instance_name | indent
 
       echo "-----> Engage!"
       git push heroku master | indent
@@ -32,20 +33,19 @@ case "$1" in
       ;;
 
    --destroy|-d)
-      full_domain=$2
-      instance_name=${full_domain/.herokuapp.com/}
+      instance_name=$2
 
-      echo "-----> Uninstalling Wordpress :("
-      heroku destroy --app $instance_name --confirm $instance_name
+      echo "-----> Uninstalling Wordpress (${instance_name}) :("
+      heroku destroy --app $instance_name
 
       # echo "-----> Erase your local copy with:"
       # echo ""
-      # echo "rm -rf $full_domain" | indent
+      # echo "rm -rf $instance_name" | indent
       # echo ""
 
-      if [ -d ./$full_domain ]; then
+      if [ -f ./$instance_name/wp-config.php ]; then
          echo "-----> Erasing local copy"
-         rm -rf $full_domain
+         rm -rf $instance_name | indent
       fi
       ;;
 esac

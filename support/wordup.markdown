@@ -11,7 +11,7 @@ Install Wordpress in < 60 seconds.
 ## Here's what you get
 
 ```
-1.9.2 musashi:~/workspace/mchung/wordup (master) $ time ./wordup -c foobarbazpress.herokuapp.com
+1.9.2 musashi:~/workspace/mchung/wordup (master) $ time ./wordup -c foobarbazpress
 -----> Setup Wordpress on Heroku.com
 Cloning into 'foobarbazpress.herokuapp.com'...
 remote: Counting objects: 1041, done.
@@ -54,17 +54,17 @@ sys	0m1.018s
 
 ## Usage
 
-    Usage: wordup [-c|--create] [-d|--destroy] your_wordpress_site.herokuapp.com
+    Usage: wordup [-c|--create] [-d|--destroy] your_wordpress_site
 
 ## Example
 
 ### Create a Wordpress instance
 
-    wordup -c new_shiny_wordpress.herokuapp.com
+    wordup -c new_shiny_wordpress
 
 ### Destroy a Wordpress instance
 
-    wordup -d new_shiny_wordpress.herokuapp.com
+    wordup -d new_shiny_wordpress
 
 ## How to install themes or plugins
 
