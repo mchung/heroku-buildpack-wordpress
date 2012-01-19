@@ -12,7 +12,7 @@ S3_BUCKET=heroku-buildpack-wordpress
 
 #
 NGINX_URL="https://s3.amazonaws.com/${S3_BUCKET}/nginx-${NGINX_VERSION}-heroku.tar.gz"
-PHP_URL="https://s3.amazonaws.com/${S3_BUCKET}/php-${PHP_VERSION}-heroku.tar.gz"
+PHP_URL="https://s3.amazonaws.com/${S3_BUCKET}/php-${PHP_VERSION}-with-fpm-heroku.tar.gz"
 #
 
 function indent() {
@@ -46,16 +46,25 @@ if [ ! -d ./vendor/php ]; then
 fi
 
 # setup web script. php-cgi relies on PHP_FCGI_CHILDREN=5 PHP_FCGI_MAX_REQUESTS=1000, set in 'bin/release'
+echo "-----> Installing boot script"
 cd $BUILD_DIR
 cat >>boot.sh <<EOF
 #!/usr/bin/env bash
 
 echo "Booting nginx"
+
+cp /app/config/php-fpm.conf /app/vendor/php/etc/php-fpm.conf
+cp /app/vendor/php/share/php/fpm/status.html /app/status.html
+cp /app/config/php.ini /app/vendor/php/php.ini
 erb /app/config/nginx.conf.erb > /app/vendor/nginx/conf/nginx.conf
+
 touch /app/vendor/nginx/logs/access.log /app/vendor/nginx/logs/error.log
 mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
 (tail -f -n 0 /app/vendor/nginx/logs/*.log &)
-php-cgi -b /tmp/php-fastcgi.socket &
+
+php-fpm
 nginx
 EOF
 chmod +x boot.sh
+
+echo "-----> Done with compile"
