@@ -3,9 +3,9 @@ Heroku buildpack: Wordpress
 
 This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for [Wordpress](http://wordpress.org).
 
-In order to satisfy Heroku's constraints, I suggest using my slightly customized version of [Wordpress on Heroku](http://github.com/mchung/wordpress-on-heroku). 
+There are a few constraints that Heroku places on deployed Wordpress instances. I've documented these issues on this customized version of [Wordpress on Heroku](http://github.com/mchung/wordpress-on-heroku). 
 
-Uses PHP-FPM to manage PHP processes.
+This buildpack copies a precompiled version of Nginx and PHP from S3 and also uses PHP-FPM to manage PHP processes.
 
 Usage
 -----
@@ -26,7 +26,11 @@ Example usage:
     -----> Fetching custom buildpack
     -----> Wordpress app detected
 
-The buildpack will detect your app as `Wordpress` if it has a `wp-config.php` in the root directory. If you look at Wordpress on Heroku, you'll also see a `config` directory that has an `nginx.conf.erb` and `php.ini` configuration files. These files are copied over at deploy time. You may modify them to fit your own needs.
+    $ heroku open 
+    # Will open the fresh instance in your browser
+
+
+The buildpack will detect your app as `Wordpress` if it has a `wp-config.php` in the root directory. If you look at Wordpress on Heroku, you'll also see a `config` directory that has an `nginx.conf.erb` and `php.ini` configuration files. These files are copied over at deploy time. You may modify them to fit your own needs. You can view current PHP-FPM status by visiting /status.html
 
 The `support` directory also contains a handful of compilation and deployment scripts to automate several processes.
 
