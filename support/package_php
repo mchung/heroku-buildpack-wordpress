@@ -2,25 +2,24 @@
 
 set -e
 
-# node_version="$1"
 
-# if [ "$node_version" == "" ]; then
-#   echo "usage: $0 VERSION"
-#   exit 1
-# fi
+if [ "$PHP_VERSION" == "" ]; then
+  echo "must set PHP_VERSION, i.e PHP_VERSION=5.4.1"
+  exit 1
+fi
 
 if [ "$AWS_ID" == "" ]; then
-  echo "must set AWS_ID"
+  echo "must set AWS_ID, i.e. export AWS_ID=1BHAJK48DJFMQKZMNV93"
   exit 1
 fi
 
 if [ "$AWS_SECRET" == "" ]; then
-  echo "must set AWS_SECRET"
+  echo "must set AWS_SECRET, i.e. export AWS_SECRET=fj2jjchebsjksmMJCN387RHNjdnddNfi4jjhshh3"
   exit 1
 fi
 
 if [ "$S3_BUCKET" == "" ]; then
-  echo "must set S3_BUCKET"
+  echo "must set S3_BUCKET, i.e. S3_BUCKET=heroku-buildpack-wordpress"
   exit 1
 fi
 
@@ -33,11 +32,11 @@ mkdir -p $tempdir
 pushd $tempdir
 
 # download and extract nginx
-curl -L http://us.php.net/get/php-5.3.9.tar.bz2/from/www.php.net/mirror -o php.tgz
+curl -L http://us.php.net/get/php-$PHP_VERSION.tar.bz2/from/www.php.net/mirror -o php.tgz
 tar xzvf php.tgz
 
 # build and package nginx for heroku
-vulcan build -v -s php-5.3.9 -o $tempdir/php-5.3.9-with-fpm-heroku.tar.gz -p /app/vendor/php -c './configure  --prefix=/app/vendor/php --with-mysql --with-pdo-mysql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/vendor/php --with-openssl --enable-fpm --with-zlib --enable-mbstring --disable-debug --enable-inline-optimization --with-bz2 --enable-pcntl --enable-mbregex --with-mhash --enable-zip --with-pcre-regex && make install' 
+vulcan build -v -s php-$PHP_VERSION -o $tempdir/php-$PHP_VERSION-with-fpm-heroku.tar.gz -p /app/vendor/php -c './configure  --prefix=/app/vendor/php --with-mysql --with-pdo-mysql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/vendor/php --with-openssl --enable-fpm --with-zlib --enable-mbstring --disable-debug --enable-inline-optimization --with-bz2 --enable-pcntl --enable-mbregex --with-mhash --enable-zip --with-pcre-regex && make install' 
 
 # upload to s3
-$basedir/aws/s3 put $S3_BUCKET php-5.3.9-with-fpm-heroku.tar.gz $tempdir/php-5.3.9-with-fpm-heroku.tar.gz
+$basedir/aws/s3 put $S3_BUCKET php-$PHP_VERSION-with-fpm-heroku.tar.gz $tempdir/php-$PHP_VERSION-with-fpm-heroku.tar.gz

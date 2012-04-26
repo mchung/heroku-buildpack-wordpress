@@ -2,25 +2,24 @@
 
 set -e
 
-# node_version="$1"
 
-# if [ "$node_version" == "" ]; then
-#   echo "usage: $0 VERSION"
-#   exit 1
-# fi
+if [ "$NGINX_VERSION" == "" ]; then
+  echo "must set NGINX_VERSION, i.e NGINX_VERSION=1.2.0"
+  exit 1
+fi
 
 if [ "$AWS_ID" == "" ]; then
-  echo "must set AWS_ID"
+  echo "must set AWS_ID, i.e. export AWS_ID=1BHAJK48DJFMQKZMNV93"
   exit 1
 fi
 
 if [ "$AWS_SECRET" == "" ]; then
-  echo "must set AWS_SECRET"
+  echo "must set AWS_SECRET, i.e. export AWS_SECRET=fj2jjchebsjksmMJCN387RHNjdnddNfi4jjhshh3"
   exit 1
 fi
 
 if [ "$S3_BUCKET" == "" ]; then
-  echo "must set S3_BUCKET"
+  echo "must set S3_BUCKET, i.e. S3_BUCKET=heroku-buildpack-wordpress"
   exit 1
 fi
 
@@ -33,17 +32,17 @@ mkdir -p $tempdir
 pushd $tempdir
 
 # download and extract nginx
-curl http://nginx.org/download/nginx-1.0.11.tar.gz -o nginx.tgz
+curl http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tgz
 tar xzvf nginx.tgz
 
 # download and extract pcre into contrib directory
-pushd nginx-1.0.11/contrib
+pushd nginx-$NGINX_VERSION/contrib
 curl ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.21.tar.gz -o pcre.tgz
 tar zvxf pcre.tgz
 popd
 
 # build and package nginx for heroku
-vulcan build -v -s nginx-1.0.11 -o $tempdir/nginx-1.0.11-heroku.tar.gz -p /app/vendor/nginx -c './configure --prefix=/app/vendor/nginx --with-pcre=contrib/pcre-8.21 --with-http_ssl_module --with-http_gzip_static_module && make install' 
+vulcan build -v -s nginx-$NGINX_VERSION -o $tempdir/nginx-$NGINX_VERSION-heroku.tar.gz -p /app/vendor/nginx -c './configure --prefix=/app/vendor/nginx --with-pcre=contrib/pcre-8.21 --with-http_ssl_module --with-http_gzip_static_module && make install' 
 
 # upload to s3
-$basedir/aws/s3 put $S3_BUCKET nginx-1.0.11-heroku.tar.gz $tempdir/nginx-1.0.11-heroku.tar.gz
+$basedir/aws/s3 put $S3_BUCKET nginx-$NGINX_VERSION-heroku.tar.gz $tempdir/nginx-$NGINX_VERSION-heroku.tar.gz
