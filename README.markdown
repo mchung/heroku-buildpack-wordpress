@@ -3,8 +3,9 @@ Heroku buildpack: Wordpress
 
 A [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for [Wordpress](http://wordpress.org).
 
-    **Current Nginx: 1.2.0. [Nginx Compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx)**
-    **Current PHP: 5.4.1. [PHP Compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php)**
+**Current Nginx: 1.2.0. [Nginx Compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx)**
+
+**Current PHP: 5.4.1. [PHP Compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php)**
 
 The constraints that Heroku places on deployed Wordpress instances are documented on this customized version of [Wordpress on Heroku](http://github.com/mchung/wordpress-on-heroku).  This buildpack must be used in conjunction with Wordpress on Heroku.
 
