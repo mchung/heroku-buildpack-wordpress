@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>heroku-buildpack-wordpress by mchung</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/mchung/heroku-buildpack-wordpress">Fork On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/mchung/heroku-buildpack-wordpress/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/mchung/heroku-buildpack-wordpress/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>heroku-buildpack-wordpress</h1>
+          <p>Run Wordpress on Heroku - Sweet, right?</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/mchung">mchung</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h3>Heroku buildpack: Wordpress</h3>
+
+<p>A <a href="http://devcenter.heroku.com/articles/buildpack">Heroku buildpack</a> for <a href="http://wordpress.org">Wordpress</a>.  Current Nginx: 1.2.0 (<a href="https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx">see compile options</a>).  Current PHP: 5.4.1 (<a href="https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php">see compile options</a>).</p>
+
+<h3>Usage</h3>
+
+<p>Example usage:</p>
+
+<pre><code>$ git clone git://github.com/mchung/wordpress-on-heroku.git wordpress
+$ cd wordpress
+
+$ ls wp-config.php
+wp-config.php
+
+$ heroku create --stack cedar --buildpack http://github.com/mchung/heroku-buildpack-wordpress.git wordpress_instance
+
+$ git push heroku master
+...
+-----&gt; Heroku receiving push
+-----&gt; Fetching custom buildpack
+-----&gt; Wordpress app detected
+
+$ heroku open 
+# Will open the fresh instance in your browser
+</code></pre>
+
+<p>The buildpack will detect a <code>Wordpress</code> app if a <code>wp-config.php</code> is located in the root directory.  </p>
+
+<h3>Constraints</h3>
+
+<p>The constraints that Heroku places on deployed Wordpress instances are documented on this customized version of <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress on Heroku</a>.  This buildpack must be used in conjunction with Wordpress on Heroku.</p>
+
+<h3>Caveat</h3>
+
+<p>Each time an app is redeployed, Heroku will fetch the latest buildpack from the buildpack's Git repository and execute the instructions in <em>compile</em> and <em>deploy</em> (but not <em>release</em>).  In this case, it means downloading the latest precompiled version of Nginx and PHP from an S3 bucket.</p>
+
+<h3>Configuration</h3>
+
+<p>When the Wordpress instance starts up, it copies over several configuration files found in the <code>config</code> directory of <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress on Heroku</a>. Since these files are stored in the Wordpress repo, they may be modified.  For example, to remove the PHP-FPM status page (available by default at /status.html), remove the directive from <code>nginx.conf.erb</code>.</p>
+
+<h3>Support</h3>
+
+<p>The <code>support</code> directory also contains a handful of compilation and deployment scripts to automate several processes, which are currently used for maintenance and management.</p>
+
+<ul>
+<li>
+<strong>package_nginx</strong> - Used to compile and upload the latest version of Nginx to S3.</li>
+<li>
+<strong>package_php</strong> - Used to compile and upload the latest version of PHP to S3.</li>
+<li>
+<strong>wordup</strong> - Helper script. Used to create and destroy instances of Wordpress on Heroku.</li>
+</ul><h3>Authors and Contributors</h3>
+
+<p>Marc Chung (<a href="https://github.com/mchung" class="user-mention">@mchung</a>)</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-31205985-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
