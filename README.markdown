@@ -1,19 +1,7 @@
-Heroku buildpack: Wordpress
-===========================
+### Heroku buildpack: Wordpress
 
-A [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for [Wordpress](http://wordpress.org).
-
-**Current Nginx: 1.2.0. [Nginx Compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx)**
-
-**Current PHP: 5.4.1. [PHP Compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php)**
-
-The constraints that Heroku places on deployed Wordpress instances are documented on this customized version of [Wordpress on Heroku](http://github.com/mchung/wordpress-on-heroku).  This buildpack must be used in conjunction with Wordpress on Heroku.
-
-Each time an app is redeployed, Heroku will fetch the latest buildpack from the buildpack's Git repository and execute the instructions in *compile* and *deploy* (but not *release*).  In this case, it means downloading the latest precompiled version of Nginx and PHP from an S3 bucket.
-
-
-Usage
------
+A [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for [Wordpress](http://wordpress.org).  Current Nginx: 1.2.0 ([see compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx)).  Current PHP: 5.4.1 ([see compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php)).
+### Usage
 
 Example usage:
 
@@ -37,12 +25,23 @@ Example usage:
 
 The buildpack will detect a `Wordpress` app if a `wp-config.php` is located in the root directory.  
 
+### Constraints 
+
+The constraints that Heroku places on deployed Wordpress instances are documented on this customized version of [Wordpress on Heroku](http://github.com/mchung/wordpress-on-heroku).  This buildpack must be used in conjunction with Wordpress on Heroku.
+
+### Caveat
+Each time an app is redeployed, Heroku will fetch the latest buildpack from the buildpack's Git repository and execute the instructions in *compile* and *deploy* (but not *release*).  In this case, it means downloading the latest precompiled version of Nginx and PHP from an S3 bucket.
+
+### Configuration
+
 When the Wordpress instance starts up, it copies over several configuration files found in the `config` directory of [Wordpress on Heroku](http://github.com/mchung/wordpress-on-heroku). Since these files are stored in the Wordpress repo, they may be modified.  For example, to remove the PHP-FPM status page (available by default at /status.html), remove the directive from `nginx.conf.erb`.
 
-The `support` directory also contains a handful of compilation and deployment scripts to automate several processes, which are currently used for maintenance and management (by @mchung).
+### Support
+The `support` directory also contains a handful of compilation and deployment scripts to automate several processes, which are currently used for maintenance and management.
 
 * **package_nginx** - Used to compile and upload the latest version of Nginx to S3.
 * **package_php** - Used to compile and upload the latest version of PHP to S3.
 * **wordup** - Helper script. Used to create and destroy instances of Wordpress on Heroku.
 
-
+### Authors and Contributors
+Marc Chung (@mchung)
