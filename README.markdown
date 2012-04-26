@@ -1,19 +1,23 @@
 Heroku buildpack: Wordpress
 ===========================
 
-This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for [Wordpress](http://wordpress.org).
+A [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for [Wordpress](http://wordpress.org).
 
-There are a few constraints that Heroku places on deployed Wordpress instances. I've documented these issues on this customized version of [Wordpress on Heroku](http://github.com/mchung/wordpress-on-heroku). 
+**Current Nginx: 1.2.0. [Nginx Compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx)**
+**Current PHP: 5.4.1. [PHP Compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php)**
 
-This buildpack copies a precompiled version of Nginx and PHP from S3 and also uses PHP-FPM to manage PHP processes.
+The constraints that Heroku places on deployed Wordpress instances are documented on this customized version of [Wordpress on Heroku](http://github.com/mchung/wordpress-on-heroku).  You'll need to use this buildpack in conjunction with that specific version of Wordpress.
+
+Each time an app is redeployed, Heroku will fetch the latest buildpack from the buildpack's Git repository and execute the instructions in *compile* and *deploy* (but not *release*).  In this case, it means downloading the latest precompiled version of Nginx and PHP from my S3 bucket.
+
 
 Usage
 -----
 
 Example usage:
 
-	$ git clone git://github.com/mchung/wordpress-on-heroku.git wordpress
-	$ cd wordpress
+  $ git clone git://github.com/mchung/wordpress-on-heroku.git wordpress
+  $ cd wordpress
 
     $ ls wp-config.php
     wp-config.php
@@ -30,13 +34,14 @@ Example usage:
     # Will open the fresh instance in your browser
 
 
-The buildpack will detect your app as `Wordpress` if it has a `wp-config.php` in the root directory. If you look at Wordpress on Heroku, you'll also see a `config` directory that has an `nginx.conf.erb` and `php.ini` configuration files. These files are copied over at deploy time. You may modify them to fit your own needs. You can view current PHP-FPM status by visiting /status.html
+The buildpack will detect a `Wordpress` app if a `wp-config.php` is located in the root directory.  
 
-The `support` directory also contains a handful of compilation and deployment scripts to automate several processes.
+When the Wordpress instance starts up, it copies over several configuration files found in the `config` directory of [Wordpress on Heroku](http://github.com/mchung/wordpress-on-heroku). Since these files are stored in the Wordpress repo, they may be modified.  For example, to remove the PHP-FPM status page (available at /status.html), remove the directive from `nginx.conf`.
 
-* **package_nginx** - Used to compile and upload the latest version of Nginx to S3
+The `support` directory also contains a handful of compilation and deployment scripts to automate several processes which are used for maintenance and management (by @mchung).
+
+* **package_nginx** - Used to compile and upload the latest version of Nginx to S3.
 * **package_php** - Used to compile and upload the latest version of PHP to S3
 * **wordup** - Helper script. Used to create and destroy instances of Wordpress on Heroku.
-
 
 
