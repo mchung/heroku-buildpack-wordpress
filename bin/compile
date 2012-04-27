@@ -54,7 +54,7 @@ cat >>boot.sh <<EOF
 echo "Booting nginx"
 
 cp /app/config/php-fpm.conf /app/vendor/php/etc/php-fpm.conf
-cp /app/vendor/php/share/php/fpm/status.html /app/status.html
+cp /app/vendor/php/php/fpm/status.html /app/status.html
 cp /app/config/php.ini /app/vendor/php/php.ini
 erb /app/config/nginx.conf.erb > /app/vendor/nginx/conf/nginx.conf
 
