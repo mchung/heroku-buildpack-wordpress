@@ -2,7 +2,6 @@
 
 set -e
 
-
 if [ "$PHP_VERSION" == "" ]; then
   echo "must set PHP_VERSION, i.e PHP_VERSION=5.4.1"
   exit 1
@@ -31,12 +30,32 @@ rm -rf $tempdir
 mkdir -p $tempdir
 pushd $tempdir
 
-# download and extract nginx
+# download and extract php
 curl -L http://us.php.net/get/php-$PHP_VERSION.tar.bz2/from/www.php.net/mirror -o php.tgz
 tar xzvf php.tgz
 
-# build and package nginx for heroku
-vulcan build -v -s php-$PHP_VERSION -o $tempdir/php-$PHP_VERSION-with-fpm-heroku.tar.gz -p /app/vendor/php -c './configure  --prefix=/app/vendor/php --with-mysql --with-pdo-mysql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/vendor/php --with-openssl --enable-fpm --with-zlib --enable-mbstring --disable-debug --enable-inline-optimization --with-bz2 --enable-pcntl --enable-mbregex --with-mhash --enable-zip --with-pcre-regex && make install' 
+# build and package php for heroku
+vulcan build -v -s php-$PHP_VERSION -o $tempdir/php-$PHP_VERSION-with-fpm-heroku.tar.gz -p /app/vendor/php -c \
+  "./configure  --prefix=/app/vendor/php \
+                --with-mysql \
+                --with-pdo-mysql \
+                --with-iconv \
+                --with-gd \
+                --with-curl=/usr/lib \
+                --with-config-file-path=/app/vendor/php \
+                --with-openssl \
+                --enable-fpm \
+                --with-zlib \
+                --enable-mbstring \
+                --disable-debug \
+                --enable-inline-optimization \
+                --with-bz2 \
+                --enable-pcntl \
+                --enable-mbregex \
+                --with-mhash \
+                --enable-zip \
+                --with-pcre-regex \
+                && make install"
 
 # upload to s3
 $basedir/aws/s3 put $S3_BUCKET php-$PHP_VERSION-with-fpm-heroku.tar.gz $tempdir/php-$PHP_VERSION-with-fpm-heroku.tar.gz

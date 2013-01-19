@@ -5,14 +5,16 @@ set -e
 set -o pipefail
 
 # START CONFIG
-NGINX_VERSION=1.2.0
-PHP_VERSION=5.4.1
+NGINX_VERSION=1.3.11
+PHP_VERSION=5.4.11
+WORDPRESS_VERSION=3.5
 S3_BUCKET=heroku-buildpack-wordpress
 # END CONFIG
 
 #
 NGINX_URL="https://s3.amazonaws.com/${S3_BUCKET}/nginx-${NGINX_VERSION}-heroku.tar.gz"
 PHP_URL="https://s3.amazonaws.com/${S3_BUCKET}/php-${PHP_VERSION}-with-fpm-heroku.tar.gz"
+WORDPRESS_URL="http://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"
 #
 
 function indent() {
@@ -28,43 +30,50 @@ CACHE_DIR=$2
 mkdir -p $BUILD_DIR $CACHE_DIR
 
 # Nginx
-echo "-----> Installing Nginx"
 cd ${BUILD_DIR}
 if [ ! -d ./vendor/nginx ]; then
-  echo "-----> Bundling Nginx v${NGINX_VERSION}"
+  echo "-----> Installing Nginx v${NGINX_VERSION}"
   mkdir -p ./vendor/nginx && cd ./vendor/nginx
   curl --silent --max-time 60 --location $NGINX_URL | tar xz
 fi
 
 # PHP
-echo "-----> Installing PHP"
 cd ${BUILD_DIR}
 if [ ! -d ./vendor/php ]; then
-  echo "-----> Bundling PHP v${PHP_VERSION}"
+  echo "-----> Installing PHP v${PHP_VERSION}"
   mkdir -p ./vendor/php && cd ./vendor/php
   curl --silent --max-time 60 --location $PHP_URL | tar xz
 fi
 
-# setup web script. php-cgi relies on PHP_FCGI_CHILDREN=5 PHP_FCGI_MAX_REQUESTS=1000, set in 'bin/release'
-echo "-----> Installing boot script"
-cd $BUILD_DIR
-cat >>boot.sh <<EOF
+# Wordpress
+echo "-----> Installing Wordpress v${WORDPRESS_VERSION}"
+cd ${BUILD_DIR}
+curl --silent --max-time 60 --location $WORDPRESS_URL | tar xz
+mv wordpress public
+
+echo "-----> Writing start.sh script"
+cd ${BUILD_DIR}
+cat >>start.sh <<EOF
 #!/usr/bin/env bash
 
-echo "Booting nginx"
+echo "Starting nginx"
 
-cp /app/config/php-fpm.conf /app/vendor/php/etc/php-fpm.conf
-cp /app/vendor/php/php/fpm/status.html /app/status.html
-cp /app/config/php.ini /app/vendor/php/php.ini
-erb /app/config/nginx.conf.erb > /app/vendor/nginx/conf/nginx.conf
+rm -rf /app/public/wp-content
+cp -rf /app/setup/wp-content /app/public
+cp /app/setup/wp-config.php /app/public
 
+cp /app/setup/php-fpm.conf /app/vendor/php/etc/php-fpm.conf
+cp /app/vendor/php/php/fpm/status.html /app/public/status.html
+cp /app/setup/php.ini /app/vendor/php/php.ini
+
+erb /app/setup/nginx.conf.erb > /app/vendor/nginx/conf/nginx.conf
 touch /app/vendor/nginx/logs/access.log /app/vendor/nginx/logs/error.log
 mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
-(tail -f -n 0 /app/vendor/nginx/logs/*.log &)
+(tail -qF -n 0 /app/vendor/nginx/logs/*.log &)
 
 php-fpm
 nginx
 EOF
-chmod +x boot.sh
+chmod +x start.sh
 
 echo "-----> Done with compile"

@@ -1,10 +1,9 @@
 #!/bin/sh
+# Usage: bin/compile <build-dir>
 
-# this pack is valid for apps with a hello.txt in the root
-if [ -f $1/wp-config.php ]; then
+if [ -f $1/setup/wp-config.php ]; then
   echo "Wordpress"
   exit 0
 else
-  echo "No"
   exit 1
 fi
