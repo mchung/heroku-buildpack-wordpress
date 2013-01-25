@@ -7,13 +7,13 @@ Currently running:
 * `php-5.4.11` ([see compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php)).
 * `wordpress-3.5.1` ([from wordpress.org](http://wordpress.org/download/release-archive/))
 
+### Overview
+
+Fork [Wordpress on Heroku](http://github.com/mchung/wordpress-on-heroku), add in your own themes and plugins, deploy to Heroku. Don't forget to enable the plugins for Heroku `heroku-sendgrid` and `wpro`.
+
 ### Usage
 
-Fork [Wordpress on Heroku](http://github.com/mchung/wordpress-on-heroku), add in themes and plugins, then deploy to Heroku, and enable the plugins for Heroku `heroku-sendgrid` and `wpro`.
-
-### Getting Started
-
-Example:
+Getting Started
 
     $ git clone git://github.com/mchung/wordpress-on-heroku.git my-new-wp-blog
     $ cd my-new-wp-blog
@@ -24,8 +24,14 @@ Example:
     -----> Fetching custom buildpack
     -----> Wordpress app detected
 
+    $ heroku domains:add my-new-wp-blog.info
     $ heroku open
     # Will open the fresh instance in your browser
+
+Using a custom domain name
+
+    $ heroku domains:add my-new-wp-blog.info
+
 
 This buildpack is designed to work together with this specific [Wordpress](http://github.com/mchung/wordpress-on-heroku) repo, which configures all the Heroku-specific details to get Wordpress running on Nginx, PHP-FPM, and MySQL.
 
