@@ -25,11 +25,14 @@ case "$1" in
       echo "-----> Acquiring Heroku dynos"
       heroku create \
          --stack cedar \
-         --buildpack git@github.com:mchung/heroku-buildpack-wordpress.git $instance_name | indent
+         --buildpack https://github.com/mchung/heroku-buildpack-wordpress.git $instance_name | indent
+
+      echo "-----> Create custom production branch"
+      git co -b production
 
       echo "-----> Engage!"
-      git push heroku master | indent
-      heroku open $instance_name
+      git push -f heroku production:master | indent
+      heroku apps:open
       ;;
 
    --destroy|-d)
@@ -38,15 +41,13 @@ case "$1" in
       echo "-----> Uninstalling Wordpress (${instance_name}) :("
       heroku destroy --app $instance_name
 
-      # echo "-----> Erase your local copy with:"
-      # echo ""
-      # echo "rm -rf $instance_name" | indent
-      # echo ""
+      echo "-----> Your local copy will remain untouched."
+      echo ""
 
-      if [ -f ./$instance_name/wp-config.php ]; then
-         echo "-----> Erasing local copy"
-         rm -rf $instance_name | indent
-      fi
+      # if [ -f ./$instance_name/setup/wp-config.php ]; then
+      #    echo "-----> Erasing local copy"
+      #    rm -rf $instance_name | indent
+      # fi
       ;;
 esac
 

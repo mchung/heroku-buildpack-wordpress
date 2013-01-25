@@ -11,45 +11,48 @@ Install Wordpress in < 60 seconds.
 ## Here's what you get
 
 ```
-1.9.2 musashi:~/workspace/mchung/wordup (master) $ time ./wordup -c foobarbazpress
------> Setup Wordpress on Heroku.com
-Cloning into 'foobarbazpress.herokuapp.com'...
-remote: Counting objects: 1041, done.
-remote: Compressing objects: 100% (950/950), done.
-remote: Total 1041 (delta 69), reused 1041 (delta 69)
-Receiving objects: 100% (1041/1041), 3.58 MiB | 863 KiB/s, done.
-Resolving deltas: 100% (69/69), done.
+$ time wordup -c new-wordpress-site
+-----> Installing Wordpress on Heroku
+       Cloning into 'new-wordpress-site'...
+remote: Counting objects: 166, done.
+remote: Compressing objects: 100% (121/121), done.
+remote: Total 166 (delta 37), reused 166 (delta 37)
+Receiving objects: 100% (166/166), 1.04 MiB | 25 KiB/s, done.
+Resolving deltas: 100% (37/37), done.
 -----> Acquiring Heroku dynos
-Creating foobarbazpress... done, stack is cedar
-http://foobarbazpress.herokuapp.com/ | git@heroku.com:foobarbazpress.git
-Git remote heroku added
------> Adding gizmos
------> Adding cleardb:ignite to foobarbazpress... done, v3 (free)
+       Creating new-wordpress-site... done, stack is cedar
+       BUILDPACK_URL=https://github.com/mchung/heroku-buildpack-wordpress.git
+       http://new-wordpress-site.herokuapp.com/ | git@heroku.com:new-wordpress-site.git
+       Git remote heroku added
+-----> Create custom production branch
+Switched to a new branch 'production'
 -----> Engage!
-Counting objects: 1041, done.
+Counting objects: 166, done.
 Delta compression using up to 4 threads.
-Compressing objects: 100% (950/950), done.
-Writing objects: 100% (1041/1041), 3.58 MiB | 1.92 MiB/s, done.
-Total 1041 (delta 69), reused 1041 (delta 69)
-
------> Heroku receiving push
------> PHP app detected
------> Bundling Apache v2.2.19
------> Bundling PHP v5.3.6
+Compressing objects: 100% (121/121), done.
+Writing objects: 100% (166/166), 1.04 MiB | 178 KiB/s, done.
+Total 166 (delta 37), reused 166 (delta 37)
+-----> Fetching custom git buildpack... done
+-----> Wordpress app detected
+-----> Installing Nginx v1.3.11
+-----> Installing PHP v5.4.11
+-----> Installing Wordpress v3.5.1
+-----> Writing start.sh script
+-----> Done with compile
 -----> Discovering process types
-       Procfile declares types -> (none)
-       Default types for PHP   -> web
------> Compiled slug size is 24.8MB
------> Launching... done, v5
-       http://foobarbazpress.herokuapp.com deployed to Heroku
+       Procfile declares types     -> (none)
+       Default types for Wordpress -> web
+-----> Compiled slug size: 34.4MB
+-----> Launching... done, v7
+       http://new-wordpress-site.herokuapp.com deployed to Heroku
 
-To git@heroku.com:foobarbazpress.git
- * [new branch]      master -> master
-Opening http://foobarbazpress.herokuapp.com/
+To git@heroku.com:new-wordpress-site.git
+ * [new branch]      production -> master
+Opening new-wordpress-site... done
 
-real	0m51.018s
-user	0m6.811s
-sys	0m1.018s
+real  2m2.875s
+user  0m4.497s
+sys 0m0.389s
 ```
 
 ## Usage
@@ -70,7 +73,7 @@ sys	0m1.018s
 
 You can't upload files to Heroku because of their ephemeral filesystem. If you want to add themes or plugins, you'll need to use the following instructions:
 
-Copy your themes or plugins into `wp-content/plugins` or `wp-content/themes`.
+Copy your themes or plugins into `setup/wp-content/plugins` or `setup/wp-content/themes`.
 
     git add wp-content
     git commit -m "New widgets"
@@ -78,6 +81,6 @@ Copy your themes or plugins into `wp-content/plugins` or `wp-content/themes`.
 
 ## Requirements, Gotchas, and Other notes
 
-* Installs Wordpress 3.3.
+* Installs Wordpress 3.5.1
 * Requires git.
 * Requires a Heroku account.
