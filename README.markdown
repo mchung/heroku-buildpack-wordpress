@@ -5,7 +5,7 @@ A [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for [Wordpr
 Currently running:
 * `nginx-1.3.11` ([see compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx)).
 * `php-5.4.11` ([see compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php)).
-* `wordpress-3.5` ([from wordpress.org](http://wordpress.org/download/release-archive/))
+* `wordpress-3.5.1` ([from wordpress.org](http://wordpress.org/download/release-archive/))
 
 ### Usage
 
