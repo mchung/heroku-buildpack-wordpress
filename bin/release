@@ -6,6 +6,7 @@ cat <<EOF
 addons:
   - cleardb:ignite
   - sendgrid:starter
+  - memcachier:dev
 config_vars:
   PATH: /app/vendor/nginx/sbin:/app/vendor/php/bin:/app/vendor/php/sbin:/usr/local/bin:/usr/bin:/bin
   EMAIL_REPLY_TO: email@example.com
