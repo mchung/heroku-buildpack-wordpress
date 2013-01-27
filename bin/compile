@@ -60,6 +60,7 @@ echo "Starting nginx"
 
 rm -rf /app/public/wp-content
 cp -rf /app/setup/wp-content /app/public
+chmod 755 /app/public/wp-content
 cp /app/setup/wp-config.php /app/public
 
 cp /app/setup/php-fpm.conf /app/vendor/php/etc/php-fpm.conf
