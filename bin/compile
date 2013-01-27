@@ -73,9 +73,9 @@ cp /app/vendor/php/php/fpm/status.html /app/public/status.html
 cp /app/setup/php.ini /app/vendor/php/php.ini
 
 erb /app/setup/nginx.conf.erb > /app/vendor/nginx/conf/nginx.conf
-touch /app/vendor/nginx/logs/access.log /app/vendor/nginx/logs/error.log
+touch /app/vendor/nginx/logs/access.log /app/vendor/nginx/logs/error.log /app/vendor/php/var/log/php-fpm.log
 mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
-(tail -qF -n 0 /app/vendor/nginx/logs/*.log &)
+(tail -qF -n 0 /app/vendor/nginx/logs/*.log /app/vendor/php/var/log/*.log &)
 
 php-fpm
 nginx
