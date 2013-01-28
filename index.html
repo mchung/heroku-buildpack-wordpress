@@ -18,10 +18,9 @@
 
   </head>
   <body>
-
       <div id="header">
         <nav>
-          <li class="fork"><a href="https://github.com/mchung/heroku-buildpack-wordpress">Fork On GitHub</a></li>
+          <li class="fork"><a href="https://github.com/mchung/heroku-buildpack-wordpress">View On GitHub</a></li>
           <li class="downloads"><a href="https://github.com/mchung/heroku-buildpack-wordpress/zipball/master">ZIP</a></li>
           <li class="downloads"><a href="https://github.com/mchung/heroku-buildpack-wordpress/tarball/master">TAR</a></li>
           <li class="title">DOWNLOADS</li>
@@ -33,70 +32,156 @@
       <section>
         <div id="title">
           <h1>heroku-buildpack-wordpress</h1>
-          <p>Run Wordpress on Heroku - Sweet, right?</p>
+          <p>Run Wordpress on Heroku</p>
           <hr>
           <span class="credits left">Project maintained by <a href="https://github.com/mchung">mchung</a></span>
           <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
         </div>
 
-        <h3>Heroku buildpack: Wordpress</h3>
+        <h1>Heroku buildpack: Wordpress</h1>
 
-<p>A <a href="http://devcenter.heroku.com/articles/buildpack">Heroku buildpack</a> for <a href="http://wordpress.org">Wordpress</a>.  Current Nginx: 1.2.0 (<a href="https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx">see compile options</a>).  Current PHP: 5.4.1 (<a href="https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php">see compile options</a>).</p>
+<p>A buildpack to run Wordpress on Heroku.</p>
 
-<h3>Usage</h3>
+<p>Currently running:</p>
 
-<p>Example usage:</p>
+<ul>
+<li>
+<code>nginx-1.3.11</code> (<a href="https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx">see compile options</a>).</li>
+<li>
+<code>php-5.4.11</code> (<a href="https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php">see compile options</a>).</li>
+<li>
+<code>wordpress-3.5.1</code> (<a href="http://wordpress.org/download/release-archive/">from wordpress.org</a>)</li>
+</ul><h2>Overview</h2>
 
-<pre><code>$ git clone git://github.com/mchung/wordpress-on-heroku.git wordpress
-$ cd wordpress
+<p>Fork <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress on Heroku</a>, add your favorite theme and plugins, then deploy to Heroku.</p>
 
-$ ls wp-config.php
-wp-config.php
+<p>For an enhanced Heroku experience, enable the following plugins:</p>
 
-$ heroku create --stack cedar --buildpack http://github.com/mchung/heroku-buildpack-wordpress.git wordpress_instance
+<ul>
+<li><code>heroku-sendgrid</code></li>
+<li><code>wpro</code></li>
+<li><code>memcachier</code></li>
+<li><code>batcache</code></li>
+</ul><h2>Usage</h2>
 
+<p>Getting started</p>
+
+<pre><code>$ git clone git://github.com/mchung/wordpress-on-heroku.git my-new-wp-blog
+$ cd my-new-wp-blog
+$ heroku create --stack cedar --buildpack http://github.com/mchung/heroku-buildpack-wordpress.git my-new-wp-blog
 $ git push heroku master
 ...
 -----&gt; Heroku receiving push
 -----&gt; Fetching custom buildpack
 -----&gt; Wordpress app detected
 
-$ heroku open 
+$ heroku open
 # Will open the fresh instance in your browser
 </code></pre>
 
-<p>The buildpack will detect a <code>Wordpress</code> app if a <code>wp-config.php</code> is located in the root directory.  </p>
+<p>Setup a custom domain name</p>
 
-<h3>Constraints</h3>
+<pre><code>$ heroku domains:add my-new-wp-blog.org # ensure correct DNS settings
+</code></pre>
 
-<p>The constraints that Heroku places on deployed Wordpress instances are documented on this customized version of <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress on Heroku</a>.  This buildpack must be used in conjunction with Wordpress on Heroku.</p>
+<p>Adding a theme</p>
 
-<h3>Caveat</h3>
+<pre><code>$ cp -r appply setup/wp-content/themes/
+$ git add .
+$ git commit -m "New theme"
+$ git push heroku master
+</code></pre>
 
-<p>Each time an app is redeployed, Heroku will fetch the latest buildpack from the buildpack's Git repository and execute the instructions in <em>compile</em> and <em>deploy</em> (but not <em>release</em>).  In this case, it means downloading the latest precompiled version of Nginx and PHP from an S3 bucket.</p>
+<p>Adding a plugin</p>
 
-<h3>Configuration</h3>
+<pre><code>$ cp -r google-analytics setup/wp-content/plugins/
+$ git add .
+$ git commit -m "New plugin"
+$ git push heroku master
+</code></pre>
 
-<p>When the Wordpress instance starts up, it copies over several configuration files found in the <code>config</code> directory of <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress on Heroku</a>. Since these files are stored in the Wordpress repo, they may be modified.  For example, to remove the PHP-FPM status page (available by default at /status.html), remove the directive from <code>nginx.conf.erb</code>.</p>
+<h2>The Wordpress on Heroku stack</h2>
 
-<h3>Support</h3>
-
-<p>The <code>support</code> directory also contains a handful of compilation and deployment scripts to automate several processes, which are currently used for maintenance and management.</p>
+<p>This buildpack is designed specifically to work with this <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress</a> project template, which is a highly tuned web stack built on the following components:</p>
 
 <ul>
 <li>
-<strong>package_nginx</strong> - Used to compile and upload the latest version of Nginx to S3.</li>
+<code>Nginx</code> - Uses Nginx as a web server. Tuned specifically for Heroku.</li>
 <li>
-<strong>package_php</strong> - Used to compile and upload the latest version of PHP to S3.</li>
+<code>MySQL</code> - Uses ClearDB as a MySQL backend.</li>
 <li>
-<strong>wordup</strong> - Helper script. Used to create and destroy instances of Wordpress on Heroku.</li>
+<code>PHP</code> - Uses PHP-FPM to intelligently manage PHP processes.</li>
+<li>
+<code>SMTP over Sendgrid</code> - Uses Sendgrid as an outgoing email service.</li>
+<li>
+<code>Memcache</code> - Uses MemCachier as a cache backend.</li>
+</ul><h2>How highly tuned?</h2>
+
+<p>Here are the results of a blitz.io rush on a single Heroku dyno:</p>
+
+<p><img src="https://s3.amazonaws.com/heroku-buildpack-wordpress/woh-blitz.png" alt="Blitz.io rush"></p>
+
+<p><a href="https://www.blitz.io/report/7ed26cfaf69c7ae98602b1e62c862b4b">See the report</a></p>
+
+<h2>Deck out your Wordpress</h2>
+
+<p>Each time the project is deployed, this buildpack will copy over several configuration files from the <a href="https://github.com/mchung/wordpress-on-heroku/tree/master/setup"><code>setup</code></a> directory.</p>
+
+<p>These files contain Wordpress configurations as well as general configurations used to tune the entire stack (PHP and Nginx)</p>
+
+<ul>
+<li>
+<code>wp-content</code> - Wordpress themes and plugins</li>
+<li>
+<code>wp-config.php</code> - Wordpress configuration</li>
+<li>
+<code>nginx.conf.erb</code> - Nginx configuration</li>
+<li>
+<code>php-fpm.conf</code> - PHP-FPM configuration</li>
+<li>
+<code>php.ini</code> - PHP configuration</li>
+</ul><p>Feel free to hack on <code>nginx.conf.erb</code>, <code>php-fpm.conf</code>, and <code>php.ini</code>.  For example, if you want to remove the PHP-FPM status page at <code>/status.html</code>, delete the directive from <code>nginx.conf.erb</code>.</p>
+
+<h2>I thought Heroku was only for Ruby applications?</h2>
+
+<p>Not anymore. Heroku's latest offerings (See <a href="http://devcenter.heroku.com/articles/cedar">Celadon Cedar stack</a>) makes it easy (well, easyish) for developers to install and run any language, or service.</p>
+
+<h2>Constraints with Heroku</h2>
+
+<p>The <a href="http://devcenter.heroku.com/articles/dyno-isolation">ephemeral filesystem</a></p>
+
+<ul>
+<li>End-users cannot upload media assets to Heroku. WORKAROUND: Enable <code>wpro</code> and use that plugin to upload media assets to S3 instead.</li>
+<li>End-users cannot update themes or plugins from the admin page. WORKAROUND: Add them to <code>setup/wp-content/themes</code> or <code>setup/wp-content/plugins</code> then push to Heroku.</li>
+</ul><h2>Security disclosure</h2>
+
+<p>Each time Wordpress is deployed, Heroku will fetch the latest buildpack from GitHub and execute the instructions in <em>compile</em> and <em>deploy</em>.  The latest precompiled version of Nginx, PHP, and Wordpress are downloaded from my personal <a href="http://heroku-buildpack-wordpress.s3.amazonaws.com">S3 bucket</a>.</p>
+
+<h2>Get hacking</h2>
+
+<p>Not comfortable downloading and running a copy of someone else's PHP or Nginx? Not a problem!</p>
+
+<p>The <code>support</code> directory also contains a handful of compilation and deployment scripts to automate several processes, which are currently used for maintenance and repo management.</p>
+
+<ul>
+<li>
+<code>package_nginx</code> - Used to compile and upload the latest version of Nginx to S3.</li>
+<li>
+<code>package_php</code> - Used to compile and upload the latest version of PHP to S3.</li>
+<li>
+<code>wordup</code> - Really useful helper script for creating and destroying instances of <a href="https://github.com/mchung/wordpress-on-heroku">Wordpress on Heroku</a>.</li>
+</ul><h2>TODO</h2>
+
+<ul>
+<li>Automate vendor upgrades. Make it easy to keep in sync with latest Nginx, PHP, and Wordpress</li>
+<li>End-users shouldn't be able to do things that aren't supported on Heroku.</li>
 </ul><h3>Authors and Contributors</h3>
 
 <p>Marc Chung (<a href="https://github.com/mchung" class="user-mention">@mchung</a>)</p>
       </section>
 
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
