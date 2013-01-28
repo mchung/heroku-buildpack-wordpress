@@ -48,6 +48,8 @@ vulcan build -v -s php-$PHP_VERSION -o $tempdir/php-$PHP_VERSION-with-fpm-heroku
                 --with-zlib \
                 --enable-mbstring \
                 --disable-debug \
+                --disable-rpath \
+                --enable-gd-native-ttf \
                 --enable-inline-optimization \
                 --with-bz2 \
                 --enable-pcntl \
@@ -55,7 +57,17 @@ vulcan build -v -s php-$PHP_VERSION -o $tempdir/php-$PHP_VERSION-with-fpm-heroku
                 --with-mhash \
                 --enable-zip \
                 --with-pcre-regex \
-                && make install"
+                --enable-libxml \
+                --with-gettext \
+                --with-jpeg-dir \
+                --with-mysqli \
+                --with-pcre-regex \
+                --with-png-dir \
+                --without-pdo-sqlite \
+                --without-sqlite3 \
+                && make install \
+                && /app/vendor/php/bin/pear config-set php_dir /app/vendor/php \
+                && yes '' | /app/vendor/php/bin/pecl install memcache"
 
 # upload to s3
 $basedir/aws/s3 put $S3_BUCKET php-$PHP_VERSION-with-fpm-heroku.tar.gz $tempdir/php-$PHP_VERSION-with-fpm-heroku.tar.gz
