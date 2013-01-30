@@ -71,6 +71,8 @@ for var in \`env | cut -f1 -d=\`; do
 done
 
 cp /app/vendor/php/php/fpm/status.html /app/public/status.html
+cp /app/vendor/php/apc.php /app/public/apc.php
+cp /app/setup/apc.conf.php /app/public/apc.conf.php
 cp /app/setup/php.ini /app/vendor/php/php.ini
 
 erb /app/setup/nginx.conf.erb > /app/vendor/nginx/conf/nginx.conf

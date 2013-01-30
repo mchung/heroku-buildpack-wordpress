@@ -57,16 +57,24 @@ $ git commit -m "New plugin"
 $ git push heroku master
 ```
 
+Enable and view the APC stats page
+```
+$ heroku config:set ENABLE_APC=true
+
+# Visit /apc.php
+# Don't forget to clear the environment variable when you're done.
+```
+
 
 ## The Wordpress on Heroku stack
 
 This buildpack is designed specifically to work with this [Wordpress](http://github.com/mchung/wordpress-on-heroku) project template, which is a highly tuned web stack built on the following components:
 
-* `Nginx` - Uses Nginx as a web server. Tuned specifically for Heroku.
-* `MySQL` - Uses ClearDB as a MySQL backend.
-* `PHP` - Uses PHP-FPM to intelligently manage PHP processes.
-* `SMTP over Sendgrid` - Uses Sendgrid as an outgoing email service.
-* `Memcache` - Uses MemCachier as a cache backend.
+* `Nginx` - Nginx for serving content. Tuned specifically for Heroku.
+* `MySQL` - ClearDB for the MySQL backend.
+* `PHP` - PHP-FPM for intelligent process management. APC for op-code caching.
+* `SMTP over Sendgrid` - Sendgrid for outgoing email.
+* `Memcache` - MemCachier for the memcache backend.
 
 ## How highly tuned?
 
@@ -74,7 +82,7 @@ Here are the results of a blitz.io rush on a single Heroku dyno:
 
 ![Blitz.io rush](https://s3.amazonaws.com/heroku-buildpack-wordpress/woh-blitz-details.png)
 
-[See the report](https://www.blitz.io/report/7ed26cfaf69c7ae98602b1e62cc48a44)
+[See the report](https://www.blitz.io/report/541eb908b4ef3eec8d9c2ce2293a85ca)
 
 ## Deck out your Wordpress
 
