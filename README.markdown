@@ -65,6 +65,13 @@ $ heroku config:set ENABLE_APC=true
 # Don't forget to clear the environment variable when you're done.
 ```
 
+Adding a cron job
+```
+$ heroku addons:add scheduler:standard
+
+# Visit the Heroku scheduler dashboard and add a new task:
+  ./cron.sh
+```
 
 ## The Wordpress on Heroku stack
 

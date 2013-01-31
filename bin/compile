@@ -53,6 +53,8 @@ mv wordpress public
 
 echo "-----> Writing start.sh script"
 cd ${BUILD_DIR}
+
+# Setup
 cat >>setup.sh <<EOF
 #!/usr/bin/env bash
 
@@ -79,6 +81,17 @@ mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
 EOF
 chmod +x setup.sh
 
+# Cron job
+cat >>cron.sh <<EOF
+#!/usr/bin/env bash
+
+./setup.sh
+cd public
+php wp-cron.php
+EOF
+chmod +x cron.sh
+
+# Startup
 cat >>start.sh <<EOF
 #!/usr/bin/env bash
 
