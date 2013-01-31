@@ -53,10 +53,8 @@ mv wordpress public
 
 echo "-----> Writing start.sh script"
 cd ${BUILD_DIR}
-cat >>start.sh <<EOF
+cat >>setup.sh <<EOF
 #!/usr/bin/env bash
-
-echo "Starting nginx"
 
 rm -rf /app/public/wp-content
 cp -rf /app/setup/wp-content /app/public
@@ -78,8 +76,15 @@ cp /app/setup/php.ini /app/vendor/php/php.ini
 erb /app/setup/nginx.conf.erb > /app/vendor/nginx/conf/nginx.conf
 touch /app/vendor/nginx/logs/access.log /app/vendor/nginx/logs/error.log /app/vendor/php/var/log/php-fpm.log
 mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
-(tail -qF -n 0 /app/vendor/nginx/logs/*.log /app/vendor/php/var/log/*.log &)
+EOF
+chmod +x setup.sh
 
+cat >>start.sh <<EOF
+#!/usr/bin/env bash
+
+echo "Starting nginx"
+./setup.sh
+(tail -qF -n 0 /app/vendor/nginx/logs/*.log /app/vendor/php/var/log/*.log &)
 php-fpm
 nginx
 EOF
