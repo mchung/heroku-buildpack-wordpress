@@ -54,32 +54,61 @@ mv wordpress public
 echo "-----> Writing start.sh script"
 cd ${BUILD_DIR}
 
+# # Setup
+# cat >>setup.sh <<EOF
+# #!/usr/bin/env bash
+
+# rm -rf /app/public/wp-content
+# cp -rf /app/setup/wp-content /app/public
+# chmod 755 /app/public/wp-content
+# cp /app/setup/wp-config.php /app/public
+
+# cp /app/setup/php-fpm.conf /app/vendor/php/etc/php-fpm.conf
+
+# # Expose Heroku config vars to PHP-FPM processes
+# for var in \`env | cut -f1 -d=\`; do
+#   echo "env[\$var] = \\$\${var}" >> /app/vendor/php/etc/php-fpm.conf
+# done
+
+# cp /app/vendor/php/php/fpm/status.html /app/public/status.html
+# cp /app/vendor/php/apc.php /app/public/apc.php
+# cp /app/setup/apc.conf.php /app/public/apc.conf.php
+# cp /app/setup/php.ini /app/vendor/php/php.ini
+
+# erb /app/setup/nginx.conf.erb > /app/vendor/nginx/conf/nginx.conf
+# touch /app/vendor/nginx/logs/access.log /app/vendor/nginx/logs/error.log /app/vendor/php/var/log/php-fpm.log
+# mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
+# EOF
+# chmod +x setup.sh
+
 # Setup
 cat >>setup.sh <<EOF
 #!/usr/bin/env bash
 
 rm -rf /app/public/wp-content
-cp -rf /app/setup/wp-content /app/public
+ln -s /app/setup/wp-content /app/public/wp-content
 chmod 755 /app/public/wp-content
-cp /app/setup/wp-config.php /app/public
+ln -s /app/setup/wp-config.php /app/public/wp-config.php
 
-cp /app/setup/php-fpm.conf /app/vendor/php/etc/php-fpm.conf
+ln -s /app/setup/php-fpm.conf /app/vendor/php/etc/php-fpm.conf
 
 # Expose Heroku config vars to PHP-FPM processes
 for var in \`env | cut -f1 -d=\`; do
   echo "env[\$var] = \\$\${var}" >> /app/vendor/php/etc/php-fpm.conf
 done
 
-cp /app/vendor/php/php/fpm/status.html /app/public/status.html
-cp /app/vendor/php/apc.php /app/public/apc.php
-cp /app/setup/apc.conf.php /app/public/apc.conf.php
-cp /app/setup/php.ini /app/vendor/php/php.ini
+ln -s /app/vendor/php/php/fpm/status.html /app/public/status.html
+ln -s /app/vendor/php/apc.php /app/public/apc.php
+ln -s /app/setup/apc.conf.php /app/public/apc.conf.php
+ln -s /app/setup/phpinfo.php /app/public/phpinfo.php
+ln -s /app/setup/php.ini /app/vendor/php/php.ini
 
 erb /app/setup/nginx.conf.erb > /app/vendor/nginx/conf/nginx.conf
 touch /app/vendor/nginx/logs/access.log /app/vendor/nginx/logs/error.log /app/vendor/php/var/log/php-fpm.log
 mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
 EOF
 chmod +x setup.sh
+
 
 # Cron job
 cat >>cron.sh <<EOF
