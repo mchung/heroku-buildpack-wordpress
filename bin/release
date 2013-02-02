@@ -13,6 +13,10 @@ config_vars:
   EMAIL_REPLY_TO: email@example.com
   EMAIL_FROM: email@example.com
   EMAIL_NAME: Clark Kent
+  ENABLE_SYSTEM_ACCESS: false
+  FORCE_SSL_LOGIN: true
+  FORCE_SSL_ADMIN: true
+  DISABLE_WP_CRON: true
 default_process_types:
   web: sh start.sh
 EOF
