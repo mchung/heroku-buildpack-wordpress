@@ -4,11 +4,11 @@ This is a Heroku buildpack for [Wordpress](http://wordpress.org).
 
 The [Wordpress](http://github.com/mchung/wordpress-on-heroku) project template is a highly tuned web stack built on the following components:
 
-* `nginx-1.3.11` - Nginx for serving content. Built specifically for Heroku. ([See compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx)).
+* `nginx-1.3.11` - Nginx for serving content. Built specifically for Heroku. ([See compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx))
 * `php-5.4.11` - PHP-FPM for intelligent process management. APC for op-code caching. ([See compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php))
-* `wordpress-3.5.1` ([from wordpress.org](http://wordpress.org/download/release-archive/))
+* `wordpress-3.5.1` - Downloaded directly [from wordpress.org](http://wordpress.org/download/release-archive/)
 * `MySQL` - ClearDB for the MySQL backend.
-* `SMTP over Sendgrid` - Sendgrid for outgoing email.
+* `SMTP over Sendgrid` - Sendgrid for the email backend
 * `Memcached` - MemCachier for the memcached backend.
 
 ## Getting Started
@@ -45,13 +45,13 @@ $ heroku open
 
 The buildpack bootstraps a Wordpress site using the [mchung/wordpress-on-heroku](http://github.com/mchung/wordpress-on-heroku) project template.  That repo contains everything required to configure Wordpress on Heroku.
 
-You can enable the following plugins to enhance the performance of your Wordpress site.
+Enabling the following Wordpress plugins will also enhance performance.
 
 * `heroku-sendgrid` - Instructs phpmailer to send email with Sendgrid
 * `wpro` - Instructs Wordpress to upload everything to S3
 * `batcache` - Instructs Wordpress to use memcached to cache everything
 * `memcachier` - Uses a better memcached plugin
-* `cloudflare` - OPTIONAL.  If you have Cloudflare installed, the plugin instructs Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  The free version doesn't support SSL.
+* `cloudflare` - OPTIONAL.  If Cloudflare is installed, the plugin instructs Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  The free version doesn't support SSL.
 
 There are also several config files for configuring the performance of Wordpress on Heroku.
 
@@ -61,9 +61,9 @@ There are also several config files for configuring the performance of Wordpress
 * `php-fpm.conf` - PHP-FPM configuration
 * `php.ini` - PHP configuration
 
-Feel free to hack on these files.  For example, if you want to remove the PHP-FPM status page at `/status.html`, delete the directive from `nginx.conf.erb`.
+Feel free to hack on these files.  For example, to remove the PHP-FPM status page at `/status.html`, delete the directive from `nginx.conf.erb`.
 
-You can also add and deploy your favorite themes and plugins to the `setup/wp-content` directory.
+Themes and plugins can also be added and deployed to the `setup/wp-content` directory.
 
 ## Usage
 
@@ -71,7 +71,7 @@ Optional: Tracking changes in a separate branch called production.
 ```bash
 $ git checkout -B production
 $ git push heroku production:master
-# Now, we can keep `master` and `production` separate.
+# This keeps upstream changes separate from blog changes.
 ```
 
 Adding a custom domain name
@@ -96,7 +96,7 @@ $ git commit -m "New plugin"
 $ git push heroku master
 ```
 
-By default wp-cron is disabled, so you will need to add a cron job to Heroku's scheduler.
+By default wp-cron is disabled. Here's how to setup a cron job.
 ```bash
 $ heroku addons:add scheduler:standard
 
@@ -146,7 +146,7 @@ Results from WebPageTest
 
 Each time Wordpress is deployed, Heroku will fetch the latest buildpack from GitHub and execute the instructions in *compile* and *deploy*.  This buildpack will download the latest precompiled versions of Nginx, PHP, and Wordpress from my personal [S3 bucket](http://heroku-buildpack-wordpress.s3.amazonaws.com) then add in config files from the [`setup`](https://github.com/mchung/wordpress-on-heroku/tree/master/setup) directory.
 
-## I thought Heroku was only for Ruby applications?
+## But doesn't Heroku only run Ruby applications?
 
 Not anymore. Heroku's latest offerings (See [Celadon Cedar stack](http://devcenter.heroku.com/articles/cedar)) makes it easy (well, easyish) for developers to install and run any language, or service.
 
