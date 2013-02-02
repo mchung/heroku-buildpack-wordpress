@@ -100,7 +100,6 @@ Enable access to the /apc.php and /phpinfo.php stats page
 $ heroku config:set ENABLE_SYSTEM_DEBUG=true
 $ heroku config:set SYSTEM_USERNAME=admin
 $ heroku config:set SYSTEM_PASSWORD=secret123
-
 # Visit /apc.php or /phpinfo.php
 ```
 
