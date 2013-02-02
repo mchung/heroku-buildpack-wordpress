@@ -153,12 +153,11 @@
 
 <p>Enable access to the /apc.php and /phpinfo.php stats page</p>
 
-<pre><code>$ heroku config:set ENABLE_SYSTEM_DEBUG=true
-$ heroku config:set SYSTEM_USERNAME=admin
-$ heroku config:set SYSTEM_PASSWORD=secret123
-
-# Visit /apc.php or /phpinfo.php
-</code></pre>
+<div class="highlight"><pre><span class="nv">$ </span>heroku config:set <span class="nv">ENABLE_SYSTEM_DEBUG</span><span class="o">=</span><span class="nb">true</span>
+<span class="nv">$ </span>heroku config:set <span class="nv">SYSTEM_USERNAME</span><span class="o">=</span>admin
+<span class="nv">$ </span>heroku config:set <span class="nv">SYSTEM_PASSWORD</span><span class="o">=</span>secret123
+<span class="c"># Visit /apc.php or /phpinfo.php</span>
+</pre></div>
 
 <p>Optional: Track changes in a separate branch called production.</p>
 
