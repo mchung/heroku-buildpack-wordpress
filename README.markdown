@@ -1,6 +1,6 @@
 # Heroku buildpack: Wordpress
 
-This is a Heroku buildpack for [Wordpress](http://wordpress.org)
+This is a Heroku buildpack for [Wordpress](http://wordpress.org).
 
 * `nginx-1.3.11` ([see compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx)).
 * `php-5.4.11` ([see compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php)).
@@ -8,17 +8,16 @@ This is a Heroku buildpack for [Wordpress](http://wordpress.org)
 
 ## Getting Started
 
-Fork my [Wordpress project](http://github.com/mchung/wordpress-on-heroku)
+Fork my [Wordpress project](http://github.com/mchung/wordpress-on-heroku).
 ```bash
 $ git clone git://github.com/username/wordpress-on-heroku.git myblog
 $ cd myblog
 
-# Optionally assign an upstream
 $ git remote add upstream https://github.com/mchung/wordpress-on-heroku.git
+# optionally assign an upstream
 
 $ heroku create -s cedar
 $ heroku config:add BUILDPACK_URL=https://github.com/mchung/heroku-buildpack-wordpress.git
-
 $ git push heroku master
 ...
 -----> Heroku receiving push
@@ -39,17 +38,17 @@ $ heroku open
 
 ## Overview
 
-The buildpack bootstraps a Wordpress site using [mchung/wordpress-on-heroku](http://github.com/mchung/wordpress-on-heroku).  That repo is Wordpress project template containing everything to configure Wordpress on Heroku.
+The buildpack bootstraps a Wordpress site using [mchung/wordpress-on-heroku](http://github.com/mchung/wordpress-on-heroku).  That repo contains everything required to configure Wordpress on Heroku.
 
-You can also enable the following plugins to further enhance the performance.
+You can enable the following plugins to enhance the performance of your Wordpress site.
 
-* `heroku-sendgrid` - Sends email with Sendgrid
-* `wpro` - Uploads everything to S3
+* `heroku-sendgrid` - Instructs phpmailer to send email with Sendgrid
+* `wpro` - Instructs Wordpress to upload everything to S3
 * `batcache` - Instructs Wordpress to use memcached to cache everything
-* `memcachier` - A better memcached plugin
-* `cloudflare` - Optional. But, seriously incredible. It's optionally suggested, because the free plan doesn't do SSL, and I consider SSL a requirement for security reasons.
+* `memcachier` - Uses a better memcached plugin
+* `cloudflare` - OPTIONAL.  If you have Cloudflare installed, the plugin instructs Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  The free version doesn't support SSL.
 
-You can also add and deploy your favorite themes and plugins.
+You can also add and deploy your favorite themes and plugins to the `setup/wo-content` directory.
 
 ## Usage
 
