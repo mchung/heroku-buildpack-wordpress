@@ -96,7 +96,7 @@ $ heroku addons:add scheduler:standard
 ```
 
 Enable access to the /apc.php and /phpinfo.php stats page
-```
+```bash
 $ heroku config:set ENABLE_SYSTEM_DEBUG=true
 $ heroku config:set SYSTEM_USERNAME=admin
 $ heroku config:set SYSTEM_PASSWORD=secret123
