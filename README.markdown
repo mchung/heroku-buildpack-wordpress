@@ -1,59 +1,74 @@
 # Heroku buildpack: Wordpress
 
-This custom buildpack is used to run Wordpress on Heroku.
-
-Currently running:
+This is a Heroku buildpack for [Wordpress](http://wordpress.org)
 
 * `nginx-1.3.11` ([see compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx)).
 * `php-5.4.11` ([see compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php)).
 * `wordpress-3.5.1` ([from wordpress.org](http://wordpress.org/download/release-archive/))
 
-## Overview
+## Getting Started
 
-The buildpack relies on a specific Wordpress project template.
+Fork my [Wordpress project](http://github.com/mchung/wordpress-on-heroku)
+```bash
+$ git clone git://github.com/username/wordpress-on-heroku.git myblog
+$ cd myblog
 
-Fork [Wordpress on Heroku](http://github.com/mchung/wordpress-on-heroku), add your favorite theme and plugins, then deploy to Heroku.
-
-For an enhanced Heroku experience, enable the following plugins:
-
-* `heroku-sendgrid`
-* `wpro`
-* `memcachier`
-* `batcache`
-* `cloudflare`
-
-## Getting started.
-
-Fork me [mchung/wordpress-on-heroku](http://github.com/mchung/wordpress-on-heroku)
-```
-$ git clone git://github.com/username/wordpress-on-heroku.git my-new-wp-blog
-$ cd my-new-wp-blog
-
-# Assigns my original repo to a remote called "upstream"
+# Optionally assign an upstream
 $ git remote add upstream https://github.com/mchung/wordpress-on-heroku.git
 
-$ heroku create --stack cedar --buildpack http://github.com/mchung/heroku-buildpack-wordpress.git my-new-wp-blog
+$ heroku create --s cedar
+$ heroku config:add BUILDPACK_URL=https://github.com/mchung/heroku-buildpack-wordpress.git
+
 $ git push heroku master
 ...
 -----> Heroku receiving push
------> Fetching custom buildpack
+-----> Fetching custom git buildpack... done
 -----> Wordpress app detected
+.
+[...]
+.
+-----> Discovering process types
+       Procfile declares types     -> (none)
+       Default types for Wordpress -> web
+-----> Compiled slug size: 33.7MB
+-----> Launching... done, v7
 
-$ heroku open # opens your browser
+$ heroku open
+# Open your new blog in the browser.
 ```
 
-Pull in latest changes
-```
-$ git fetch upstream
+## Overview
+
+The buildpack bootstraps the [mchung/wordpress-on-heroku]((http://github.com/mchung/wordpress-on-heroku) site template which contains several settings used to configure Heroku on Wordpress.
+
+You may enable the following plugins to further optimize Wordpress for Heroku.
+
+You can add your favorite themes, plugins
+Fork [Wordpress on Heroku](http://github.com/mchung/wordpress-on-heroku), add your favorite theme and plugins, then deploy to Heroku.
+
+* `heroku-sendgrid` - Configures SMTP through Sendgrid
+* `wpro` - Upload everything to S3
+* `batcache` - Configures Wordpress to use memcached to cache everything
+* `memcachier` - A better memcached plugin
+* `cloudflare` - Optional. Seriously incredible. N.B. The free plan doesn't do SSL.
+
+## Usage
+
+Optional: Tracking changes in a separate branch called production.
+```bash
+$ git checkout -B production
+$ git push heroku production:master
+# Now, we can keep `master` and `production` separate.
 ```
 
-Setup a custom domain name
-```
-$ heroku domains:add my-new-wp-blog.org # N.B. Ensure the correct DNS settings first
+Adding a custom domain name
+```bash
+$ heroku domains:add marcchung.org
+# Requires DNS settings
 ```
 
 Adding a theme
-```
+```bash
 $ cp -r appply setup/wp-content/themes/
 $ git add .
 $ git commit -m "New theme"
@@ -61,37 +76,43 @@ $ git push heroku master
 ```
 
 Adding a plugin
-```
+```bash
 $ cp -r google-analytics setup/wp-content/plugins/
 $ git add .
 $ git commit -m "New plugin"
 $ git push heroku master
 ```
 
-Adding a cron job. N.B. By default, wp-cron is disabled.
-```
+By default I've disabled wp-cron, so you'll need to add a cron job to Heroku's scheduler.
+```bash
 $ heroku addons:add scheduler:standard
-
-# Visit the Heroku scheduler dashboard and add a new task:
-  ./cron.sh
 ```
 
-Enable and view the /apc.php and /phpinfo.php stats page
+Visit the Heroku scheduler dashboard and add a new task:
+```bash
+./cron.sh
+```
+
+Enable and view /apc.php and /phpinfo.php stats page
 ```
 $ heroku config:set ENABLE_SYSTEM_DEBUG=true # Now visit /apc.php or /phpinfo.php
 ```
-Don't forget to clear the environment variable when you're done.
+Disabled by default.
 
+Pull in latest changes from upstream
+```bash
+$ git fetch upstream
+```
 
 ## The Wordpress on Heroku stack
 
-This buildpack is designed specifically to work with this [Wordpress](http://github.com/mchung/wordpress-on-heroku) project template, which is a highly tuned web stack built on the following components:
+The [Wordpress](http://github.com/mchung/wordpress-on-heroku) project template I've created is a highly tuned web stack built on the following components:
 
-* `Nginx` - Nginx for serving content. Tuned specifically for Heroku.
+* `Nginx` - Nginx for serving content. Built specifically for Heroku.
 * `MySQL` - ClearDB for the MySQL backend.
 * `PHP` - PHP-FPM for intelligent process management. APC for op-code caching.
 * `SMTP over Sendgrid` - Sendgrid for outgoing email.
-* `Memcache` - MemCachier for the memcache backend.
+* `Memcached` - MemCachier for the memcached backend.
 
 ## How highly tuned?
 
@@ -117,9 +138,9 @@ Results from WebPageTest
 
 ## Deck out your Wordpress
 
-Each time the project is deployed, this buildpack will add several configuration files from the [`setup`](https://github.com/mchung/wordpress-on-heroku/tree/master/setup) directory.
+Each time the project is deployed, the buildpack adds several configuration files from the [`setup`](https://github.com/mchung/wordpress-on-heroku/tree/master/setup) directory.
 
-These files contain Wordpress configurations as well as general configurations used to tune the entire stack (PHP and Nginx)
+These files contain general settings for tuning Wordpress, PHP, and Nginx.
 
 * `wp-content` - Wordpress themes and plugins
 * `wp-config.php` - Wordpress configuration
@@ -144,7 +165,7 @@ The [ephemeral filesystem](http://devcenter.heroku.com/articles/dyno-isolation)
 
 Each time Wordpress is deployed, Heroku will fetch the latest buildpack from GitHub and execute the instructions in *compile* and *deploy*.  The latest precompiled version of Nginx, PHP, and Wordpress are downloaded from my personal [S3 bucket](http://heroku-buildpack-wordpress.s3.amazonaws.com).
 
-## Get hacking
+## Hacking
 
 Not comfortable downloading and running a copy of someone else's PHP or Nginx? Not a problem!
 
