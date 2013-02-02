@@ -45,13 +45,13 @@ $ heroku open
 
 The buildpack bootstraps a Wordpress site using the [mchung/wordpress-on-heroku](http://github.com/mchung/wordpress-on-heroku) project template.  That repo contains everything required to configure Wordpress on Heroku.
 
-Enabling the following Wordpress plugins will also enhance performance.
+Enabling the following Wordpress plugins will also speed things up.
 
 * `heroku-sendgrid` - Instructs phpmailer to send email with Sendgrid
 * `wpro` - Instructs Wordpress to upload everything to S3
 * `batcache` - Instructs Wordpress to use memcached to cache everything
 * `memcachier` - Uses a better memcached plugin
-* `cloudflare` - OPTIONAL.  If Cloudflare is installed, the plugin instructs Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  The free version doesn't support SSL.
+* `cloudflare` - OPTIONAL.  If Cloudflare is installed, the plugin instructs Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  Keep in mind that the free version doesn't support SSL.
 
 There are also several config files for configuring the performance of Wordpress on Heroku.
 
@@ -61,18 +61,9 @@ There are also several config files for configuring the performance of Wordpress
 * `php-fpm.conf` - PHP-FPM configuration
 * `php.ini` - PHP configuration
 
-Feel free to hack on these files.  For example, to remove the PHP-FPM status page at `/status.html`, delete the directive from `nginx.conf.erb`.
-
-Themes and plugins can also be added and deployed to the `setup/wp-content` directory.
+Feel free to hack on these files.  For example, to remove the PHP-FPM status page at `/status.html`, delete the directive from `nginx.conf.erb`.  Themes and plugins can be added and deployed to the `setup/wp-content` directory.
 
 ## Usage
-
-Optional: Tracking changes in a separate branch called production.
-```bash
-$ git checkout -B production
-$ git push heroku production:master
-# This keeps upstream changes separate from blog changes.
-```
 
 Adding a custom domain name
 ```bash
@@ -111,6 +102,13 @@ $ heroku config:set SYSTEM_USERNAME=admin
 $ heroku config:set SYSTEM_PASSWORD=secret123
 
 # Visit /apc.php or /phpinfo.php
+```
+
+Optional: Track changes in a separate branch called production.
+```bash
+$ git checkout -B production
+$ git push heroku production:master
+# This keeps upstream changes separate from blog changes.
 ```
 
 Pull in latest changes from upstream
@@ -165,13 +163,13 @@ The `support` directory also contains a handful of compilation and deployment sc
 
 * `package_nginx` - Used to compile and upload the latest version of Nginx to S3.
 * `package_php` - Used to compile and upload the latest version of PHP to S3.
-* `wordup` - Really useful helper script for creating and destroying instances of [Wordpress on Heroku](https://github.com/mchung/wordpress-on-heroku).
+* `wordup` - Really useful helper script for creating and destroying Wordpress sites.
 
 ## TODO
 
-* Automate vendor upgrades. Make it easy to keep in sync with latest Nginx, PHP, and Wordpress
+* Automate vendor upgrades. Make it easy to keep in sync with latest Nginx, PHP, and Wordpress.
 * End-users shouldn't be able to do things that aren't supported on Heroku.
-* New Relic
+* Integrate New Relic.
 
 ## Authors and Contributors
 Marc Chung (@mchung)
