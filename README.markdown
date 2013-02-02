@@ -2,9 +2,14 @@
 
 This is a Heroku buildpack for [Wordpress](http://wordpress.org).
 
-* `nginx-1.3.11` ([see compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx)).
-* `php-5.4.11` ([see compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php)).
+The [Wordpress](http://github.com/mchung/wordpress-on-heroku) project template is a highly tuned web stack built on the following components:
+
+* `nginx-1.3.11` - Nginx for serving content. Built specifically for Heroku. ([See compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx)).
+* `php-5.4.11` - PHP-FPM for intelligent process management. APC for op-code caching. ([See compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php))
 * `wordpress-3.5.1` ([from wordpress.org](http://wordpress.org/download/release-archive/))
+* `MySQL` - ClearDB for the MySQL backend.
+* `SMTP over Sendgrid` - Sendgrid for outgoing email.
+* `Memcached` - MemCachier for the memcached backend.
 
 ## Getting Started
 
@@ -38,7 +43,7 @@ $ heroku open
 
 ## Overview
 
-The buildpack bootstraps a Wordpress site using [mchung/wordpress-on-heroku](http://github.com/mchung/wordpress-on-heroku).  That repo contains everything required to configure Wordpress on Heroku.
+The buildpack bootstraps a Wordpress site using the [mchung/wordpress-on-heroku](http://github.com/mchung/wordpress-on-heroku) project template.  That repo contains everything required to configure Wordpress on Heroku.
 
 You can enable the following plugins to enhance the performance of your Wordpress site.
 
@@ -48,78 +53,74 @@ You can enable the following plugins to enhance the performance of your Wordpres
 * `memcachier` - Uses a better memcached plugin
 * `cloudflare` - OPTIONAL.  If you have Cloudflare installed, the plugin instructs Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  The free version doesn't support SSL.
 
-You can also add and deploy your favorite themes and plugins to the `setup/wo-content` directory.
+There are also several config files for configuring the performance of Wordpress on Heroku.
+
+* `wp-content` - Wordpress themes and plugins
+* `wp-config.php` - Wordpress configuration
+* `nginx.conf.erb` - Nginx configuration
+* `php-fpm.conf` - PHP-FPM configuration
+* `php.ini` - PHP configuration
+
+Feel free to hack on these files.  For example, if you want to remove the PHP-FPM status page at `/status.html`, delete the directive from `nginx.conf.erb`.
+
+You can also add and deploy your favorite themes and plugins to the `setup/wp-content` directory.
 
 ## Usage
 
-```bash
 Optional: Tracking changes in a separate branch called production.
-
+```bash
 $ git checkout -B production
 $ git push heroku production:master
 # Now, we can keep `master` and `production` separate.
 ```
 
-```bash
 Adding a custom domain name
-
+```bash
 $ heroku domains:add marcchung.org
 # Requires DNS settings
 ```
 
-```bash
 Adding a theme
-
+```bash
 $ cp -r appply setup/wp-content/themes/
 $ git add .
 $ git commit -m "New theme"
 $ git push heroku master
 ```
 
-```bash
 Adding a plugin
-
+```bash
 $ cp -r google-analytics setup/wp-content/plugins/
 $ git add .
 $ git commit -m "New plugin"
 $ git push heroku master
 ```
 
+By default wp-cron is disabled, so you will need to add a cron job to Heroku's scheduler.
 ```bash
-By default I've disabled wp-cron, so you'll need to add a cron job to Heroku's scheduler.
-
 $ heroku addons:add scheduler:standard
 
 # Visit the Heroku scheduler dashboard and add a new task:
 ./cron.sh
 ```
 
+Enable access to the /apc.php and /phpinfo.php stats page
 ```
-Enable and view /apc.php and /phpinfo.php stats page
-
 $ heroku config:set ENABLE_SYSTEM_DEBUG=true
+$ heroku config:set SYSTEM_USERNAME=admin
+$ heroku config:set SYSTEM_PASSWORD=secret123
 
 # Visit /apc.php or /phpinfo.php
-# This setting is disabled by default.
 ```
 
-```bash
 Pull in latest changes from upstream
-
+```bash
 $ git fetch upstream
 ```
 
-## The Wordpress on Heroku stack
+## How fast is this?
 
-The [Wordpress](http://github.com/mchung/wordpress-on-heroku) project template is a highly tuned web stack built with the following components:
-
-* `Nginx` - Nginx for serving content. Built specifically for Heroku.
-* `MySQL` - ClearDB for the MySQL backend.
-* `PHP` - PHP-FPM for intelligent process management. APC for op-code caching.
-* `SMTP over Sendgrid` - Sendgrid for outgoing email.
-* `Memcached` - MemCachier for the memcached backend.
-
-## How highly tuned?
+Here are some benchmarks.
 
 ### blitz.io
 
@@ -140,18 +141,6 @@ Results from PageSpeed Insights: 94/100
 Results from WebPageTest
 
 [See the WebPageTest report](http://www.webpagetest.org/result/130201_BB_624/)
-
-## Deck out your Wordpress
-
-The Wordpress project template contains the config files for tuning Wordpress on Heroku.  Here's a breakdown of the config files in the project template.
-
-* `wp-content` - Wordpress themes and plugins
-* `wp-config.php` - Wordpress configuration
-* `nginx.conf.erb` - Nginx configuration
-* `php-fpm.conf` - PHP-FPM configuration
-* `php.ini` - PHP configuration
-
-Feel free to hack on these files.  For example, if you want to remove the PHP-FPM status page at `/status.html`, delete the directive from `nginx.conf.erb`.
 
 ## Security disclosure
 
