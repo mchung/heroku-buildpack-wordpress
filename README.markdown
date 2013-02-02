@@ -140,10 +140,6 @@ Results from WebPageTest
 
 [See the WebPageTest report](http://www.webpagetest.org/result/130201_BB_624/)
 
-## Security disclosure
-
-Each time Wordpress is deployed, Heroku will fetch the latest buildpack from GitHub and execute the instructions in *compile* and *deploy*.  This buildpack will download the latest precompiled versions of Nginx, PHP, and Wordpress from my personal [S3 bucket](http://heroku-buildpack-wordpress.s3.amazonaws.com) then add in config files from the [`setup`](https://github.com/mchung/wordpress-on-heroku/tree/master/setup) directory.
-
 ## But doesn't Heroku only run Ruby applications?
 
 Not anymore. Heroku's latest offerings (See [Celadon Cedar stack](http://devcenter.heroku.com/articles/cedar)) makes it easy (well, easyish) for developers to install and run any language, or service.
@@ -155,7 +151,11 @@ The [ephemeral filesystem](http://devcenter.heroku.com/articles/dyno-isolation)
 * End-users cannot upload media assets to Heroku. WORKAROUND: Enable `wpro` and use that plugin to upload media assets to S3 instead.
 * End-users cannot update themes or plugins from the admin page. WORKAROUND: Add them to `setup/wp-content/themes` or `setup/wp-content/plugins` then push to Heroku.
 
-## Hacking
+## Security disclosure
+
+Each time Wordpress is deployed, Heroku will fetch the latest buildpack from GitHub and execute the instructions in *compile* and *deploy*.  This buildpack will download the latest precompiled versions of Nginx, PHP, and Wordpress from my personal [S3 bucket](http://heroku-buildpack-wordpress.s3.amazonaws.com) then add in config files from the [`setup`](https://github.com/mchung/wordpress-on-heroku/tree/master/setup) directory.
+
+## Hacking and Contributing
 
 Not comfortable downloading and running a copy of someone else's PHP or Nginx? Not a problem!
 
@@ -172,7 +172,8 @@ The `support` directory also contains a handful of compilation and deployment sc
 * Integrate New Relic.
 
 ## Authors and Contributors
-Marc Chung (@mchung)
+
+* Marc Chung - [@mchung](https://github.com/mchung) on GitHub or [@heisenthought](https://twitter.com/heisenthought) on Twitter
 
 ## License
 
