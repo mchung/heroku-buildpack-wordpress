@@ -17,6 +17,7 @@ config_vars:
   FORCE_SSL_LOGIN: true
   FORCE_SSL_ADMIN: true
   DISABLE_WP_CRON: true
+  WP_CACHE: true
 default_process_types:
   web: sh start.sh
 EOF
