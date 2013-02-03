@@ -136,12 +136,12 @@ $ heroku config:set SYSTEM_PASSWORD=secret123
 
 By keeping your changes separate, it'll be easier to pull in changes from the Wordpress site template.
 
-Assign a remote upstream
+Assign a remote `upstream`
 ```bash
 $ git remote add upstream https://github.com/mchung/wordpress-on-heroku.git
 ```
 
-Track changes in a separate branch called production.
+Track changes in a separate branch called `production`.
 ```bash
 $ git checkout -B production
 $ git push heroku production:master
@@ -165,6 +165,12 @@ $ git pull --rebase upstream master
 
 Here are some benchmarks.
 
+### Google PageSpeed
+
+Results from PageSpeed Insights: 94/100
+
+[See the PageSpeed report](https://developers.google.com/speed/pagespeed/insights#url=wordpress-on-heroku.herokuapp.com&mobile=false)
+
 ### blitz.io
 
 Results from a blitz.io rush on a single Heroku dyno:
@@ -173,15 +179,9 @@ Results from a blitz.io rush on a single Heroku dyno:
 
 [See the Blitz.io report](https://www.blitz.io/report/541eb908b4ef3eec8d9c2ce2293a85ca)
 
-### Google PageSpeed
-
-Results from PageSpeed Insights: 94/100
-
-[See the PageSpeed report](https://developers.google.com/speed/pagespeed/insights#url=wordpress-on-heroku.herokuapp.com&mobile=false)
-
 ### Web Page Performance Test
 
-Results from WebPageTest
+![Results from WebPageTest](https://s3.amazonaws.com/heroku-buildpack-wordpress/woh-webpagetest-details.png)
 
 [See the WebPageTest report](http://www.webpagetest.org/result/130201_BB_624/)
 
@@ -198,7 +198,7 @@ The [ephemeral filesystem](http://devcenter.heroku.com/articles/dyno-isolation)
 
 ## Security disclosure
 
-Each time Wordpress is deployed, Heroku will fetch the latest buildpack from GitHub and execute the instructions in *compile* and *deploy*.  This buildpack will download the latest precompiled versions of Nginx, PHP, and Wordpress from my personal [S3 bucket](http://heroku-buildpack-wordpress.s3.amazonaws.com) then add in config files from the [`setup`](https://github.com/mchung/wordpress-on-heroku/tree/master/setup) directory.
+Each time Wordpress is deployed, Heroku will fetch the latest buildpack from GitHub and execute the instructions in `compile` and `deploy`.  This buildpack will download the latest precompiled versions of Nginx, PHP, and Wordpress from my personal [S3 bucket](http://heroku-buildpack-wordpress.s3.amazonaws.com) then add in config files from the [`setup`](https://github.com/mchung/wordpress-on-heroku/tree/master/setup) directory.
 
 ## Hacking and Contributing
 
@@ -220,6 +220,15 @@ The `support` directory also contains a handful of compilation and deployment sc
 
 * Marc Chung - [@mchung](https://github.com/mchung) on GitHub or [@heisenthought](https://twitter.com/heisenthought) on Twitter
 
+## Thanks
+
+Thanks for reading this all the way through. If you find this useful, please add an entry to the [list of Wordpress sites running on Heroku](wiki/Sites-running-Wordpress-on-Heroku).
+
 ## License
 
 The MIT License - Copyright (c) 2013 Marc Chung
+
+take my code with you
+and do whatever you want
+but please don't blame me
+-- [Aaron Swartz](http://www.aaronsw.com/weblog/000360)
