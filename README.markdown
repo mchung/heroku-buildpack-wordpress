@@ -2,13 +2,13 @@
 
 This is a Heroku buildpack for [Wordpress](http://wordpress.org).
 
-The [Wordpress](http://github.com/mchung/wordpress-on-heroku) project template is a highly tuned web stack built on the following components:
+It uses this [Wordpress](http://github.com/mchung/wordpress-on-heroku) project template to bootstrap a highly tuned Wordpress site built on the following stack:
 
-* `nginx-1.3.11` - Nginx for serving content. Built specifically for Heroku. ([See compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx))
-* `php-5.4.11` - PHP-FPM for intelligent process management. APC for op-code caching. ([See compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php))
+* `nginx-1.3.11` - Nginx for serving web content.  Built specifically for Heroku.  [See compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx).
+* `php-5.4.11` - PHP-FPM for process management and APC for caching opcodes.  [See compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php).
 * `wordpress-3.5.1` - Downloaded directly [from wordpress.org](http://wordpress.org/download/release-archive/).
 * `MySQL` - ClearDB for the MySQL backend.
-* `SMTP over Sendgrid` - Sendgrid for the email backend.
+* `Sendgrid` - Sendgrid for the email backend.
 * `Memcached` - MemCachier for the memcached backend.
 
 ## Getting started in 60 seconds
@@ -26,7 +26,7 @@ $ cd myblog
 $ heroku create -s cedar
 $ heroku config:add BUILDPACK_URL=https://github.com/mchung/heroku-buildpack-wordpress.git
 ```
-Don't have Heroku installed? Follow these instructions to install the [Heroku Toolbelt](https://devcenter.heroku.com/articles/quickstart) on your system.
+> Don't have the Heroku Toolbelt installed? Follow these [quickstart instructions](https://devcenter.heroku.com/articles/quickstart). Takes about 2 minutes.
 
 Deploy your Wordpress site to Heroku
 ```bash
@@ -49,21 +49,26 @@ Open your new Wordpress site in a web browser
 ```bash
 $ heroku apps:open
 ```
-
-Happy?  Don't forget to [add your site to the wiki](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku)
-
+> Don't forget to [add your site to the wiki](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku)
 
 ## Overview
 
 The buildpack bootstraps a Wordpress site using the [mchung/wordpress-on-heroku](http://github.com/mchung/wordpress-on-heroku) project template.  That repo contains everything required to configure Wordpress on Heroku.
 
-Enabling the following Wordpress plugins will also speed things up.
+Enabling and configuring the following Wordpress plugins will also speed things up significantly.
 
-* `heroku-sendgrid` - Instructs phpmailer to send email with Sendgrid
-* `wpro` - Instructs Wordpress to upload everything to S3
-* `batcache` - Instructs Wordpress to use memcached to cache everything
-* `memcachier` - Uses a better memcached plugin
-* `cloudflare` - OPTIONAL.  If Cloudflare is installed, the plugin instructs Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  Keep in mind that the free version doesn't support SSL.
+* `heroku-sendgrid` - Instructs phpmailer to send SMTP email with Sendgrid.
+  * EMAIL_REPLY_TO=alfred@example.com
+  * EMAIL_FROM=batman@example.com
+  * EMAIL_NAME=Bruce Wayne
+* `heroku-google-analytics` - Adds Google Analytics to your site. Depends on the following environment settings:
+  * GOOG_UA_ID=UA-9999999
+* `wpro` - Instructs Wordpress to upload everything to S3.
+* `batcache` - Instructs Wordpress to use memcached for caching.
+* `memcachier` - Depend on a modern memcached plugin.
+* `cloudflare` - OPTIONAL, but awesome.  If Cloudflare is installed, the plugin instructs Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  Keep in mind that the free version doesn't support SSL.
+
+> To set configure environment setting: `heroku config:set GOOG_UA_ID=UA=1234777-9`
 
 There are also several config files for configuring the performance of Wordpress on Heroku.
 
