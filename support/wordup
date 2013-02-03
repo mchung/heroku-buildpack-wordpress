@@ -31,8 +31,9 @@ case "$1" in
       git co -b production
 
       echo "-----> Engage!"
-      git push -f heroku production:master | indent
-      heroku apps:open
+      git push heroku production:master | indent
+      echo "Opening http://${instance_name}.herokuapp.com"
+      heroku apps:open --app ${instance_name}
       ;;
 
    --destroy|-d)
