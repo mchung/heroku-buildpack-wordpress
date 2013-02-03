@@ -9,7 +9,7 @@ It uses this [Wordpress](http://github.com/mchung/wordpress-on-heroku) project t
 * `wordpress-3.5.1` - Downloaded directly [from wordpress.org](http://wordpress.org/download/release-archive/).
 * `MySQL` - ClearDB for the MySQL backend.
 * `Sendgrid` - Sendgrid for the email backend.
-* `Memcached` - MemCachier for the memcached backend.
+* `MemCachier` - MemCachier for the memcached backend.
 
 ## Getting started in 60 seconds
 
@@ -61,16 +61,16 @@ Enabling and configuring the following Wordpress plugins will also speed things 
   * EMAIL_REPLY_TO=alfred@example.com
   * EMAIL_FROM=batman@example.com
   * EMAIL_NAME=Bruce Wayne
-* `heroku-google-analytics` - Adds Google Analytics to your site. Depends on the following environment settings:
+* `heroku-google-analytics` - Adds Google Analytics to your site.
   * GOOG_UA_ID=UA-9999999
 * `wpro` - Instructs Wordpress to upload everything to S3.
 * `batcache` - Instructs Wordpress to use memcached for caching.
 * `memcachier` - Depend on a modern memcached plugin.
 * `cloudflare` - OPTIONAL, but awesome.  If Cloudflare is installed, the plugin instructs Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  Keep in mind that the free version doesn't support SSL.
 
-> To set configure environment setting: `heroku config:set GOOG_UA_ID=UA=1234777-9`
+> To set a config variable: `heroku config:set GOOG_UA_ID=UA=1234777-9`
 
-There are also several config files for configuring the performance of Wordpress on Heroku.
+There are also several config files for configuring Wordpress on Heroku.
 
 * `wp-content` - Wordpress themes and plugins
 * `wp-config.php` - Wordpress configuration
@@ -110,7 +110,7 @@ $ git add .
 $ git commit -m "New plugin"
 $ git push heroku master
 ```
-Don't forget to activate it under the Plugins panel.
+> Don't forget to activate it under the Plugins panel.
 
 ### Configuring cron
 By default, wp-cron is fired on every page load and scheduled to run jobs like future posts or backups.  This buildpack disables wp-cron so that visitors don't have to wait to see the site.
@@ -168,7 +168,7 @@ $ git pull --rebase upstream master
 
 ## How fast is this?
 
-Here are some benchmarks.
+Fast enough. Here are some benchmarks.
 
 ### Google PageSpeed
 
@@ -207,9 +207,7 @@ Each time Wordpress is deployed, Heroku will fetch the latest buildpack from Git
 
 ## Hacking and Contributing
 
-Not comfortable downloading and running a copy of someone else's PHP or Nginx? Not a problem!
-
-The `support` directory also contains a handful of compilation and deployment scripts to automate several processes, which are currently used for maintenance and repo management.
+Not comfortable downloading and running a copy of someone else's PHP or Nginx executables? Not a problem!  The `support` directory also contains a handful of compilation and deployment scripts to automate several processes, which are currently used for maintenance and repo management.
 
 * `package_nginx` - Used to compile and upload the latest version of Nginx to S3.
 * `package_php` - Used to compile and upload the latest version of PHP to S3.
@@ -223,7 +221,7 @@ The `support` directory also contains a handful of compilation and deployment sc
 
 ## Authors and Contributors
 
-* Marc Chung - [@mchung](https://github.com/mchung) on GitHub or [@heisenthought](https://twitter.com/heisenthought) on Twitter
+* Marc Chung - [@mchung](https://github.com/mchung) on GitHub and [@heisenthought](https://twitter.com/heisenthought) on Twitter
 
 ## Thanks
 
