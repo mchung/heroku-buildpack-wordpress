@@ -228,7 +228,9 @@ Thanks for reading this all the way through. If you find this useful, please add
 
 The MIT License - Copyright (c) 2013 Marc Chung
 
+```
 take my code with you
 and do whatever you want
 but please don't blame me
 -- [Aaron Swartz](http://www.aaronsw.com/weblog/000360)
+```
