@@ -57,19 +57,27 @@
 <code>SMTP over Sendgrid</code> - Sendgrid for the email backend.</li>
 <li>
 <code>Memcached</code> - MemCachier for the memcached backend.</li>
-</ul><h2>Getting Started</h2>
+</ul><h2>Getting started in 60 seconds</h2>
 
-<p>Fork my <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress project</a>.</p>
+<p>Fork this <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress project template</a>.</p>
+
+<p>Clone the repository</p>
 
 <div class="highlight"><pre><span class="nv">$ </span>git clone git://github.com/username/wordpress-on-heroku.git myblog
-<span class="nv">$ </span><span class="nb">cd </span>myblog
+</pre></div>
 
-<span class="nv">$ </span>git remote add upstream https://github.com/mchung/wordpress-on-heroku.git
-<span class="c"># optionally assign an upstream</span>
+<p>Create the app on Heroku.</p>
 
+<div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>myblog
 <span class="nv">$ </span>heroku create -s cedar
 <span class="nv">$ </span>heroku config:add <span class="nv">BUILDPACK_URL</span><span class="o">=</span>https://github.com/mchung/heroku-buildpack-wordpress.git
-<span class="nv">$ </span>git push heroku master
+</pre></div>
+
+<p>Don't have Heroku installed? Follow these instructions to install the <a href="https://devcenter.heroku.com/articles/quickstart">Heroku Toolbelt</a> on your system.</p>
+
+<p>Deploy your Wordpress site to Heroku</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>git push heroku master
 ...
 -----&gt; Heroku receiving push
 -----&gt; Fetching custom git buildpack... <span class="k">done</span>
@@ -82,10 +90,14 @@
        Default types <span class="k">for </span>Wordpress -&gt; web
 -----&gt; Compiled slug size: 33.7MB
 -----&gt; Launching... <span class="k">done</span>, v7
-
-<span class="nv">$ </span>heroku open
-<span class="c"># open the app in a web browser</span>
 </pre></div>
+
+<p>Open your new Wordpress site in a web browser</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>heroku apps:open
+</pre></div>
+
+<p>Happy?  Don't forget to <a href="wiki/Sites-running-Wordpress-on-Heroku">add your site to the wiki</a></p>
 
 <h2>Overview</h2>
 
@@ -121,13 +133,21 @@
 
 <h2>Usage</h2>
 
-<p>Adding a custom domain name</p>
+<h3>Adding a custom domain name</h3>
 
 <div class="highlight"><pre><span class="nv">$ </span>heroku domains:add marcchung.org
-<span class="c"># Requires DNS settings</span>
+<span class="nv">$ </span>heroku domains:add www.marcchung.org
 </pre></div>
 
-<p>Adding a theme</p>
+<p>Note: Adding a domain still requires some DNS setup work. Basically you'll want to do something like this:</p>
+
+<div class="highlight"><pre>ALIAS marcchung.org -&gt; proxy.herokuapp.com
+CNAME www.marcchung.org -&gt; proxy.herokuapp.com
+</pre></div>
+
+<p><a href="https://dnsimple.com/r/d2bc9a934910c1">P.S. I use DNSimple and you should too</a>.</p>
+
+<h3>Adding a theme</h3>
 
 <div class="highlight"><pre><span class="nv">$ </span>cp -r appply setup/wp-content/themes/
 <span class="nv">$ </span>git add .
@@ -135,7 +155,7 @@
 <span class="nv">$ </span>git push heroku master
 </pre></div>
 
-<p>Adding a plugin</p>
+<h3>Adding a plugin</h3>
 
 <div class="highlight"><pre><span class="nv">$ </span>cp -r google-analytics setup/wp-content/plugins/
 <span class="nv">$ </span>git add .
@@ -143,7 +163,13 @@
 <span class="nv">$ </span>git push heroku master
 </pre></div>
 
-<p>By default wp-cron is disabled. Here's how to setup a cron job.</p>
+<p>Don't forget to activate it under the Plugins panel.</p>
+
+<h3>Configuring cron</h3>
+
+<p>By default, wp-cron is fired on every page load and scheduled to run jobs like future posts or backups.  This buildpack disables wp-cron so that visitors don't have to wait to see the site.</p>
+
+<p>Heroku allows you to trigger wp-cron from their scheduler</p>
 
 <div class="highlight"><pre><span class="nv">$ </span>heroku addons:add scheduler:standard
 
@@ -151,7 +177,14 @@
 ./cron.sh
 </pre></div>
 
-<p>Enable access to the /apc.php and /phpinfo.php stats page</p>
+<p>Alternatively, you may also re-enable wp-cron</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>heroku config:set <span class="nv">DISABLE_WP_CRON</span><span class="o">=</span><span class="nb">false</span>
+</pre></div>
+
+<h3>Enable system access</h3>
+
+<p>The alternative PHP cache and a generic PHPINFO page is available at /apc.php and /phpinfo.php.</p>
 
 <div class="highlight"><pre><span class="nv">$ </span>heroku config:set <span class="nv">ENABLE_SYSTEM_DEBUG</span><span class="o">=</span><span class="nb">true</span>
 <span class="nv">$ </span>heroku config:set <span class="nv">SYSTEM_USERNAME</span><span class="o">=</span>admin
@@ -159,16 +192,33 @@
 <span class="c"># Visit /apc.php or /phpinfo.php</span>
 </pre></div>
 
-<p>Optional: Track changes in a separate branch called production.</p>
+<h3>Workflow (optional)</h3>
+
+<p>By keeping your changes separate, it'll be easier to pull in changes from the Wordpress site template.</p>
+
+<p>Assign a remote upstream</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>git remote add upstream https://github.com/mchung/wordpress-on-heroku.git
+</pre></div>
+
+<p>Track changes in a separate branch called production.</p>
 
 <div class="highlight"><pre><span class="nv">$ </span>git checkout -B production
 <span class="nv">$ </span>git push heroku production:master
 <span class="c"># This keeps upstream changes separate from blog changes.</span>
 </pre></div>
 
-<p>Pull in latest changes from upstream</p>
+<p>Pull changes from upstream into <code>master</code></p>
 
-<div class="highlight"><pre><span class="nv">$ </span>git fetch upstream
+<div class="highlight"><pre><span class="nv">$ </span>git co master
+<span class="nv">$ </span>git pull
+<span class="nv">$ </span>git co production
+<span class="nv">$ </span>git merge master
+</pre></div>
+
+<p>Pull changes from upstream into <code>production</code></p>
+
+<div class="highlight"><pre><span class="nv">$ </span>git pull --rebase upstream master
 </pre></div>
 
 <h2>How fast is this?</h2>
