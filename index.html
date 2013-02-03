@@ -97,7 +97,7 @@
 <div class="highlight"><pre><span class="nv">$ </span>heroku apps:open
 </pre></div>
 
-<p>Happy?  Don't forget to <a href="wiki/Sites-running-Wordpress-on-Heroku">add your site to the wiki</a></p>
+<p>Happy?  Don't forget to <a href="https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku">add your site to the wiki</a></p>
 
 <h2>Overview</h2>
 
@@ -196,12 +196,12 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <p>By keeping your changes separate, it'll be easier to pull in changes from the Wordpress site template.</p>
 
-<p>Assign a remote upstream</p>
+<p>Assign a remote <code>upstream</code></p>
 
 <div class="highlight"><pre><span class="nv">$ </span>git remote add upstream https://github.com/mchung/wordpress-on-heroku.git
 </pre></div>
 
-<p>Track changes in a separate branch called production.</p>
+<p>Track changes in a separate branch called <code>production</code>.</p>
 
 <div class="highlight"><pre><span class="nv">$ </span>git checkout -B production
 <span class="nv">$ </span>git push heroku production:master
@@ -225,6 +225,12 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <p>Here are some benchmarks.</p>
 
+<h3>Google PageSpeed</h3>
+
+<p>Results from PageSpeed Insights: 94/100</p>
+
+<p><a href="https://developers.google.com/speed/pagespeed/insights#url=wordpress-on-heroku.herokuapp.com&amp;mobile=false">See the PageSpeed report</a></p>
+
 <h3>blitz.io</h3>
 
 <p>Results from a blitz.io rush on a single Heroku dyno:</p>
@@ -233,15 +239,9 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <p><a href="https://www.blitz.io/report/541eb908b4ef3eec8d9c2ce2293a85ca">See the Blitz.io report</a></p>
 
-<h3>Google PageSpeed</h3>
-
-<p>Results from PageSpeed Insights: 94/100</p>
-
-<p><a href="https://developers.google.com/speed/pagespeed/insights#url=wordpress-on-heroku.herokuapp.com&amp;mobile=false">See the PageSpeed report</a></p>
-
 <h3>Web Page Performance Test</h3>
 
-<p>Results from WebPageTest</p>
+<p><img src="https://s3.amazonaws.com/heroku-buildpack-wordpress/woh-webpagetest-details.png" alt="Results from WebPageTest"></p>
 
 <p><a href="http://www.webpagetest.org/result/130201_BB_624/">See the WebPageTest report</a></p>
 
@@ -258,7 +258,7 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 <li>End-users cannot update themes or plugins from the admin page. WORKAROUND: Add them to <code>setup/wp-content/themes</code> or <code>setup/wp-content/plugins</code> then push to Heroku.</li>
 </ul><h2>Security disclosure</h2>
 
-<p>Each time Wordpress is deployed, Heroku will fetch the latest buildpack from GitHub and execute the instructions in <em>compile</em> and <em>deploy</em>.  This buildpack will download the latest precompiled versions of Nginx, PHP, and Wordpress from my personal <a href="http://heroku-buildpack-wordpress.s3.amazonaws.com">S3 bucket</a> then add in config files from the <a href="https://github.com/mchung/wordpress-on-heroku/tree/master/setup"><code>setup</code></a> directory.</p>
+<p>Each time Wordpress is deployed, Heroku will fetch the latest buildpack from GitHub and execute the instructions in <code>compile</code> and <code>deploy</code>.  This buildpack will download the latest precompiled versions of Nginx, PHP, and Wordpress from my personal <a href="http://heroku-buildpack-wordpress.s3.amazonaws.com">S3 bucket</a> then add in config files from the <a href="https://github.com/mchung/wordpress-on-heroku/tree/master/setup"><code>setup</code></a> directory.</p>
 
 <h2>Hacking and Contributing</h2>
 
@@ -283,9 +283,46 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <ul>
 <li>Marc Chung - <a href="https://github.com/mchung">@mchung</a> on GitHub or <a href="https://twitter.com/heisenthought">@heisenthought</a> on Twitter</li>
-</ul><h2>License</h2>
+</ul><h2>Thanks</h2>
+
+<p>Thanks for reading this all the way through. If you find this useful, please add an entry to the <a href="https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku">list of Wordpress sites running on Heroku</a>.</p>
+
+<h2>License</h2>
 
 <p>The MIT License - Copyright (c) 2013 Marc Chung</p>
+
+<p></p>
+
+<div>
+<div>
+<div>
+take my code with you
+</div>
+
+<div>
+and do whatever you want
+</div>
+
+<div>
+but please don't blame me
+</div>
+
+<div>
+—
+Aaron Swartz
+</div>
+
+<p></p>
+</div>
+
+<div>
+<a href="http://haikuist.com/haiku/1922">This Haiku</a>
+brought to you by
+<a href="http://haikuist.com/">Haikuist</a>
+</div>
+
+<p></p>
+</div>
       </section>
 
     </div>
