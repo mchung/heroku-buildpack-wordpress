@@ -50,7 +50,7 @@ Open your new Wordpress site in a web browser
 $ heroku apps:open
 ```
 
-Happy?  Don't forget to [add your site to the wiki](wiki/Sites-running-Wordpress-on-Heroku)
+Happy?  Don't forget to [add your site to the wiki](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku)
 
 
 ## Overview
@@ -222,15 +222,13 @@ The `support` directory also contains a handful of compilation and deployment sc
 
 ## Thanks
 
-Thanks for reading this all the way through. If you find this useful, please add an entry to the [list of Wordpress sites running on Heroku](wiki/Sites-running-Wordpress-on-Heroku).
+Thanks for reading this all the way through. If you find this useful, please add an entry to the [list of Wordpress sites running on Heroku](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku).
 
 ## License
 
 The MIT License - Copyright (c) 2013 Marc Chung
 
-```
-take my code with you
-and do whatever you want
-but please don't blame me
-```
--- [Aaron Swartz](http://www.aaronsw.com/weblog/000360)
+> take my code with you
+> and do whatever you want
+> but please don't blame me
+> -- [Aaron Swartz](http://www.aaronsw.com/weblog/000360)
