@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>heroku-buildpack-wordpress by mchung</title>
+    <title>Wordpress on Heroku by mchung</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -31,32 +31,30 @@
 
       <section>
         <div id="title">
-          <h1>heroku-buildpack-wordpress</h1>
-          <p>Run Wordpress on Heroku</p>
+          <h1>Wordpress on Heroku</h1>
+          <p>Deploy Wordpress to Heroku in &lt; 60 seconds or your money back</p>
           <hr>
           <span class="credits left">Project maintained by <a href="https://github.com/mchung">mchung</a></span>
           <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
         </div>
 
-        <h1>Heroku buildpack: Wordpress</h1>
+        <p>This is a Heroku buildpack for <a href="http://wordpress.org">Wordpress</a>.</p>
 
-<p>This is a Heroku buildpack for <a href="http://wordpress.org">Wordpress</a>.</p>
-
-<p>The <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress</a> project template is a highly tuned web stack built on the following components:</p>
+<p>It uses this <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress</a> project template to bootstrap a highly tuned Wordpress site built on the following stack:</p>
 
 <ul>
 <li>
-<code>nginx-1.3.11</code> - Nginx for serving content. Built specifically for Heroku. (<a href="https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx">See compile options</a>)</li>
+<code>nginx-1.3.11</code> - Nginx for serving web content.  Built specifically for Heroku.  <a href="https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx">See compile options</a>.</li>
 <li>
-<code>php-5.4.11</code> - PHP-FPM for intelligent process management. APC for op-code caching. (<a href="https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php">See compile options</a>)</li>
+<code>php-5.4.11</code> - PHP-FPM for process management and APC for caching opcodes.  <a href="https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php">See compile options</a>.</li>
 <li>
 <code>wordpress-3.5.1</code> - Downloaded directly <a href="http://wordpress.org/download/release-archive/">from wordpress.org</a>.</li>
 <li>
 <code>MySQL</code> - ClearDB for the MySQL backend.</li>
 <li>
-<code>SMTP over Sendgrid</code> - Sendgrid for the email backend.</li>
+<code>Sendgrid</code> - Sendgrid for the email backend.</li>
 <li>
-<code>Memcached</code> - MemCachier for the memcached backend.</li>
+<code>MemCachier</code> - MemCachier for the memcached backend.</li>
 </ul><h2>Getting started in 60 seconds</h2>
 
 <p>Fork this <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress project template</a>.</p>
@@ -73,7 +71,9 @@
 <span class="nv">$ </span>heroku config:add <span class="nv">BUILDPACK_URL</span><span class="o">=</span>https://github.com/mchung/heroku-buildpack-wordpress.git
 </pre></div>
 
-<p>Don't have Heroku installed? Follow these instructions to install the <a href="https://devcenter.heroku.com/articles/quickstart">Heroku Toolbelt</a> on your system.</p>
+<blockquote>
+<p>Don't have the Heroku Toolbelt installed? Follow these <a href="https://devcenter.heroku.com/articles/quickstart">quickstart instructions</a>. Takes about 2 minutes.</p>
+</blockquote>
 
 <p>Deploy your Wordpress site to Heroku</p>
 
@@ -97,26 +97,48 @@
 <div class="highlight"><pre><span class="nv">$ </span>heroku apps:open
 </pre></div>
 
-<p>Happy?  Don't forget to <a href="https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku">add your site to the wiki</a></p>
+<blockquote>
+<p>Don't forget to <a href="https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku">add your site to the wiki</a></p>
+</blockquote>
 
 <h2>Overview</h2>
 
 <p>The buildpack bootstraps a Wordpress site using the <a href="http://github.com/mchung/wordpress-on-heroku">mchung/wordpress-on-heroku</a> project template.  That repo contains everything required to configure Wordpress on Heroku.</p>
 
-<p>Enabling the following Wordpress plugins will also speed things up.</p>
+<p>Enabling and configuring the following Wordpress plugins will also speed things up significantly.</p>
 
 <ul>
 <li>
-<code>heroku-sendgrid</code> - Instructs phpmailer to send email with Sendgrid</li>
+<code>heroku-sendgrid</code> - Instructs phpmailer to send SMTP email with Sendgrid.
+
+<ul>
+<li>EMAIL_REPLY_TO=<a href="mailto:alfred@example.com">alfred@example.com</a>
+</li>
+<li>EMAIL_FROM=<a href="mailto:batman@example.com">batman@example.com</a>
+</li>
+<li>EMAIL_NAME=Bruce Wayne</li>
+</ul>
+</li>
 <li>
-<code>wpro</code> - Instructs Wordpress to upload everything to S3</li>
+<code>heroku-google-analytics</code> - Adds Google Analytics to your site.
+
+<ul>
+<li>GOOG_UA_ID=UA-9999999</li>
+</ul>
+</li>
 <li>
-<code>batcache</code> - Instructs Wordpress to use memcached to cache everything</li>
+<code>wpro</code> - Instructs Wordpress to upload everything to S3.</li>
 <li>
-<code>memcachier</code> - Uses a better memcached plugin</li>
+<code>batcache</code> - Instructs Wordpress to use memcached for caching.</li>
 <li>
-<code>cloudflare</code> - OPTIONAL.  If Cloudflare is installed, the plugin instructs Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  Keep in mind that the free version doesn't support SSL.</li>
-</ul><p>There are also several config files for configuring the performance of Wordpress on Heroku.</p>
+<code>memcachier</code> - Depend on a modern memcached plugin.</li>
+<li>
+<code>cloudflare</code> - OPTIONAL, but awesome.  If Cloudflare is installed, the plugin instructs Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  Keep in mind that the free version doesn't support SSL.</li>
+</ul><blockquote>
+<p>To set a config variable: <code>heroku config:set GOOG_UA_ID=UA=1234777-9</code></p>
+</blockquote>
+
+<p>There are also several config files for configuring Wordpress on Heroku.</p>
 
 <ul>
 <li>
@@ -145,7 +167,9 @@
 CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 </pre></div>
 
-<p><a href="https://dnsimple.com/r/d2bc9a934910c1">P.S. I use DNSimple and you should too</a>.</p>
+<blockquote>
+<p><a href="https://dnsimple.com/r/d2bc9a934910c1">I use DNSimple and you should too</a>.</p>
+</blockquote>
 
 <h3>Adding a theme</h3>
 
@@ -163,7 +187,9 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 <span class="nv">$ </span>git push heroku master
 </pre></div>
 
+<blockquote>
 <p>Don't forget to activate it under the Plugins panel.</p>
+</blockquote>
 
 <h3>Configuring cron</h3>
 
@@ -223,7 +249,7 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <h2>How fast is this?</h2>
 
-<p>Here are some benchmarks.</p>
+<p>Fast enough. Here are some benchmarks.</p>
 
 <h3>Google PageSpeed</h3>
 
@@ -262,9 +288,7 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <h2>Hacking and Contributing</h2>
 
-<p>Not comfortable downloading and running a copy of someone else's PHP or Nginx? Not a problem!</p>
-
-<p>The <code>support</code> directory also contains a handful of compilation and deployment scripts to automate several processes, which are currently used for maintenance and repo management.</p>
+<p>Not comfortable downloading and running a copy of someone else's PHP or Nginx executables? Not a problem!  The <code>support</code> directory also contains a handful of compilation and deployment scripts to automate several processes, which are currently used for maintenance and repo management.</p>
 
 <ul>
 <li>
@@ -282,7 +306,7 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 </ul><h2>Authors and Contributors</h2>
 
 <ul>
-<li>Marc Chung - <a href="https://github.com/mchung">@mchung</a> on GitHub or <a href="https://twitter.com/heisenthought">@heisenthought</a> on Twitter</li>
+<li>Marc Chung - <a href="https://github.com/mchung">@mchung</a> on GitHub and <a href="https://twitter.com/heisenthought">@heisenthought</a> on Twitter</li>
 </ul><h2>Thanks</h2>
 
 <p>Thanks for reading this all the way through. If you find this useful, please add an entry to the <a href="https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku">list of Wordpress sites running on Heroku</a>.</p>
