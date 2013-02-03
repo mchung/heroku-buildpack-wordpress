@@ -228,7 +228,26 @@ Thanks for reading this all the way through. If you find this useful, please add
 
 The MIT License - Copyright (c) 2013 Marc Chung
 
-> take my code with you
-> and do whatever you want
-> but please don't blame me
-> -- [Aaron Swartz](http://www.aaronsw.com/weblog/000360)
+<link href='http://haikuist.com/assets/embed.css' media='screen' rel='stylesheet' type='text/css'>
+<div class='haikuist_snippet' id='haiku-1922'>
+<div class='poem'>
+<div class='line1'>
+take my code with you
+</div>
+<div class='line2'>
+and do whatever you want
+</div>
+<div class='line3'>
+but please don't blame me
+</div>
+<div class='author'>
+&mdash;
+Aaron Swartz
+</div>
+</div>
+<div class='meta'>
+<a href="http://haikuist.com/haiku/1922">This Haiku</a>
+brought to you by
+<a href="http://haikuist.com/">Haikuist</a>
+</div>
+</div>
