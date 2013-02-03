@@ -93,7 +93,7 @@ Note: Adding a domain still requires some DNS setup work. Basically you'll want 
 ALIAS marcchung.org -> proxy.herokuapp.com
 CNAME www.marcchung.org -> proxy.herokuapp.com
 ```
-[P.S. I use DNSimple and you should too](https://dnsimple.com/r/d2bc9a934910c1).
+> I use DNSimple and you should too](https://dnsimple.com/r/d2bc9a934910c1).
 
 ### Adding a theme
 ```bash
