@@ -43,11 +43,15 @@ $ git push heroku master
        Default types for Wordpress -> web
 -----> Compiled slug size: 33.7MB
 -----> Launching... done, v7
+```
 
 Open your new Wordpress site in a web browser
 ```bash
 $ heroku apps:open
 ```
+
+Happy?  Don't forget to [add your site to the wiki](wiki/Sites-running-Wordpress-on-Heroku)
+
 
 ## Overview
 
