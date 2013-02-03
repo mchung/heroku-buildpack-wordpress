@@ -11,18 +11,25 @@ The [Wordpress](http://github.com/mchung/wordpress-on-heroku) project template i
 * `SMTP over Sendgrid` - Sendgrid for the email backend.
 * `Memcached` - MemCachier for the memcached backend.
 
-## Getting Started
+## Getting started in 60 seconds
 
-Fork my [Wordpress project](http://github.com/mchung/wordpress-on-heroku).
+Fork this [Wordpress project template](http://github.com/mchung/wordpress-on-heroku).
+
+Clone the repository
 ```bash
 $ git clone git://github.com/username/wordpress-on-heroku.git myblog
+```
+
+Create the app on Heroku.
+```bash
 $ cd myblog
-
-$ git remote add upstream https://github.com/mchung/wordpress-on-heroku.git
-# optionally assign an upstream
-
 $ heroku create -s cedar
 $ heroku config:add BUILDPACK_URL=https://github.com/mchung/heroku-buildpack-wordpress.git
+```
+Don't have Heroku installed? Follow these instructions to install the [Heroku Toolbelt](https://devcenter.heroku.com/articles/quickstart) on your system.
+
+Deploy your Wordpress site to Heroku
+```bash
 $ git push heroku master
 ...
 -----> Heroku receiving push
@@ -37,8 +44,9 @@ $ git push heroku master
 -----> Compiled slug size: 33.7MB
 -----> Launching... done, v7
 
-$ heroku open
-# open the app in a web browser
+Open your new Wordpress site in a web browser
+```bash
+$ heroku apps:open
 ```
 
 ## Overview
@@ -65,13 +73,20 @@ Feel free to hack on these files.  For example, to remove the PHP-FPM status pag
 
 ## Usage
 
-Adding a custom domain name
+### Adding a custom domain name
 ```bash
 $ heroku domains:add marcchung.org
-# Requires DNS settings
+$ heroku domains:add www.marcchung.org
 ```
 
-Adding a theme
+Note: Adding a domain still requires some DNS setup work. Basically you'll want to do something like this:
+```bash
+ALIAS marcchung.org -> proxy.herokuapp.com
+CNAME www.marcchung.org -> proxy.herokuapp.com
+```
+[P.S. I use DNSimple and you should too](https://dnsimple.com/r/d2bc9a934910c1).
+
+### Adding a theme
 ```bash
 $ cp -r appply setup/wp-content/themes/
 $ git add .
@@ -79,15 +94,19 @@ $ git commit -m "New theme"
 $ git push heroku master
 ```
 
-Adding a plugin
+### Adding a plugin
 ```bash
 $ cp -r google-analytics setup/wp-content/plugins/
 $ git add .
 $ git commit -m "New plugin"
 $ git push heroku master
 ```
+Don't forget to activate it under the Plugins panel.
 
-By default wp-cron is disabled. Here's how to setup a cron job.
+### Configuring cron
+By default, wp-cron is fired on every page load and scheduled to run jobs like future posts or backups.  This buildpack disables wp-cron so that visitors don't have to wait to see the site.
+
+Heroku allows you to trigger wp-cron from their scheduler
 ```bash
 $ heroku addons:add scheduler:standard
 
@@ -95,7 +114,13 @@ $ heroku addons:add scheduler:standard
 ./cron.sh
 ```
 
-Enable access to the /apc.php and /phpinfo.php stats page
+Alternatively, you may also re-enable wp-cron
+```bash
+$ heroku config:set DISABLE_WP_CRON=false
+```
+
+### Enable system access
+The alternative PHP cache and a generic PHPINFO page is available at /apc.php and /phpinfo.php.
 ```bash
 $ heroku config:set ENABLE_SYSTEM_DEBUG=true
 $ heroku config:set SYSTEM_USERNAME=admin
@@ -103,16 +128,33 @@ $ heroku config:set SYSTEM_PASSWORD=secret123
 # Visit /apc.php or /phpinfo.php
 ```
 
-Optional: Track changes in a separate branch called production.
+### Workflow (optional)
+
+By keeping your changes separate, it'll be easier to pull in changes from the Wordpress site template.
+
+Assign a remote upstream
+```bash
+$ git remote add upstream https://github.com/mchung/wordpress-on-heroku.git
+```
+
+Track changes in a separate branch called production.
 ```bash
 $ git checkout -B production
 $ git push heroku production:master
 # This keeps upstream changes separate from blog changes.
 ```
 
-Pull in latest changes from upstream
+Pull changes from upstream into `master`
 ```bash
-$ git fetch upstream
+$ git co master
+$ git pull
+$ git co production
+$ git merge master
+```
+
+Pull changes from upstream into `production`
+```bash
+$ git pull --rebase upstream master
 ```
 
 ## How fast is this?
