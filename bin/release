@@ -9,7 +9,7 @@ addons:
   - memcachier:dev
   - scheduler:standard
 config_vars:
-  PATH: /app/vendor/nginx/sbin:/app/vendor/php/bin:/app/vendor/php/sbin:/usr/local/bin:/usr/bin:/bin
+  PATH: /app/bin:/app/vendor/nginx/sbin:/app/vendor/php/bin:/app/vendor/php/sbin:/usr/local/bin:/usr/bin:/bin
   EMAIL_REPLY_TO: email@example.com
   EMAIL_FROM: email@example.com
   EMAIL_NAME: Clark Kent
@@ -19,5 +19,5 @@ config_vars:
   DISABLE_WP_CRON: true
   WP_CACHE: true
 default_process_types:
-  web: sh start.sh
+  web: start.sh
 EOF
