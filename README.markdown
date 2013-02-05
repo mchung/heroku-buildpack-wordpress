@@ -1,6 +1,6 @@
-# Heroku buildpack: Wordpress
+# Heroku buildpack: Wordpress on Heroku
 
-This is a Heroku buildpack for [Wordpress](http://wordpress.org).
+## This is a Heroku buildpack for running [Wordpress](http://wordpress.org) on [Heroku](http://heroku.com)
 
 It uses this [Wordpress](http://github.com/mchung/wordpress-on-heroku) project template to bootstrap a highly tuned Wordpress site built on the following stack:
 
@@ -10,6 +10,8 @@ It uses this [Wordpress](http://github.com/mchung/wordpress-on-heroku) project t
 * `MySQL` - ClearDB for the MySQL backend.
 * `Sendgrid` - Sendgrid for the email backend.
 * `MemCachier` - MemCachier for the memcached backend.
+
+You can see a live demo at [Wordpress on Heroku](http://wordpress-on-heroku.herokuapp.com).
 
 ## Getting started in 60 seconds
 
@@ -49,28 +51,13 @@ Open your new Wordpress site in a web browser
 ```bash
 $ heroku apps:open
 ```
-> Don't forget to [add your site to the wiki](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku)
+> Don't forget to add your site to the [list of Wordpress sites runnning Heroku](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku) wiki entry.
 
 ## Overview
 
-The buildpack bootstraps a Wordpress site using the [mchung/wordpress-on-heroku](http://github.com/mchung/wordpress-on-heroku) project template.  That repo contains everything required to configure Wordpress on Heroku.
+The buildpack bootstraps a Wordpress site using the [mchung/wordpress-on-heroku](http://github.com/mchung/wordpress-on-heroku) project template.  That repo contains everything required to run your own Wordpress site on Heroku.
 
-Enabling and configuring the following Wordpress plugins will also speed things up significantly.
-
-* `heroku-sendgrid` - Instructs phpmailer to send SMTP email with Sendgrid.
-  * EMAIL_REPLY_TO=alfred@example.com
-  * EMAIL_FROM=batman@example.com
-  * EMAIL_NAME=Bruce Wayne
-* `heroku-google-analytics` - Adds Google Analytics to your site.
-  * GOOG_UA_ID=UA-9999999
-* `wpro` - Instructs Wordpress to upload everything to S3.
-* `batcache` - Instructs Wordpress to use memcached for caching.
-* `memcachier` - Depend on a modern memcached plugin.
-* `cloudflare` - OPTIONAL, but awesome.  If Cloudflare is installed, the plugin instructs Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  Keep in mind that the free version doesn't support SSL.
-
-> To set a config variable: `heroku config:set GOOG_UA_ID=UA=1234777-9`
-
-There are also several config files for configuring Wordpress on Heroku.
+There are several files available in `setup` for configuring your new Wordpress site.
 
 * `wp-content` - Wordpress themes and plugins
 * `wp-config.php` - Wordpress configuration
@@ -79,6 +66,31 @@ There are also several config files for configuring Wordpress on Heroku.
 * `php.ini` - PHP configuration
 
 Feel free to hack on these files.  For example, to remove the PHP-FPM status page at `/status.html`, delete the directive from `nginx.conf.erb`.  Themes and plugins can be added and deployed to the `setup/wp-content` directory.
+
+Whenever possible, I've pulled out hard coded settings from `wp-config.php` and made them available as a runtime environment variable. Now, as an owner, you may toggle those values using `heroku config:set`. Here's an incomplete list of settings:
+
+* `FORCE_SSL_LOGIN`
+* `FORCE_SSL_ADMIN`
+* `WP_CACHE`
+* `DISABLE_WP_CRON`
+
+Please refer to the documentation from Wordpress for details.
+
+> To set a config variable: `heroku config:set GOOG_UA_ID=UA=1234777-9`
+
+
+Finally, enabling and configuring the following Wordpress plugins will also speed up Wordpress on Heroku significantly.
+
+* `heroku-sendgrid` - Configures phpmailer to send SMTP email with Sendgrid.
+  * EMAIL_REPLY_TO=alfred@example.com
+  * EMAIL_FROM=batman@example.com
+  * EMAIL_NAME=Bruce Wayne
+* `heroku-google-analytics` - Configures Google Analytics to display on your Wordpress site.
+  * GOOG_UA_ID=UA-9999999
+* `wpro` - Configures Wordpress to upload everything to S3.
+* `batcache` - Configures Wordpress to use memcached for caching.
+* `memcachier` - Use a modern memcached plugin.
+* `cloudflare` - OPTIONAL, but very awesome.  If Cloudflare is installed, the plugin configures Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  Keep in mind that the free version doesn't support SSL, and you'll need to set both `FORCE_SSL_ADMIN` and `FORCE_SSL_LOGIN` to false in order to login.
 
 ## Usage
 
@@ -168,7 +180,17 @@ $ git pull --rebase upstream master
 
 ## How fast is this?
 
-Fast enough. Here are some benchmarks.
+Pretty freaking fast. Here are some benchmarks from Google PageSpeed, Blitz.io, and Web Page Test.
+
+System setup:
+* Single Heroku dyno
+* Default Wordpress installation
+* Default twentytwelve theme
+* Caching turned up
+* Cron disabled
+* Memcachier + ClearDB
+
+I periodically rerun these tests on [Wordpress on Heroku](http://wordpress-on-heroku.herokuapp.com).
 
 ### Google PageSpeed
 
@@ -178,9 +200,11 @@ Results from PageSpeed Insights: 94/100
 
 ### blitz.io
 
-Results from a blitz.io rush on a single Heroku dyno:
+Results from a blitz.io rush
 
 ![Blitz.io rush](https://s3.amazonaws.com/heroku-buildpack-wordpress/woh-blitz-details.png)
+
+Over 200 page views per second with less than 100ms response time sustained over a minute.
 
 [See the Blitz.io report](https://www.blitz.io/report/541eb908b4ef3eec8d9c2ce2293a85ca)
 
@@ -218,6 +242,8 @@ Not comfortable downloading and running a copy of someone else's PHP or Nginx ex
 * Automate vendor upgrades. Make it easy to keep in sync with latest Nginx, PHP, and Wordpress.
 * End-users shouldn't be able to do things that aren't supported on Heroku.
 * Integrate New Relic.
+* CDN support.
+* Intuitive project template layout.
 
 ## Authors and Contributors
 
