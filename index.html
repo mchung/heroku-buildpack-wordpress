@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Heroku buildpack: Wordpress by mchung</title>
+    <title>Wordpress on Heroku by mchung</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -31,16 +31,17 @@
 
       <section>
         <div id="title">
-          <h1>Heroku buildpack: Wordpress</h1>
+          <h1>Wordpress on Heroku</h1>
           <p>Deploy Wordpress to Heroku in &lt; 60 seconds or your money back</p>
           <hr>
           <span class="credits left">Project maintained by <a href="https://github.com/mchung">mchung</a></span>
           <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
         </div>
 
-        <h1>Heroku buildpack: Wordpress</h1>
+        <h1>Heroku buildpack: Wordpress on Heroku</h1>
 
-<p>This is a Heroku buildpack for <a href="http://wordpress.org">Wordpress</a>.</p>
+<h3>This is a Heroku buildpack for running <a href="http://wordpress.org">Wordpress</a> on <a href="http://heroku.com">Heroku</a>
+</h3>
 
 <p>It uses this <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress</a> project template to bootstrap a highly tuned Wordpress site built on the following stack:</p>
 
@@ -57,7 +58,9 @@
 <code>Sendgrid</code> - Sendgrid for the email backend.</li>
 <li>
 <code>MemCachier</code> - MemCachier for the memcached backend.</li>
-</ul><h2>Getting started in 60 seconds</h2>
+</ul><p>You can see a live demo at <a href="http://wordpress-on-heroku.herokuapp.com">Wordpress on Heroku</a>.</p>
+
+<h2>Getting started in 60 seconds</h2>
 
 <p>Fork this <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress project template</a>.</p>
 
@@ -100,47 +103,14 @@
 </pre></div>
 
 <blockquote>
-<p>Don't forget to <a href="https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku">add your site to the wiki</a></p>
+<p>Don't forget to add your site to the <a href="https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku">list of Wordpress sites runnning Heroku</a> wiki entry.</p>
 </blockquote>
 
 <h2>Overview</h2>
 
-<p>The buildpack bootstraps a Wordpress site using the <a href="http://github.com/mchung/wordpress-on-heroku">mchung/wordpress-on-heroku</a> project template.  That repo contains everything required to configure Wordpress on Heroku.</p>
+<p>The buildpack bootstraps a Wordpress site using the <a href="http://github.com/mchung/wordpress-on-heroku">mchung/wordpress-on-heroku</a> project template.  That repo contains everything required to run your own Wordpress site on Heroku.</p>
 
-<p>Enabling and configuring the following Wordpress plugins will also speed things up significantly.</p>
-
-<ul>
-<li>
-<code>heroku-sendgrid</code> - Instructs phpmailer to send SMTP email with Sendgrid.
-
-<ul>
-<li>EMAIL_REPLY_TO=<a href="mailto:alfred@example.com">alfred@example.com</a>
-</li>
-<li>EMAIL_FROM=<a href="mailto:batman@example.com">batman@example.com</a>
-</li>
-<li>EMAIL_NAME=Bruce Wayne</li>
-</ul>
-</li>
-<li>
-<code>heroku-google-analytics</code> - Adds Google Analytics to your site.
-
-<ul>
-<li>GOOG_UA_ID=UA-9999999</li>
-</ul>
-</li>
-<li>
-<code>wpro</code> - Instructs Wordpress to upload everything to S3.</li>
-<li>
-<code>batcache</code> - Instructs Wordpress to use memcached for caching.</li>
-<li>
-<code>memcachier</code> - Depend on a modern memcached plugin.</li>
-<li>
-<code>cloudflare</code> - OPTIONAL, but awesome.  If Cloudflare is installed, the plugin instructs Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  Keep in mind that the free version doesn't support SSL.</li>
-</ul><blockquote>
-<p>To set a config variable: <code>heroku config:set GOOG_UA_ID=UA=1234777-9</code></p>
-</blockquote>
-
-<p>There are also several config files for configuring Wordpress on Heroku.</p>
+<p>There are several files available in <code>setup</code> for configuring your new Wordpress site.</p>
 
 <ul>
 <li>
@@ -155,7 +125,49 @@
 <code>php.ini</code> - PHP configuration</li>
 </ul><p>Feel free to hack on these files.  For example, to remove the PHP-FPM status page at <code>/status.html</code>, delete the directive from <code>nginx.conf.erb</code>.  Themes and plugins can be added and deployed to the <code>setup/wp-content</code> directory.</p>
 
-<h2>Usage</h2>
+<p>Whenever possible, I've pulled out hard coded settings from <code>wp-config.php</code> and made them available as a runtime environment variable. Now, as an owner, you may toggle those values using <code>heroku config:set</code>. Here's an incomplete list of settings:</p>
+
+<ul>
+<li><code>FORCE_SSL_LOGIN</code></li>
+<li><code>FORCE_SSL_ADMIN</code></li>
+<li><code>WP_CACHE</code></li>
+<li><code>DISABLE_WP_CRON</code></li>
+</ul><p>Please refer to the documentation from Wordpress for details.</p>
+
+<blockquote>
+<p>To set a config variable: <code>heroku config:set GOOG_UA_ID=UA=1234777-9</code></p>
+</blockquote>
+
+<p>Finally, enabling and configuring the following Wordpress plugins will also speed up Wordpress on Heroku significantly.</p>
+
+<ul>
+<li>
+<code>heroku-sendgrid</code> - Configures phpmailer to send SMTP email with Sendgrid.
+
+<ul>
+<li>EMAIL_REPLY_TO=<a href="mailto:alfred@example.com">alfred@example.com</a>
+</li>
+<li>EMAIL_FROM=<a href="mailto:batman@example.com">batman@example.com</a>
+</li>
+<li>EMAIL_NAME=Bruce Wayne</li>
+</ul>
+</li>
+<li>
+<code>heroku-google-analytics</code> - Configures Google Analytics to display on your Wordpress site.
+
+<ul>
+<li>GOOG_UA_ID=UA-9999999</li>
+</ul>
+</li>
+<li>
+<code>wpro</code> - Configures Wordpress to upload everything to S3.</li>
+<li>
+<code>batcache</code> - Configures Wordpress to use memcached for caching.</li>
+<li>
+<code>memcachier</code> - Use a modern memcached plugin.</li>
+<li>
+<code>cloudflare</code> - OPTIONAL, but very awesome.  If Cloudflare is installed, the plugin configures Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  Keep in mind that the free version doesn't support SSL, and you'll need to set both <code>FORCE_SSL_ADMIN</code> and <code>FORCE_SSL_LOGIN</code> to false in order to login.</li>
+</ul><h2>Usage</h2>
 
 <h3>Adding a custom domain name</h3>
 
@@ -251,7 +263,18 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <h2>How fast is this?</h2>
 
-<p>Fast enough. Here are some benchmarks.</p>
+<p>Pretty freaking fast. Here are some benchmarks from Google PageSpeed, Blitz.io, and Web Page Test.</p>
+
+<p>System setup:</p>
+
+<ul>
+<li>Single Heroku dyno</li>
+<li>Default Wordpress installation</li>
+<li>Default twentytwelve theme</li>
+<li>Caching turned up</li>
+<li>Cron disabled</li>
+<li>Memcachier + ClearDB</li>
+</ul><p>I periodically rerun these tests on <a href="http://wordpress-on-heroku.herokuapp.com">Wordpress on Heroku</a>.</p>
 
 <h3>Google PageSpeed</h3>
 
@@ -261,9 +284,11 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <h3>blitz.io</h3>
 
-<p>Results from a blitz.io rush on a single Heroku dyno:</p>
+<p>Results from a blitz.io rush</p>
 
 <p><img src="https://s3.amazonaws.com/heroku-buildpack-wordpress/woh-blitz-details.png" alt="Blitz.io rush"></p>
+
+<p>Over 200 page views per second with less than 100ms response time sustained over a minute.</p>
 
 <p><a href="https://www.blitz.io/report/541eb908b4ef3eec8d9c2ce2293a85ca">See the Blitz.io report</a></p>
 
@@ -305,6 +330,8 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 <li>Automate vendor upgrades. Make it easy to keep in sync with latest Nginx, PHP, and Wordpress.</li>
 <li>End-users shouldn't be able to do things that aren't supported on Heroku.</li>
 <li>Integrate New Relic.</li>
+<li>CDN support.</li>
+<li>Intuitive project template layout.</li>
 </ul><h2>Authors and Contributors</h2>
 
 <ul>
