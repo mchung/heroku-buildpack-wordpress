@@ -124,6 +124,10 @@ $ git push heroku master
 ```
 > Don't forget to activate it under the Plugins panel.
 
+### Adding custom secret keys to wp-config.php
+
+Use the [Wordpress.org Secret Keys Generator](https://api.wordpress.org/secret-key/1.1/salt/) to override the default ones in wp-config.php.
+
 ### Configuring cron
 By default, wp-cron is fired on every page load and scheduled to run jobs like future posts or backups.  This buildpack disables wp-cron so that visitors don't have to wait to see the site.
 
