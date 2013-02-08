@@ -208,6 +208,10 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 <p>Don't forget to activate it under the Plugins panel.</p>
 </blockquote>
 
+<h3> Adding custom secret keys to wp-config.php</h3>
+
+<p>Use the <a href="https://api.wordpress.org/secret-key/1.1/salt/">Wordpress.org Secret Keys Generator</a> to override the default ones in wp-config.php.</p>
+
 <h3>Configuring cron</h3>
 
 <p>By default, wp-cron is fired on every page load and scheduled to run jobs like future posts or backups.  This buildpack disables wp-cron so that visitors don't have to wait to see the site.</p>
