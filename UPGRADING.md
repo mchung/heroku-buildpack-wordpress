@@ -29,19 +29,15 @@ The long term fix is to update your project template to match the latest layout
 # Put your site into maintenance mode
 $ heroku maintenance:on
 
-# Merge with upstream.
-$ git co -b upgrading
-$ git remote add upstream https://github.com/mchung/wordpress-on-heroku.git
-$ git pull --rebase upstream master
+# Assumes production and upstream branches
+$ git co master
+$ git fetch origin -v; git fetch upstream -v; git merge upstream/master
 
 # Do the merge work
-$ git rebase --continue   # this might repeat a few times (sorry)
-# resolve conflicts. this might repeat a few times (sorry).
+# resolve conflicts.
 # move stuff into appropriate directories.
-# move `wp-config.php` into `config/public`.
 # move themes & plugins into config.
 # move any changed files into config.
-# merge any of your custom settings into vendor/php or vendor/nginx
 # make sure nothing else is in the root directory.
 # update heroku configs if necessary
 
@@ -54,9 +50,7 @@ $ heroku config:set PATH=/app/bin:/app/vendor/nginx/sbin:/app/vendor/php/bin:/ap
 $ heroku config:set WP_CACHE=true
 
 # GOod to go? Merge it all in.
-$ git co master
-$ git rebase -i upgrading
-$ git push heroku master
+$ git push -f heroku production:master
 
 # Take your site out of maintenance mode
 $ heroku maintenance:off
