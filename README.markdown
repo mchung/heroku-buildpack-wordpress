@@ -91,9 +91,6 @@ Please refer to the documentation from Wordpress for details.
 Finally, enabling and configuring the following Wordpress plugins will also speed up Wordpress on Heroku significantly.
 
 * `heroku-sendgrid` - Configures phpmailer to send SMTP email with Sendgrid.
-  * EMAIL_REPLY_TO=alfred@example.com
-  * EMAIL_FROM=batman@example.com
-  * EMAIL_NAME=Bruce Wayne
 * `heroku-google-analytics` - Configures Google Analytics to display on your Wordpress site.
   * GOOG_UA_ID=UA-9999999
 * `wpro` - Configures Wordpress to upload everything to S3.
