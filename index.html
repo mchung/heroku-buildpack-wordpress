@@ -64,7 +64,7 @@
 
 <p>Fork this <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress project template</a>.</p>
 
-<p>Clone the repository</p>
+<p>Clone the repository.</p>
 
 <div class="highlight"><pre><span class="nv">$ </span>git clone git://github.com/username/wordpress-on-heroku.git myblog
 </pre></div>
@@ -80,7 +80,7 @@
 <p>Don't have the Heroku Toolbelt installed? Follow these <a href="https://devcenter.heroku.com/articles/quickstart">quickstart instructions</a>. Takes about 2 minutes.</p>
 </blockquote>
 
-<p>Deploy your Wordpress site to Heroku</p>
+<p>Deploy your Wordpress site to Heroku.</p>
 
 <div class="highlight"><pre><span class="nv">$ </span>git push heroku master
 ...
@@ -97,7 +97,7 @@
 -----&gt; Launching... <span class="k">done</span>, v7
 </pre></div>
 
-<p>Open your new Wordpress site in a web browser</p>
+<p>Open your new Wordpress site in a web browser.</p>
 
 <div class="highlight"><pre><span class="nv">$ </span>heroku apps:open
 </pre></div>
@@ -110,20 +110,23 @@
 
 <p>The buildpack bootstraps a Wordpress site using the <a href="http://github.com/mchung/wordpress-on-heroku">mchung/wordpress-on-heroku</a> project template.  That repo contains everything required to run your own Wordpress site on Heroku.</p>
 
-<p>There are several files available in <code>setup</code> for configuring your new Wordpress site.</p>
+<p>There are several files available in <code>config</code> for configuring your new Wordpress site.</p>
 
-<ul>
-<li>
-<code>wp-content</code> - Wordpress themes and plugins</li>
-<li>
-<code>wp-config.php</code> - Wordpress configuration</li>
-<li>
-<code>nginx.conf.erb</code> - Nginx configuration</li>
-<li>
-<code>php-fpm.conf</code> - PHP-FPM configuration</li>
-<li>
-<code>php.ini</code> - PHP configuration</li>
-</ul><p>Feel free to hack on these files.  For example, to remove the PHP-FPM status page at <code>/status.html</code>, delete the directive from <code>nginx.conf.erb</code>.  Themes and plugins can be added and deployed to the <code>setup/wp-content</code> directory.</p>
+<pre><code>└── config                # Your config files goes here.
+    ├── public            # The public directory
+    │   └── wp-content    # Wordpress themes and plugins
+    │       ├── plugins
+    │       └── themes
+    └── vendor            # Config files for vendored apps
+        ├── nginx
+        │   └── conf      # nginx.conf + your site.conf
+        └── php
+            └── etc       # php.ini &amp; php-fpm.conf
+</code></pre>
+
+<p>When you deploy Wordpress to Heroku, the <code>bin/compile</code> script will copy everything in <code>config</code> over to the main runtime folder (<code>/app</code>), overwriting the defaults with these config files.</p>
+
+<p>Feel free to hack on these files.  For example, to remove the PHP-FPM status page at <code>/status.html</code>, delete the directive from <code>nginx.conf.erb</code>.  Themes and plugins can be added and deployed to the <code>config/public/wp-content</code> directory.</p>
 
 <p>Whenever possible, I've pulled out hard coded settings from <code>wp-config.php</code> and made them available as a runtime environment variable. Now, as an owner, you may toggle those values using <code>heroku config:set</code>. Here's an incomplete list of settings:</p>
 
@@ -135,7 +138,7 @@
 </ul><p>Please refer to the documentation from Wordpress for details.</p>
 
 <blockquote>
-<p>To set a config variable: <code>heroku config:set GOOG_UA_ID=UA=1234777-9</code></p>
+<p>To add a Heroku environment variable: <code>heroku config:set GOOG_UA_ID=UA=1234777-9</code></p>
 </blockquote>
 
 <p>Finally, enabling and configuring the following Wordpress plugins will also speed up Wordpress on Heroku significantly.</p>
@@ -187,7 +190,7 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <h3>Adding a theme</h3>
 
-<div class="highlight"><pre><span class="nv">$ </span>cp -r appply setup/wp-content/themes/
+<div class="highlight"><pre><span class="nv">$ </span>cp -r appply config/public/wp-content/themes/
 <span class="nv">$ </span>git add .
 <span class="nv">$ </span>git commit -m <span class="s2">"New theme"</span>
 <span class="nv">$ </span>git push heroku master
@@ -195,7 +198,7 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <h3>Adding a plugin</h3>
 
-<div class="highlight"><pre><span class="nv">$ </span>cp -r google-analytics setup/wp-content/plugins/
+<div class="highlight"><pre><span class="nv">$ </span>cp -r google-analytics config/public/wp-content/plugins/
 <span class="nv">$ </span>git add .
 <span class="nv">$ </span>git commit -m <span class="s2">"New plugin"</span>
 <span class="nv">$ </span>git push heroku master
@@ -209,7 +212,7 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <p>By default, wp-cron is fired on every page load and scheduled to run jobs like future posts or backups.  This buildpack disables wp-cron so that visitors don't have to wait to see the site.</p>
 
-<p>Heroku allows you to trigger wp-cron from their scheduler</p>
+<p>Heroku allows you to trigger wp-cron from their scheduler.</p>
 
 <div class="highlight"><pre><span class="nv">$ </span>heroku addons:add scheduler:standard
 
@@ -217,7 +220,7 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 ./cron.sh
 </pre></div>
 
-<p>Alternatively, you may also re-enable wp-cron</p>
+<p>Alternatively, you may also re-enable wp-cron.</p>
 
 <div class="highlight"><pre><span class="nv">$ </span>heroku config:set <span class="nv">DISABLE_WP_CRON</span><span class="o">=</span><span class="nb">false</span>
 </pre></div>
@@ -248,7 +251,7 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 <span class="c"># This keeps upstream changes separate from blog changes.</span>
 </pre></div>
 
-<p>Pull changes from upstream into <code>master</code></p>
+<p>Pull changes from upstream into <code>master</code>.</p>
 
 <div class="highlight"><pre><span class="nv">$ </span>git co master
 <span class="nv">$ </span>git pull
@@ -256,16 +259,16 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 <span class="nv">$ </span>git merge master
 </pre></div>
 
-<p>Pull changes from upstream into <code>production</code></p>
+<p>Pull changes from upstream into <code>production</code>.</p>
 
 <div class="highlight"><pre><span class="nv">$ </span>git pull --rebase upstream master
 </pre></div>
 
 <h2>How fast is this?</h2>
 
-<p>Pretty freaking fast. Here are some benchmarks from Google PageSpeed, Blitz.io, and Web Page Test.</p>
+<p>Pretty freaking fast.</p>
 
-<p>System setup:</p>
+<p>System setup</p>
 
 <ul>
 <li>Single Heroku dyno</li>
@@ -274,7 +277,7 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 <li>Caching turned up</li>
 <li>Cron disabled</li>
 <li>Memcachier + ClearDB</li>
-</ul><p>I periodically rerun these tests on <a href="http://wordpress-on-heroku.herokuapp.com">Wordpress on Heroku</a>.</p>
+</ul><p>Here are some benchmarks from Google PageSpeed, Blitz.io, and Web Page Test.</p>
 
 <h3>Google PageSpeed</h3>
 
@@ -288,7 +291,7 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <p><img src="https://s3.amazonaws.com/heroku-buildpack-wordpress/woh-blitz-details.png" alt="Blitz.io rush"></p>
 
-<p>Over 200 page views per second with less than 100ms response time sustained over a minute.</p>
+<p>Over 200 page views per second with less than 100ms response time sustained for a minute.</p>
 
 <p><a href="https://www.blitz.io/report/541eb908b4ef3eec8d9c2ce2293a85ca">See the Blitz.io report</a></p>
 
@@ -297,6 +300,8 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 <p><img src="https://s3.amazonaws.com/heroku-buildpack-wordpress/woh-webpagetest-details.png" alt="Results from WebPageTest"></p>
 
 <p><a href="http://www.webpagetest.org/result/130201_BB_624/">See the WebPageTest report</a></p>
+
+<p>These tests are periodically rerun on <a href="http://wordpress-on-heroku.herokuapp.com">Wordpress on Heroku</a>.</p>
 
 <h2>But doesn't Heroku only run Ruby applications?</h2>
 
@@ -308,10 +313,10 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <ul>
 <li>End-users cannot upload media assets to Heroku. WORKAROUND: Enable <code>wpro</code> and use that plugin to upload media assets to S3 instead.</li>
-<li>End-users cannot update themes or plugins from the admin page. WORKAROUND: Add them to <code>setup/wp-content/themes</code> or <code>setup/wp-content/plugins</code> then push to Heroku.</li>
+<li>End-users cannot update themes or plugins from the admin page. WORKAROUND: Add them to <code>config/public/wp-content/themes</code> or <code>config/public/wp-content/plugins</code> then push to Heroku.</li>
 </ul><h2>Security disclosure</h2>
 
-<p>Each time Wordpress is deployed, Heroku will fetch the latest buildpack from GitHub and execute the instructions in <code>compile</code> and <code>deploy</code>.  This buildpack will download the latest precompiled versions of Nginx, PHP, and Wordpress from my personal <a href="http://heroku-buildpack-wordpress.s3.amazonaws.com">S3 bucket</a> then add in config files from the <a href="https://github.com/mchung/wordpress-on-heroku/tree/master/setup"><code>setup</code></a> directory.</p>
+<p>Each time Wordpress is deployed, Heroku will fetch the latest buildpack from GitHub and execute the instructions in <code>compile</code> and <code>deploy</code>.  This buildpack will download the latest precompiled versions of Nginx, PHP, and Wordpress from my personal <a href="http://heroku-buildpack-wordpress.s3.amazonaws.com">S3 bucket</a> then add in config files from the <a href="https://github.com/mchung/wordpress-on-heroku/tree/master/config"><code>config</code></a> directory.</p>
 
 <h2>Hacking and Contributing</h2>
 
@@ -328,10 +333,10 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <ul>
 <li>Automate vendor upgrades. Make it easy to keep in sync with latest Nginx, PHP, and Wordpress.</li>
-<li>End-users shouldn't be able to do things that aren't supported on Heroku.</li>
+<li>End-users shouldn't be able to do things that aren't supported on Heroku. Write plugins to hide everything.</li>
 <li>Integrate New Relic.</li>
 <li>CDN support.</li>
-<li>Intuitive project template layout.</li>
+<li>Combine CSS/JS files</li>
 </ul><h2>Authors and Contributors</h2>
 
 <ul>
