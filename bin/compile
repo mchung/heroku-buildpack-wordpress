@@ -5,10 +5,27 @@ set -e
 set -o pipefail
 
 # START CONFIG
-NGINX_VERSION=1.3.11
-PHP_VERSION=5.4.11
-WORDPRESS_VERSION=3.5.1
-S3_BUCKET=heroku-buildpack-wordpress
+
+# Support end-user configured NGINX_VERSION, PHP_VERSION, WORDPRESS_VERSION
+# and S3_BUCKET environment variables. This way, end-users can choose exactly
+# which versions to run with. Requires user-env-compile.
+
+if [ -z "$NGINX_VERSION" ]; then
+  NGINX_VERSION=1.4.1
+fi
+
+if [ -z "$PHP_VERSION" ]; then
+  PHP_VERSION=5.4.11
+fi
+
+if [ -z "$WORDPRESS_VERSION" ]; then
+  WORDPRESS_VERSION=3.5.1
+fi
+
+if [ -z "$S3_BUCKET" ]; then
+  S3_BUCKET=heroku-buildpack-wordpress
+fi
+
 # END CONFIG
 
 #
