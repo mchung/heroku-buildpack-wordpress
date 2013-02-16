@@ -22,7 +22,7 @@ Clone the repository.
 $ git clone git://github.com/username/photosofcats.com.git photosofcats
 ```
 
-Create the app on Heroku.
+Create Wordpress on Heroku.
 ```bash
 $ cd photosofcats
 $ heroku create -s cedar
@@ -102,6 +102,15 @@ Finally, enabling and configuring the following Wordpress plugins will also spee
 
 ## Usage
 
+### Creating your Wordpress site on Heroku
+```bash
+$ git clone git://github.com/username/wordpress-on-heroku.git myblog
+$ cd myblog
+$ heroku create -s cedar
+$ heroku config:add BUILDPACK_URL=https://github.com/mchung/heroku-buildpack-wordpress.git
+$ git push heroku master
+```
+
 ### Adding a custom domain name
 ```bash
 $ heroku domains:add marcchung.org
@@ -160,6 +169,10 @@ $ heroku config:set SYSTEM_USERNAME=admin
 $ heroku config:set SYSTEM_PASSWORD=secret123
 # Visit /apc.php or /phpinfo.php
 ```
+
+### Choosing specific versions of vendored packages
+
+See [VERSIONS](VERSIONS.md) for how to pick specific versions of Nginx, PHP, and Wordpress
 
 ### Workflow (optional)
 
@@ -253,7 +266,6 @@ Not comfortable downloading and running a copy of someone else's PHP or Nginx ex
 
 ## TODO
 
-* Automate vendor upgrades. Make it easy to keep in sync with latest Nginx, PHP, and Wordpress.
 * End-users shouldn't be able to do things that aren't supported on Heroku. Write plugins to hide everything.
 * Integrate New Relic.
 * CDN support.
