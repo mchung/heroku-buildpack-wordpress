@@ -1,4 +1,4 @@
-Here's a list of vendored Nginx and PHP packages made available by this buildpack.  They are hosted on S3 and maintained by @mchung.
+This is a list of vendored Nginx and PHP packages made available by this buildpack.  They are hosted on S3 and maintained by @mchung.
 
 Nginx
 * 1.5.0 (development)
@@ -18,8 +18,8 @@ Wordpress (downloaded directly from [Wordpress](http://wordpress.org/download/re
 Here's how to configure Wordpress on Heroku to use specific versions of Nginx and PHP:
 
 ```bash
-$ git clone git://github.com/mchung/wordpress-on-heroku.git custom-wp
-$ cd custom-wp
+$ git clone git://github.com/your_name/wordpress-on-heroku.git mydogblog
+$ cd mydogblog
 $ heroku create -s cedar
 $ heroku labs:enable user-env-compile
 $ heroku config:set NGINX_VERSION=1.5.0
