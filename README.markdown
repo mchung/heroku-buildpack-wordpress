@@ -22,7 +22,7 @@ Clone the repository.
 $ git clone git://github.com/username/photosofcats.com.git photosofcats
 ```
 
-Create the app on Heroku.
+Create Wordpress on Heroku.
 ```bash
 $ cd photosofcats
 $ heroku create -s cedar
@@ -74,6 +74,8 @@ There are several files available in `config` for configuring your new Wordpress
 
 When you deploy Wordpress to Heroku, the `bin/compile` script will copy everything in `config` over to the main runtime folder (`/app`), overwriting the defaults with these config files.
 
+> Want to add a `favicon.ico` drop one into `public`. See [#22](https://github.com/mchung/heroku-buildpack-wordpress/issues/22) for details.
+
 Feel free to hack on these files.  For example, to remove the PHP-FPM status page at `/status.html`, delete the directive from `nginx.conf.erb`.  Themes and plugins can be added and deployed to the `config/public/wp-content` directory.
 
 Whenever possible, I've pulled out hard coded settings from `wp-config.php` and made them available as a runtime environment variable. Now, as an owner, you may toggle those values using `heroku config:set`. Here's an incomplete list of settings:
@@ -99,6 +101,15 @@ Finally, enabling and configuring the following Wordpress plugins will also spee
 * `cloudflare` - OPTIONAL, but very awesome.  If Cloudflare is installed, the plugin configures Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  Keep in mind that the free version doesn't support SSL, and you'll need to set both `FORCE_SSL_ADMIN` and `FORCE_SSL_LOGIN` to false in order to login.
 
 ## Usage
+
+### Creating your Wordpress site on Heroku
+```bash
+$ git clone git://github.com/username/wordpress-on-heroku.git myblog
+$ cd myblog
+$ heroku create -s cedar
+$ heroku config:add BUILDPACK_URL=https://github.com/mchung/heroku-buildpack-wordpress.git
+$ git push heroku master
+```
 
 ### Adding a custom domain name
 ```bash
@@ -158,6 +169,10 @@ $ heroku config:set SYSTEM_USERNAME=admin
 $ heroku config:set SYSTEM_PASSWORD=secret123
 # Visit /apc.php or /phpinfo.php
 ```
+
+### Choosing specific versions of vendored packages
+
+See [VERSIONS](VERSIONS.md) for how to pick specific versions of Nginx, PHP, and Wordpress
 
 ### Workflow (optional)
 
@@ -251,7 +266,6 @@ Not comfortable downloading and running a copy of someone else's PHP or Nginx ex
 
 ## TODO
 
-* Automate vendor upgrades. Make it easy to keep in sync with latest Nginx, PHP, and Wordpress.
 * End-users shouldn't be able to do things that aren't supported on Heroku. Write plugins to hide everything.
 * Integrate New Relic.
 * CDN support.
