@@ -74,6 +74,8 @@ There are several files available in `config` for configuring your new Wordpress
 
 When you deploy Wordpress to Heroku, the `bin/compile` script will copy everything in `config` over to the main runtime folder (`/app`), overwriting the defaults with these config files.
 
+> Want to add a `favicon.ico` drop one into `public`. See [#22](https://github.com/mchung/heroku-buildpack-wordpress/issues/22) for details.
+
 Feel free to hack on these files.  For example, to remove the PHP-FPM status page at `/status.html`, delete the directive from `nginx.conf.erb`.  Themes and plugins can be added and deployed to the `config/public/wp-content` directory.
 
 Whenever possible, I've pulled out hard coded settings from `wp-config.php` and made them available as a runtime environment variable. Now, as an owner, you may toggle those values using `heroku config:set`. Here's an incomplete list of settings:
