@@ -15,19 +15,20 @@ You can see a live demo at [Wordpress on Heroku](http://wordpress-on-heroku.hero
 
 ## Getting started in 60 seconds
 
-Fork and rename this [Wordpress project template](http://github.com/mchung/wordpress-on-heroku). i.e. Rename it to something like photosofcats.com
+Fork and rename the [Wordpress project template](http://github.com/mchung/wordpress-on-heroku).
 
-Clone the repository.
+Let's clone the repository for a new blog, 99catfacts.com
 ```bash
-$ git clone git://github.com/username/photosofcats.com.git photosofcats
+$ git clone git://github.com/your_name/wordpress-on-heroku.git 99catfacts.com
 ```
 
 Create Wordpress on Heroku.
 ```bash
-$ cd photosofcats
+$ cd 99catfacts.com
 $ heroku create -s cedar
 $ heroku config:add BUILDPACK_URL=https://github.com/mchung/heroku-buildpack-wordpress.git
 ```
+
 > Don't have the Heroku Toolbelt installed? Follow these [quickstart instructions](https://devcenter.heroku.com/articles/quickstart). Takes about 2 minutes.
 
 Deploy your Wordpress site to Heroku.
@@ -51,7 +52,8 @@ Open your new Wordpress site in a web browser.
 ```bash
 $ heroku apps:open
 ```
-> Don't forget to add your site to the [list of Wordpress sites runnning Heroku](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku) wiki entry.
+
+> Happy? Add your site to the growing [list of Wordpress sites runnning on Heroku](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku).
 
 ## Overview
 
@@ -72,25 +74,20 @@ There are several files available in `config` for configuring your new Wordpress
             └── etc       # php.ini & php-fpm.conf
 ```
 
-When you deploy Wordpress to Heroku, the `bin/compile` script will copy everything in `config` over to the main runtime folder (`/app`), overwriting the defaults with these config files.
+When you deploy Wordpress to Heroku, everything in `config` is copied over to Heroku.  You can configure your blog by making changes to these files.
 
-> Want to add a `favicon.ico` drop one into `public`. See [#22](https://github.com/mchung/heroku-buildpack-wordpress/issues/22) for details.
-
-Feel free to hack on these files.  For example, to remove the PHP-FPM status page at `/status.html`, delete the directive from `nginx.conf.erb`.  Themes and plugins can be added and deployed to the `config/public/wp-content` directory.
-
-Whenever possible, I've pulled out hard coded settings from `wp-config.php` and made them available as a runtime environment variable. Now, as an owner, you may toggle those values using `heroku config:set`. Here's an incomplete list of settings:
+A few Wordpress environment variables can be controlled via Heroku using `heroku config:set`:
 
 * `FORCE_SSL_LOGIN`
 * `FORCE_SSL_ADMIN`
 * `WP_CACHE`
 * `DISABLE_WP_CRON`
 
-Please refer to the documentation from Wordpress for details.
-
 > To add a Heroku environment variable: `heroku config:set GOOG_UA_ID=UA=1234777-9`
 
+See `wp-config.php` and documentation from Wordpress for details.
 
-Finally, enabling and configuring the following Wordpress plugins will also speed up Wordpress on Heroku significantly.
+Enabling and configuring the following Wordpress plugins will also speed up Wordpress on Heroku significantly.
 
 * `heroku-sendgrid` - Configures phpmailer to send SMTP email with Sendgrid.
 * `heroku-google-analytics` - Configures Google Analytics to display on your Wordpress site.
@@ -98,7 +95,9 @@ Finally, enabling and configuring the following Wordpress plugins will also spee
 * `wpro` - Configures Wordpress to upload everything to S3.
 * `batcache` - Configures Wordpress to use memcached for caching.
 * `memcachier` - Use a modern memcached plugin.
-* `cloudflare` - OPTIONAL, but very awesome.  If Cloudflare is installed, the plugin configures Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  Keep in mind that the free version doesn't support SSL, and you'll need to set both `FORCE_SSL_ADMIN` and `FORCE_SSL_LOGIN` to false in order to login.
+* `cloudflare` - OPTIONAL, but very awesome.
+ * If Cloudflare is installed, the plugin configures Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.
+ * Keep in mind that the free version doesn't support SSL, so you'll need to set both `FORCE_SSL_ADMIN` and `FORCE_SSL_LOGIN` to false in order to login.
 
 ## Usage
 
@@ -139,7 +138,7 @@ $ git add .
 $ git commit -m "New plugin"
 $ git push heroku master
 ```
-> Don't forget to activate it under the Plugins panel.
+> Plugins and themes must be activated via the Plugins panel.
 
 ### Adding custom secret keys to wp-config.php
 
@@ -170,6 +169,13 @@ $ heroku config:set SYSTEM_PASSWORD=secret123
 # Visit /apc.php or /phpinfo.php
 ```
 
+### Remove the PHP-FPM status page `/status.html`
+Delete the directive from `nginx.conf.erb`.
+
+### Add a `favicon.ico` drop one into `public`
+See [#22](https://github.com/mchung/heroku-buildpack-wordpress/issues/22) for details.
+
+
 ### Choosing specific versions of vendored packages
 
 See [VERSIONS](VERSIONS.md) for how to pick specific versions of Nginx, PHP, and Wordpress
@@ -180,14 +186,14 @@ By keeping your changes separate, it'll be easier to pull in changes from the Wo
 
 Assign a remote `upstream`
 ```bash
-$ git remote add upstream https://github.com/mchung/wordpress-on-heroku.git
+$ git remote add upstream https://github.com/your_name/wordpress-on-heroku.git
 ```
 
 Track changes in a separate branch called `production`.
 ```bash
 $ git checkout -B production
 $ git push heroku production:master
-# This keeps upstream changes separate from blog changes.
+# This keeps upstream (my) changes separate from (your) blog changes.
 ```
 
 Pull changes from upstream into `master`.
@@ -273,11 +279,13 @@ Not comfortable downloading and running a copy of someone else's PHP or Nginx ex
 
 ## Authors and Contributors
 
-* Marc Chung - [@mchung](https://github.com/mchung) on GitHub and [@heisenthought](https://twitter.com/heisenthought) on Twitter
+* Marc Chung - Follow [@mchung](https://github.com/mchung) on GitHub and also [@heisenthought](https://twitter.com/heisenthought) on Twitter
 
 ## Thanks
 
-Thanks for reading this all the way through. If you find this useful, please add an entry to the [list of Wordpress sites running on Heroku](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku).
+Thanks for reading this all the way through.
+
+If you use this buildpack in production, please update the [list of Wordpress sites running on Heroku](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku).
 
 ## License
 
