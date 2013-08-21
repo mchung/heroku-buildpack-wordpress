@@ -66,7 +66,14 @@ fi
 echo "-----> Installing Wordpress v${WORDPRESS_VERSION}"
 cd ${BUILD_DIR}
 curl --silent --max-time 60 --location $WORDPRESS_URL | tar xz
-mv wordpress public
+
+# Support installation of WordPress into an other directory than docroot
+if [ "$WORDPRESS_DIR" ]; then
+  mkdir -p "public/$WORDPRESS_DIR"
+  mv wordpress "public/$WORDPRESS_DIR"
+else
+  mv wordpress public
+fi
 
 echo "-----> Writing start.sh script"
 mkdir -p ${BUILD_DIR}/bin
