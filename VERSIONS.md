@@ -2,16 +2,19 @@ This is a list of vendored Nginx and PHP packages made available by this buildpa
 
 Nginx
 * 1.5.0 (development)
+* 1.4.2 (stable)
 * 1.4.1 (stable)
 * 1.3.12 (development)
 * 1.3.11 (development)
 * 1.2.7 (stable)
 
 PHP
+* 5.5.2 (5.5-stable)
 * 5.4.11 (5.4-stable)
 * 5.3.9 (5.3-stable)
 
-Wordpress (downloaded directly from [Wordpress](http://wordpress.org/download/release-archive/)
+Wordpress *downloaded directly* from [Wordpress](http://wordpress.org/download/release-archive/)
+* 3.6
 * 3.5.1
 * 3.5.0
 

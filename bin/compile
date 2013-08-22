@@ -11,11 +11,11 @@ set -o pipefail
 # which versions to run with. Requires user-env-compile.
 
 if [ -z "$NGINX_VERSION" ]; then
-  NGINX_VERSION=1.4.1
+  NGINX_VERSION=1.4.2
 fi
 
 if [ -z "$PHP_VERSION" ]; then
-  PHP_VERSION=5.4.11
+  PHP_VERSION=5.5.2
 fi
 
 if [ -z "$WORDPRESS_VERSION" ]; then
