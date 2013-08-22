@@ -67,8 +67,7 @@ vulcan build -v -s php-$PHP_VERSION -o $tempdir/php-$PHP_VERSION-with-fpm-heroku
                 --without-sqlite3 \
                 && make install \
                 && /app/vendor/php/bin/pear config-set php_dir /app/vendor/php \
-                && yes '' | /app/vendor/php/bin/pecl install memcache \
-                && yes '' | /app/vendor/php/bin/pecl install apc-3.1.14"
+                && yes '' | /app/vendor/php/bin/pecl install memcache"
 
 # upload to s3
 $basedir/aws/s3 put $S3_BUCKET php-$PHP_VERSION-with-fpm-heroku.tar.gz $tempdir/php-$PHP_VERSION-with-fpm-heroku.tar.gz
