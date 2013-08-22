@@ -11,9 +11,6 @@ addons:
   - papertrail:choklad
 config_vars:
   PATH: /app/bin:/app/vendor/nginx/sbin:/app/vendor/php/bin:/app/vendor/php/sbin:/usr/local/bin:/usr/bin:/bin
-  EMAIL_REPLY_TO: email@example.com
-  EMAIL_FROM: email@example.com
-  EMAIL_NAME: Clark Kent
   ENABLE_SYSTEM_ACCESS: false
   FORCE_SSL_LOGIN: true
   FORCE_SSL_ADMIN: true
