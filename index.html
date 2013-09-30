@@ -35,23 +35,25 @@
           <p>Deploy Wordpress to Heroku in &lt; 60 seconds or your money back</p>
           <hr>
           <span class="credits left">Project maintained by <a href="https://github.com/mchung">mchung</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
         </div>
 
-        <h1>Heroku buildpack: Wordpress on Heroku</h1>
+        <h1>
+<a name="heroku-buildpack-wordpress-on-heroku" class="anchor" href="#heroku-buildpack-wordpress-on-heroku"><span class="octicon octicon-link"></span></a>Heroku buildpack: Wordpress on Heroku</h1>
 
-<h3>This is a Heroku buildpack for running <a href="http://wordpress.org">Wordpress</a> on <a href="http://heroku.com">Heroku</a>
+<h3>
+<a name="this-is-a-heroku-buildpack-for-running-wordpress-on-heroku" class="anchor" href="#this-is-a-heroku-buildpack-for-running-wordpress-on-heroku"><span class="octicon octicon-link"></span></a>This is a Heroku buildpack for running <a href="http://wordpress.org">Wordpress</a> on <a href="http://heroku.com">Heroku</a>
 </h3>
 
 <p>It uses this <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress</a> project template to bootstrap a highly tuned Wordpress site built on the following stack:</p>
 
 <ul>
 <li>
-<code>nginx-1.3.11</code> - Nginx for serving web content.  Built specifically for Heroku.  <a href="https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx">See compile options</a>.</li>
+<code>nginx</code> - Nginx for serving web content.  Built specifically for Heroku.  <a href="https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx">See compile options</a>.</li>
 <li>
-<code>php-5.4.11</code> - PHP-FPM for process management and APC for caching opcodes.  <a href="https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php">See compile options</a>.</li>
+<code>php</code> - PHP-FPM for process management.  <a href="https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php">See compile options</a>.</li>
 <li>
-<code>wordpress-3.5.1</code> - Downloaded directly <a href="http://wordpress.org/download/release-archive/">from wordpress.org</a>.</li>
+<code>wordpress</code> - Downloaded directly <a href="http://wordpress.org/download/release-archive/">from wordpress.org</a>.</li>
 <li>
 <code>MySQL</code> - ClearDB for the MySQL backend.</li>
 <li>
@@ -60,18 +62,19 @@
 <code>MemCachier</code> - MemCachier for the memcached backend.</li>
 </ul><p>You can see a live demo at <a href="http://wordpress-on-heroku.herokuapp.com">Wordpress on Heroku</a>.</p>
 
-<h2>Getting started in 60 seconds</h2>
+<h2>
+<a name="getting-started-in-60-seconds" class="anchor" href="#getting-started-in-60-seconds"><span class="octicon octicon-link"></span></a>Getting started in 60 seconds</h2>
 
-<p>Fork this <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress project template</a>.</p>
+<p>Fork and rename the <a href="http://github.com/mchung/wordpress-on-heroku">Wordpress project template</a>.</p>
 
-<p>Clone the repository.</p>
+<p>Let's clone the repository for a new blog, 99catfacts.com</p>
 
-<div class="highlight"><pre><span class="nv">$ </span>git clone git://github.com/username/wordpress-on-heroku.git myblog
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>git clone git://github.com/your_name/wordpress-on-heroku.git 99catfacts.com
 </pre></div>
 
-<p>Create the app on Heroku.</p>
+<p>Create Wordpress on Heroku.</p>
 
-<div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>myblog
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span><span class="nb">cd </span>99catfacts.com
 <span class="nv">$ </span>heroku create -s cedar
 <span class="nv">$ </span>heroku config:add <span class="nv">BUILDPACK_URL</span><span class="o">=</span>https://github.com/mchung/heroku-buildpack-wordpress.git
 </pre></div>
@@ -82,7 +85,7 @@
 
 <p>Deploy your Wordpress site to Heroku.</p>
 
-<div class="highlight"><pre><span class="nv">$ </span>git push heroku master
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>git push heroku master
 ...
 -----&gt; Heroku receiving push
 -----&gt; Fetching custom git buildpack... <span class="k">done</span>
@@ -99,14 +102,15 @@
 
 <p>Open your new Wordpress site in a web browser.</p>
 
-<div class="highlight"><pre><span class="nv">$ </span>heroku apps:open
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>heroku apps:open
 </pre></div>
 
 <blockquote>
-<p>Don't forget to add your site to the <a href="https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku">list of Wordpress sites runnning Heroku</a> wiki entry.</p>
+<p>Happy? Add your site to the growing <a href="https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku">list of Wordpress sites runnning on Heroku</a>.</p>
 </blockquote>
 
-<h2>Overview</h2>
+<h2>
+<a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a>Overview</h2>
 
 <p>The buildpack bootstraps a Wordpress site using the <a href="http://github.com/mchung/wordpress-on-heroku">mchung/wordpress-on-heroku</a> project template.  That repo contains everything required to run your own Wordpress site on Heroku.</p>
 
@@ -124,24 +128,22 @@
             └── etc       # php.ini &amp; php-fpm.conf
 </code></pre>
 
-<p>When you deploy Wordpress to Heroku, the <code>bin/compile</code> script will copy everything in <code>config</code> over to the main runtime folder (<code>/app</code>), overwriting the defaults with these config files.</p>
+<p>When you deploy Wordpress to Heroku, everything in <code>config</code> is copied over to Heroku.  You can configure your blog by making changes to these files.</p>
 
-<p>Feel free to hack on these files.  For example, to remove the PHP-FPM status page at <code>/status.html</code>, delete the directive from <code>nginx.conf.erb</code>.  Themes and plugins can be added and deployed to the <code>config/public/wp-content</code> directory.</p>
-
-<p>Whenever possible, I've pulled out hard coded settings from <code>wp-config.php</code> and made them available as a runtime environment variable. Now, as an owner, you may toggle those values using <code>heroku config:set</code>. Here's an incomplete list of settings:</p>
+<p>A few Wordpress environment variables can be controlled via Heroku using <code>heroku config:set</code>:</p>
 
 <ul>
 <li><code>FORCE_SSL_LOGIN</code></li>
 <li><code>FORCE_SSL_ADMIN</code></li>
 <li><code>WP_CACHE</code></li>
 <li><code>DISABLE_WP_CRON</code></li>
-</ul><p>Please refer to the documentation from Wordpress for details.</p>
-
-<blockquote>
+</ul><blockquote>
 <p>To add a Heroku environment variable: <code>heroku config:set GOOG_UA_ID=UA=1234777-9</code></p>
 </blockquote>
 
-<p>Finally, enabling and configuring the following Wordpress plugins will also speed up Wordpress on Heroku significantly.</p>
+<p>See <code>wp-config.php</code> and documentation from Wordpress for details.</p>
+
+<p>Enabling and configuring the following Wordpress plugins will also speed up Wordpress on Heroku significantly.</p>
 
 <ul>
 <li>
@@ -160,18 +162,36 @@
 <li>
 <code>memcachier</code> - Use a modern memcached plugin.</li>
 <li>
-<code>cloudflare</code> - OPTIONAL, but very awesome.  If Cloudflare is installed, the plugin configures Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.  Keep in mind that the free version doesn't support SSL, and you'll need to set both <code>FORCE_SSL_ADMIN</code> and <code>FORCE_SSL_LOGIN</code> to false in order to login.</li>
-</ul><h2>Usage</h2>
+<code>cloudflare</code> - OPTIONAL, but very awesome.
 
-<h3>Adding a custom domain name</h3>
+<ul>
+<li>If Cloudflare is installed, the plugin configures Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.</li>
+<li>Keep in mind that the free version doesn't support SSL, so you'll need to set both <code>FORCE_SSL_ADMIN</code> and <code>FORCE_SSL_LOGIN</code> to false in order to login.</li>
+</ul>
+</li>
+</ul><h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<div class="highlight"><pre><span class="nv">$ </span>heroku domains:add marcchung.org
+<h3>
+<a name="creating-your-wordpress-site-on-heroku" class="anchor" href="#creating-your-wordpress-site-on-heroku"><span class="octicon octicon-link"></span></a>Creating your Wordpress site on Heroku</h3>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>git clone git://github.com/username/wordpress-on-heroku.git myblog
+<span class="nv">$ </span><span class="nb">cd </span>myblog
+<span class="nv">$ </span>heroku create -s cedar
+<span class="nv">$ </span>heroku config:add <span class="nv">BUILDPACK_URL</span><span class="o">=</span>https://github.com/mchung/heroku-buildpack-wordpress.git
+<span class="nv">$ </span>git push heroku master
+</pre></div>
+
+<h3>
+<a name="adding-a-custom-domain-name" class="anchor" href="#adding-a-custom-domain-name"><span class="octicon octicon-link"></span></a>Adding a custom domain name</h3>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>heroku domains:add marcchung.org
 <span class="nv">$ </span>heroku domains:add www.marcchung.org
 </pre></div>
 
 <p>Note: Adding a domain still requires some DNS setup work. Basically you'll want to do something like this:</p>
 
-<div class="highlight"><pre>ALIAS marcchung.org -&gt; proxy.herokuapp.com
+<div class="highlight highlight-bash"><pre>ALIAS marcchung.org -&gt; proxy.herokuapp.com
 CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 </pre></div>
 
@@ -179,37 +199,41 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 <p><a href="https://dnsimple.com/r/d2bc9a934910c1">I use DNSimple and you should too</a>.</p>
 </blockquote>
 
-<h3>Adding a theme</h3>
+<h3>
+<a name="adding-a-theme" class="anchor" href="#adding-a-theme"><span class="octicon octicon-link"></span></a>Adding a theme</h3>
 
-<div class="highlight"><pre><span class="nv">$ </span>cp -r appply config/public/wp-content/themes/
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>cp -r appply config/public/wp-content/themes/
 <span class="nv">$ </span>git add .
 <span class="nv">$ </span>git commit -m <span class="s2">"New theme"</span>
 <span class="nv">$ </span>git push heroku master
 </pre></div>
 
-<h3>Adding a plugin</h3>
+<h3>
+<a name="adding-a-plugin" class="anchor" href="#adding-a-plugin"><span class="octicon octicon-link"></span></a>Adding a plugin</h3>
 
-<div class="highlight"><pre><span class="nv">$ </span>cp -r google-analytics config/public/wp-content/plugins/
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>cp -r google-analytics config/public/wp-content/plugins/
 <span class="nv">$ </span>git add .
 <span class="nv">$ </span>git commit -m <span class="s2">"New plugin"</span>
 <span class="nv">$ </span>git push heroku master
 </pre></div>
 
 <blockquote>
-<p>Don't forget to activate it under the Plugins panel.</p>
+<p>Plugins and themes must be activated via the Plugins panel.</p>
 </blockquote>
 
-<h3>Adding custom secret keys to wp-config.php</h3>
+<h3>
+<a name="adding-custom-secret-keys-to-wp-configphp" class="anchor" href="#adding-custom-secret-keys-to-wp-configphp"><span class="octicon octicon-link"></span></a>Adding custom secret keys to wp-config.php</h3>
 
 <p>Use the <a href="https://api.wordpress.org/secret-key/1.1/salt/">Wordpress.org secret-key service</a> to override the default ones in <code>wp-config.php</code>.</p>
 
-<h3>Configuring cron</h3>
+<h3>
+<a name="configuring-cron" class="anchor" href="#configuring-cron"><span class="octicon octicon-link"></span></a>Configuring cron</h3>
 
 <p>By default, wp-cron is fired on every page load and scheduled to run jobs like future posts or backups.  This buildpack disables wp-cron so that visitors don't have to wait to see the site.</p>
 
 <p>Heroku allows you to trigger wp-cron from their scheduler.</p>
 
-<div class="highlight"><pre><span class="nv">$ </span>heroku addons:add scheduler:standard
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>heroku addons:add scheduler:standard
 
 <span class="c"># Visit the Heroku scheduler dashboard and add a new task:</span>
 ./cron.sh
@@ -217,38 +241,57 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <p>Alternatively, you may also re-enable wp-cron.</p>
 
-<div class="highlight"><pre><span class="nv">$ </span>heroku config:set <span class="nv">DISABLE_WP_CRON</span><span class="o">=</span><span class="nb">false</span>
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>heroku config:set <span class="nv">DISABLE_WP_CRON</span><span class="o">=</span><span class="nb">false</span>
 </pre></div>
 
-<h3>Enable system access</h3>
+<h3>
+<a name="enable-system-access" class="anchor" href="#enable-system-access"><span class="octicon octicon-link"></span></a>Enable system access</h3>
 
 <p>The alternative PHP cache and a generic PHPINFO page is available at /apc.php and /phpinfo.php.</p>
 
-<div class="highlight"><pre><span class="nv">$ </span>heroku config:set <span class="nv">ENABLE_SYSTEM_DEBUG</span><span class="o">=</span><span class="nb">true</span>
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>heroku config:set <span class="nv">ENABLE_SYSTEM_DEBUG</span><span class="o">=</span><span class="nb">true</span>
 <span class="nv">$ </span>heroku config:set <span class="nv">SYSTEM_USERNAME</span><span class="o">=</span>admin
 <span class="nv">$ </span>heroku config:set <span class="nv">SYSTEM_PASSWORD</span><span class="o">=</span>secret123
 <span class="c"># Visit /apc.php or /phpinfo.php</span>
 </pre></div>
 
-<h3>Workflow (optional)</h3>
+<h3>
+<a name="remove-the-php-fpm-status-page-statushtml" class="anchor" href="#remove-the-php-fpm-status-page-statushtml"><span class="octicon octicon-link"></span></a>Remove the PHP-FPM status page <code>/status.html</code>
+</h3>
+
+<p>Delete the directive from <code>nginx.conf.erb</code>.</p>
+
+<h3>
+<a name="add-a-faviconico-drop-one-into-public" class="anchor" href="#add-a-faviconico-drop-one-into-public"><span class="octicon octicon-link"></span></a>Add a <code>favicon.ico</code> drop one into <code>public</code>
+</h3>
+
+<p>See <a href="https://github.com/mchung/heroku-buildpack-wordpress/issues/22">#22</a> for details.</p>
+
+<h3>
+<a name="choosing-specific-versions-of-vendored-packages" class="anchor" href="#choosing-specific-versions-of-vendored-packages"><span class="octicon octicon-link"></span></a>Choosing specific versions of vendored packages</h3>
+
+<p>See <a href="VERSIONS.md">VERSIONS</a> for how to pick specific versions of Nginx, PHP, and Wordpress</p>
+
+<h3>
+<a name="workflow-optional" class="anchor" href="#workflow-optional"><span class="octicon octicon-link"></span></a>Workflow (optional)</h3>
 
 <p>By keeping your changes separate, it'll be easier to pull in changes from the Wordpress site template.</p>
 
 <p>Assign a remote <code>upstream</code></p>
 
-<div class="highlight"><pre><span class="nv">$ </span>git remote add upstream https://github.com/mchung/wordpress-on-heroku.git
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>git remote add upstream https://github.com/your_name/wordpress-on-heroku.git
 </pre></div>
 
 <p>Track changes in a separate branch called <code>production</code>.</p>
 
-<div class="highlight"><pre><span class="nv">$ </span>git checkout -B production
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>git checkout -B production
 <span class="nv">$ </span>git push heroku production:master
-<span class="c"># This keeps upstream changes separate from blog changes.</span>
+<span class="c"># This keeps upstream (my) changes separate from (your) blog changes.</span>
 </pre></div>
 
 <p>Pull changes from upstream into <code>master</code>.</p>
 
-<div class="highlight"><pre><span class="nv">$ </span>git co master
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>git co master
 <span class="nv">$ </span>git pull
 <span class="nv">$ </span>git co production
 <span class="nv">$ </span>git merge master
@@ -256,10 +299,11 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <p>Pull changes from upstream into <code>production</code>.</p>
 
-<div class="highlight"><pre><span class="nv">$ </span>git pull --rebase upstream master
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>git pull --rebase upstream master
 </pre></div>
 
-<h2>How fast is this?</h2>
+<h2>
+<a name="how-fast-is-this" class="anchor" href="#how-fast-is-this"><span class="octicon octicon-link"></span></a>How fast is this?</h2>
 
 <p>Pretty freaking fast.</p>
 
@@ -274,13 +318,15 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 <li>Memcachier + ClearDB</li>
 </ul><p>Here are some benchmarks from Google PageSpeed, Blitz.io, and Web Page Test.</p>
 
-<h3>Google PageSpeed</h3>
+<h3>
+<a name="google-pagespeed" class="anchor" href="#google-pagespeed"><span class="octicon octicon-link"></span></a>Google PageSpeed</h3>
 
 <p>Results from PageSpeed Insights: 94/100</p>
 
 <p><a href="https://developers.google.com/speed/pagespeed/insights#url=wordpress-on-heroku.herokuapp.com&amp;mobile=false">See the PageSpeed report</a></p>
 
-<h3>blitz.io</h3>
+<h3>
+<a name="blitzio" class="anchor" href="#blitzio"><span class="octicon octicon-link"></span></a>blitz.io</h3>
 
 <p>Results from a blitz.io rush</p>
 
@@ -290,7 +336,8 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <p><a href="https://www.blitz.io/report/541eb908b4ef3eec8d9c2ce2293a85ca">See the Blitz.io report</a></p>
 
-<h3>Web Page Performance Test</h3>
+<h3>
+<a name="web-page-performance-test" class="anchor" href="#web-page-performance-test"><span class="octicon octicon-link"></span></a>Web Page Performance Test</h3>
 
 <p><img src="https://s3.amazonaws.com/heroku-buildpack-wordpress/woh-webpagetest-details.png" alt="Results from WebPageTest"></p>
 
@@ -298,22 +345,26 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 
 <p>These tests are periodically rerun on <a href="http://wordpress-on-heroku.herokuapp.com">Wordpress on Heroku</a>.</p>
 
-<h2>But doesn't Heroku only run Ruby applications?</h2>
+<h2>
+<a name="but-doesnt-heroku-only-run-ruby-applications" class="anchor" href="#but-doesnt-heroku-only-run-ruby-applications"><span class="octicon octicon-link"></span></a>But doesn't Heroku only run Ruby applications?</h2>
 
 <p>Not anymore. Heroku's latest offerings (See <a href="http://devcenter.heroku.com/articles/cedar">Celadon Cedar stack</a>) makes it easy (well, easyish) for developers to install and run any language, or service.</p>
 
-<h2>Constraints with Heroku</h2>
+<h2>
+<a name="constraints-with-heroku" class="anchor" href="#constraints-with-heroku"><span class="octicon octicon-link"></span></a>Constraints with Heroku</h2>
 
 <p>The <a href="http://devcenter.heroku.com/articles/dyno-isolation">ephemeral filesystem</a></p>
 
 <ul>
 <li>End-users cannot upload media assets to Heroku. WORKAROUND: Enable <code>wpro</code> and use that plugin to upload media assets to S3 instead.</li>
 <li>End-users cannot update themes or plugins from the admin page. WORKAROUND: Add them to <code>config/public/wp-content/themes</code> or <code>config/public/wp-content/plugins</code> then push to Heroku.</li>
-</ul><h2>Security disclosure</h2>
+</ul><h2>
+<a name="security-disclosure" class="anchor" href="#security-disclosure"><span class="octicon octicon-link"></span></a>Security disclosure</h2>
 
 <p>Each time Wordpress is deployed, Heroku will fetch the latest buildpack from GitHub and execute the instructions in <code>compile</code> and <code>deploy</code>.  This buildpack will download the latest precompiled versions of Nginx, PHP, and Wordpress from my personal <a href="http://heroku-buildpack-wordpress.s3.amazonaws.com">S3 bucket</a> then add in config files from the <a href="https://github.com/mchung/wordpress-on-heroku/tree/master/config"><code>config</code></a> directory.</p>
 
-<h2>Hacking and Contributing</h2>
+<h2>
+<a name="hacking-and-contributing" class="anchor" href="#hacking-and-contributing"><span class="octicon octicon-link"></span></a>Hacking and Contributing</h2>
 
 <p>Not comfortable downloading and running a copy of someone else's PHP or Nginx executables? Not a problem!  The <code>support</code> directory also contains a handful of compilation and deployment scripts to automate several processes, which are currently used for maintenance and repo management.</p>
 
@@ -324,23 +375,28 @@ CNAME www.marcchung.org -&gt; proxy.herokuapp.com
 <code>package_php</code> - Used to compile and upload the latest version of PHP to S3.</li>
 <li>
 <code>wordup</code> - Really useful helper script for creating and destroying Wordpress sites.</li>
-</ul><h2>TODO</h2>
+</ul><h2>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h2>
 
 <ul>
-<li>Automate vendor upgrades. Make it easy to keep in sync with latest Nginx, PHP, and Wordpress.</li>
 <li>End-users shouldn't be able to do things that aren't supported on Heroku. Write plugins to hide everything.</li>
 <li>Integrate New Relic.</li>
 <li>CDN support.</li>
 <li>Combine CSS/JS files</li>
-</ul><h2>Authors and Contributors</h2>
+</ul><h2>
+<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h2>
 
 <ul>
-<li>Marc Chung - <a href="https://github.com/mchung">@mchung</a> on GitHub and <a href="https://twitter.com/heisenthought">@heisenthought</a> on Twitter</li>
-</ul><h2>Thanks</h2>
+<li>Marc Chung - Follow <a href="https://github.com/mchung">@mchung</a> on GitHub and also <a href="https://twitter.com/heisenthought">@heisenthought</a> on Twitter</li>
+</ul><h2>
+<a name="thanks" class="anchor" href="#thanks"><span class="octicon octicon-link"></span></a>Thanks</h2>
 
-<p>Thanks for reading this all the way through. If you find this useful, please add an entry to the <a href="https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku">list of Wordpress sites running on Heroku</a>.</p>
+<p>Thanks for reading this all the way through.</p>
 
-<h2>License</h2>
+<p>If you use this buildpack in production, please update the <a href="https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku">list of Wordpress sites running on Heroku</a>.</p>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>The MIT License - Copyright (c) 2013 Marc Chung</p>
 
