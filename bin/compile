@@ -71,8 +71,10 @@ curl --silent --max-time 60 --location $WORDPRESS_URL | tar xz
 if [ "$WORDPRESS_DIR" ]; then
   mkdir "public"
   mv wordpress "public/$WORDPRESS_DIR"
+  WORDPRESS_INSTALLATION_DIR="public/$WORDPRESS_DIR"
 else
   mv wordpress public
+  WORDPRESS_INSTALLATION_DIR="public"
 fi
 
 echo "-----> Writing start.sh script"
@@ -103,7 +105,7 @@ chmod +x bin/setup.sh
 cat >>bin/cron.sh <<EOF
 #!/usr/bin/env bash
 
-setup.sh && cd public && php wp-cron.php
+setup.sh && cd $WORDPRESS_INSTALLATION_DIR && php wp-cron.php
 EOF
 chmod +x bin/cron.sh
 
