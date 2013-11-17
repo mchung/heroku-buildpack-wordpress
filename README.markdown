@@ -152,7 +152,7 @@ Heroku allows you to trigger wp-cron from their scheduler.
 $ heroku addons:add scheduler:standard
 
 # Visit the Heroku scheduler dashboard and add a new task:
-./cron.sh
+./bin/cron.sh
 ```
 
 Alternatively, you may also re-enable wp-cron.
