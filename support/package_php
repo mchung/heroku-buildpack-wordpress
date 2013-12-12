@@ -22,21 +22,25 @@ if [ "$S3_BUCKET" == "" ]; then
   exit 1
 fi
 
-basedir="$( cd -P "$( dirname "$0" )" && pwd )"
-
-# make a temp directory
-tempdir="$( mktemp -t php_XXXX )"
-rm -rf $tempdir
-mkdir -p $tempdir
-pushd $tempdir
+if [ "$HEROKU_APP" == "" ]; then
+  echo "must set HEROKU_APP, i.e. HEROKU_APP=my-octopus"
+  exit 1
+fi
 
 # download and extract php
-curl -L http://us.php.net/get/php-$PHP_VERSION.tar.bz2/from/www.php.net/mirror -o php.tgz
-tar xzvf php.tgz
-
 # build and package php for heroku
-vulcan build -v -s php-$PHP_VERSION -o $tempdir/php-$PHP_VERSION-with-fpm-heroku.tar.gz -p /app/vendor/php -c \
-  "./configure  --prefix=/app/vendor/php \
+# upload to s3
+heroku run --app $HEROKU_APP \
+   "mkdir /tmp/aws;
+    curl -L https://raw.github.com/mchung/heroku-buildpack-wordpress/master/support/aws/s3 -o /tmp/aws/s3; \
+    curl -L https://raw.github.com/mchung/heroku-buildpack-wordpress/master/support/aws/hmac -o /tmp/aws/hmac; \
+    chmod 755 /tmp/aws/s3 /tmp/aws/hmac; \
+    rm -rf /app/vendor/php; \
+    curl -L http://us.php.net/get/php-$PHP_VERSION.tar.bz2/from/www.php.net/mirror -o /tmp/php.tar.bz2; \
+    cd /tmp ; \
+    tar xvjf php.tar.bz2; \
+    cd php-$PHP_VERSION; \
+    ./configure  --prefix=/app/vendor/php \
                 --with-mysql \
                 --with-pdo-mysql \
                 --with-iconv \
@@ -67,7 +71,8 @@ vulcan build -v -s php-$PHP_VERSION -o $tempdir/php-$PHP_VERSION-with-fpm-heroku
                 --without-sqlite3 \
                 && make install \
                 && /app/vendor/php/bin/pear config-set php_dir /app/vendor/php \
-                && yes '' | /app/vendor/php/bin/pecl install memcache"
-
-# upload to s3
-$basedir/aws/s3 put $S3_BUCKET php-$PHP_VERSION-with-fpm-heroku.tar.gz $tempdir/php-$PHP_VERSION-with-fpm-heroku.tar.gz
+                && yes '' | /app/vendor/php/bin/pecl install memcache ; \
+    cd /app/vendor/php; \
+    tar cvfz /tmp/php-$PHP_VERSION-with-fpm-heroku.tar.gz . ; \
+    cd /tmp/; \
+    aws/s3 put $S3_BUCKET php-$PHP_VERSION-with-fpm-heroku.tar.gz /tmp/php-$PHP_VERSION-with-fpm-heroku.tar.gz"
