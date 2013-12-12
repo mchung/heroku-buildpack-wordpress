@@ -14,6 +14,7 @@ PHP
 * 5.3.9 (5.3-stable)
 
 Wordpress *downloaded directly* from [Wordpress](http://wordpress.org/download/release-archive/)
+* 3.7.1
 * 3.6
 * 3.5.1
 * 3.5.0
