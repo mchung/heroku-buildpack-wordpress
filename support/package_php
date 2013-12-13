@@ -31,7 +31,7 @@ fi
 # build and package php for heroku
 # upload to s3
 heroku run --app $HEROKU_APP \
-   "mkdir /tmp/aws;
+   "mkdir /tmp/aws; \
     curl -L https://raw.github.com/mchung/heroku-buildpack-wordpress/master/support/aws/s3 -o /tmp/aws/s3; \
     curl -L https://raw.github.com/mchung/heroku-buildpack-wordpress/master/support/aws/hmac -o /tmp/aws/hmac; \
     chmod 755 /tmp/aws/s3 /tmp/aws/hmac; \
