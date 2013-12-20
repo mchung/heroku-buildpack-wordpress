@@ -69,10 +69,12 @@ curl --silent --max-time 60 --location $WORDPRESS_URL | tar xz
 
 # Support installation of WordPress into a subdirectory instead of the docroot
 if [ "$WORDPRESS_DIR" ]; then
+  echo "-----> WORDPRESS_DIR set to ${WORDPRESS_DIR}"
   mkdir "public"
   mv wordpress "public/$WORDPRESS_DIR"
   WORDPRESS_INSTALLATION_DIR="public/$WORDPRESS_DIR"
 else
+  echo "-----> No WORDPRESS_DIR set, defaulting to /public"
   mv wordpress public
   WORDPRESS_INSTALLATION_DIR="public"
 fi
