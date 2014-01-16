@@ -74,7 +74,7 @@ if [ -n "$WORDPRESS_DIR" ]; then
   mv wordpress "public/$WORDPRESS_DIR"
   WORDPRESS_INSTALLATION_DIR="public/$WORDPRESS_DIR"
 else
-  echo "-----> WORDPRESS_DIR doesn't seem to be set. Make sure user-env-compile is enabled for your Heroku app."
+  echo "-----> WORDPRESS_DIR not set. Installing WordPress to /"
   mv wordpress public
   WORDPRESS_INSTALLATION_DIR="public"
 fi
