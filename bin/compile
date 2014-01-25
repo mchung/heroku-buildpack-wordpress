@@ -1,14 +1,29 @@
 #!/bin/bash
-# Usage: bin/compile <build-dir> <cache-dir>
+# Usage: bin/compile BUILD_DIR CACHE_DIR ENV_DIR
 
 set -e
 set -o pipefail
 
+export_env_dir() {
+  env_dir=$1
+  if [ -d "$env_dir" ]; then
+    for e in $(ls $env_dir); do
+      echo "$e" &&
+      export "$e=$(cat $env_dir/$e)"
+      :
+    done
+  fi
+}
+
+export_env_dir($3)
+
 # START CONFIG
 
-# Support end-user configured NGINX_VERSION, PHP_VERSION, WORDPRESS_VERSION
-# and S3_BUCKET environment variables. This way, end-users can choose exactly
-# which versions to run with. Requires user-env-compile.
+# Support end-user configured NGINX_VERSION, PHP_VERSION, WORDPRESS_VERSION,
+# S3_BUCKET AND WORDPRESS_LANGUAGE environment variables. This way, end-users
+# can choose exactly which versions to run with. Requires user-env-compile for now,
+# but will continue to work when Heroku deprecates user-env-compile and ENV_DIR
+# appears to this script as a parameter.
 
 if [ -z "$NGINX_VERSION" ]; then
   NGINX_VERSION=1.4.2
