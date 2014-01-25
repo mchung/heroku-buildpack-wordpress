@@ -15,7 +15,7 @@ export_env_dir() {
   fi
 }
 
-export_env_dir($3)
+export_env_dir $3
 
 # START CONFIG
 
