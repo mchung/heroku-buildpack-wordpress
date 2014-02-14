@@ -280,6 +280,8 @@ Not comfortable downloading and running a copy of someone else's PHP or Nginx ex
 ## Authors and Contributors
 
 * Marc Chung - Follow [@mchung](https://github.com/mchung) on GitHub and also [@heisenthought](https://twitter.com/heisenthought) on Twitter
+* Oskari Okko Ojala - [@okko](https://github.com/okko) on GitHub, [@okko](https://twitter.com/okko) on Twitter
+* Luis Herranz - [@LuisHerranz](https://github.com/LuisHerranz) on Github, [@luisherranz](https://twitter.com/luisherranz) on Twitter
 
 ## Thanks
 
