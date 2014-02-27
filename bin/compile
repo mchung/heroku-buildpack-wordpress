@@ -19,7 +19,7 @@ export_env_dir $3
 # START CONFIG
 
 # Support end-user configured NGINX_VERSION, PHP_VERSION, WORDPRESS_VERSION,
-# S3_BUCKET AND WORDPRESS_LANGUAGE environment variables. This way, end-users
+# S3_BUCKET environment variables. This way, end-users
 # can choose exactly which versions to run with. Requires user-env-compile for now,
 # but will continue to work when Heroku deprecates user-env-compile and ENV_DIR
 # appears to this script as a parameter.
