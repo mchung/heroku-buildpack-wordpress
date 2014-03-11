@@ -43,7 +43,7 @@ fi
 
 # Prevent publishing if old environment variables set. This feature will be removed in the future
 # and thus the "global names" used before will be for application use.
-if [ -z "$NGINX_VERSION" || -z "$PHP_VERSION" || -z "$WORDPRESS_VERSION" || -z "$S3_BUCKET" || -z "$WORDPRESS_DIR" ]; then
+if [ -z "$NGINX_VERSION" ] || [ -z "$PHP_VERSION" ] || [ -z "$WORDPRESS_VERSION" ] || [ -z "$S3_BUCKET" ] || [ -z "$WORDPRESS_DIR" ]; then
   echo "Aborting. Env variables controlling buildpack should be prefixed with \"BUILDPACK_\"."
   echo "Rename the variables and push again. For example:"
   echo ""
