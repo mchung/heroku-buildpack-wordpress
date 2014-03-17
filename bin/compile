@@ -47,12 +47,43 @@ if [ -n "$NGINX_VERSION" ] || [ -n "$PHP_VERSION" ] || [ -n "$WORDPRESS_VERSION"
   echo "Aborting. Env variables controlling buildpack should be prefixed with \"BUILDPACK_\"."
   echo "This applies to variables NGINX_VERSION, PHP_VERSION, WORDPRESS_VERSION, S3_BUCKET, WORDPRESS_DIR."
   echo ""
-  echo "Rename/remove the variables and push again. For example:"
+  echo "Rename/remove the variables and then push again:"
   echo ""
-  echo "    heroku config:set   BUILDPACK_WORDPRESS_VERSION=3.8.1"
-  echo "    heroku config:set   BUILDPACK_WORDPRESS_DIR=wordpress"
-  echo "    heroku config:unset WORDPRESS_VERSION"
-  echo "    heroku config:unset WORDPRESS_DIR"
+  if [ -n "$NGINX_VERSION" ]; then
+      if [-z "BUILDPACK_NGINX_VERSION" ]; then
+          echo "    heroku config:set   BUILDPACK_NGINX_VERSION=$NGINX_VERSION"
+      fi
+      echo "    heroku config:unset NGINX_VERSION"
+  fi
+
+  if [ -n "$PHP_VERSION" ]; then
+      if [-z "BUILDPACK_PHP_VERSION" ]; then
+          echo "    heroku config:set   BUILDPACK_PHP_VERSION=$PHP_VERSION"
+      fi
+      echo "    heroku config:unset PHP_VERSION"
+  fi
+
+  if [ -n "$WORDPRESS_VERSION" ]; then
+      if [-z "BUILDPACK_WORDPRESS_VERSION" ]; then
+          echo "    heroku config:set   BUILDPACK_WORDPRESS_VERSION=$WORDPRESS_VERSION"
+      fi
+      echo "    heroku config:unset WORDPRESS_VERSION"
+  fi
+
+  if [ -n "$S3_BUCKET" ]; then
+      if [-z "BUILDPACK_S3_BUCKET" ]; then
+          echo "    heroku config:set   BUILDPACK_S3_BUCKET=$S3_BUCKET"
+      fi
+      echo "    heroku config:unset S3_BUCKET"
+  fi
+
+  if [ -n "WORDPRESS_DIR" ]; then
+      if [-z "BUILDPACK_WORDPRESS_DIR" ]; then
+          echo "    heroku config:set   BUILDPACK_WORDPRESS_DIR=$WORDPRESS_DIR"
+      fi
+      echo "    heroku config:unset WORDPRESS_DIR"
+  fi
+
   exit 250
 fi
 
