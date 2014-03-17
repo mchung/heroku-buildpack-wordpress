@@ -22,9 +22,8 @@ export_env_dir $3
 # and thus the "global names" used before will be for application use.
 if [ -n "$NGINX_VERSION" ] || [ -n "$PHP_VERSION" ] || [ -n "$WORDPRESS_VERSION" ] || [ -n "$S3_BUCKET" ] || [ -n "$WORDPRESS_DIR" ]; then
   echo "Aborting. Env variables controlling buildpack should be prefixed with \"BUILDPACK_\"."
-  echo "This applies to variables NGINX_VERSION, PHP_VERSION, WORDPRESS_VERSION, S3_BUCKET, WORDPRESS_DIR."
   echo ""
-  echo "Rename/remove the variables and then push again:"
+  echo "Change the heroku config and then push again:"
   echo ""
   if [ -n "$NGINX_VERSION" ]; then
       if [ -z "$BUILDPACK_NGINX_VERSION" ]; then
