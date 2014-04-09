@@ -127,12 +127,12 @@ curl --silent --max-time 60 --location $WORDPRESS_URL | tar xz
 
 # Support installation of WordPress into a subdirectory instead of the docroot
 if [ -n "$BUILDPACK_WORDPRESS_DIR" ]; then
-  echo "-----> BUILDPACK_WORDPRESS_DIR is set to ${BUILDPACK_WORDPRESS_DIR}"
+  echo "       BUILDPACK_WORDPRESS_DIR is set to ${BUILDPACK_WORDPRESS_DIR}"
   mkdir "public"
   mv wordpress "public/$BUILDPACK_WORDPRESS_DIR"
   WORDPRESS_INSTALLATION_DIR="public/$BUILDPACK_WORDPRESS_DIR"
 else
-  echo "-----> BUILDPACK_WORDPRESS_DIR not set. Installing WordPress to /"
+  echo "       BUILDPACK_WORDPRESS_DIR not set. Installing WordPress to /"
   mv wordpress public
   WORDPRESS_INSTALLATION_DIR="public"
 fi
