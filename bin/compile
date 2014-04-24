@@ -33,7 +33,7 @@ if [ -z "$PHP_VERSION" ]; then
 fi
 
 if [ -z "$WORDPRESS_VERSION" ]; then
-  WORDPRESS_VERSION=3.8.2
+  WORDPRESS_VERSION=3.9
 fi
 
 if [ -z "$S3_BUCKET" ]; then
