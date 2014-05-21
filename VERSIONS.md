@@ -46,4 +46,6 @@ $ git push heroku master
 ```
 
 To request a new vendored package, [please file an issue](https://github.com/mchung/heroku-buildpack-wordpress/issues/new?title=Request%20for%20new%20vendor%20package&body=Hi-%0A%0APlease add:%0A%0A```%0Anginx-2.3.18%0Aphp-4.5%0A```%0A%0AThank%20you)
+Note that WordPress does not need to be vendored, you can set the WORDPRESS_VERSION to install any version of WordPress.
+
 
