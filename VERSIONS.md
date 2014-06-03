@@ -45,6 +45,13 @@ $ heroku config:set WORDPRESS_VERSION=3.6.2
 $ git push heroku master
 ```
 
+Configure Wordpress on Heroku to use a specific language and version of Wordpress
+```bash
+$ heroku config:set WORDPRESS_HOST=de.wordpress.org
+$ heroku config:set WORDPRESS_VERSION=3.9.1-de_DE
+```
+This will download Wordpress from http://de.wordpress.org/wordpress-3.9.1-de_DE.tar.gz
+
 To request a new vendored package, [please file an issue](https://github.com/mchung/heroku-buildpack-wordpress/issues/new?title=Request%20for%20new%20vendor%20package&body=Hi-%0A%0APlease add:%0A%0A```%0Anginx-2.3.18%0Aphp-4.5%0A```%0A%0AThank%20you)
 Note that WordPress does not need to be vendored, you can set the WORDPRESS_VERSION to install any version of WordPress.
 

@@ -83,7 +83,7 @@ A few Wordpress environment variables can be controlled via Heroku using `heroku
 * `WP_CACHE`
 * `DISABLE_WP_CRON`
 * `WORDPRESS_DIR`, see [Specifying WordPress installation directory](#specifying-wordpress-installation-directory)
-* `WORDPRESS_VERSION`, see [VERSIONS](VERSIONS.md)
+* `WORDPRESS_VERSION` and `WORDPRESS_HOST`, see [VERSIONS](VERSIONS.md)
 
 > To add a Heroku environment variable: `heroku config:set GOOG_UA_ID=UA=1234777-9`
 
@@ -295,6 +295,7 @@ Not comfortable downloading and running a copy of someone else's PHP or Nginx ex
 * Marc Chung - Follow [@mchung](https://github.com/mchung) on GitHub and also [@heisenthought](https://twitter.com/heisenthought) on Twitter
 * Oskari Okko Ojala - [@okko](https://github.com/okko) on GitHub, [@okko](https://twitter.com/okko) on Twitter
 * Luis Herranz - [@LuisHerranz](https://github.com/LuisHerranz) on Github, [@luisherranz](https://twitter.com/luisherranz) on Twitter
+* Martin Andert - [@martinandert](https://github.com/martinandert) on Github
 
 ## Thanks
 

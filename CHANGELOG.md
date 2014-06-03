@@ -1,4 +1,7 @@
 master
+  * Added WORDPRESS_HOST config var which defaults to 'wordpress.org'. This 
+    comes in handy if you want to download Wordpress in a different language, 
+    e.g. 'de.wordpress.org'.
   * heroku-sendgrid now pulls name/email from wpdb instead of heroku config
     EMAIL_REPLY_TO, EMAIL_FROM, and EMAIL_NAME are deprecated
   * End-users can now choose versions for vendored apps. Refer to VERSIONS.md.
