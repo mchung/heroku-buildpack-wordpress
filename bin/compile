@@ -36,6 +36,10 @@ if [ -z "$WORDPRESS_VERSION" ]; then
   WORDPRESS_VERSION=3.9.1
 fi
 
+if [ -z "$WORDPRESS_HOST" ]; then
+  WORDPRESS_HOST=wordpress.org
+fi
+
 if [ -z "$S3_BUCKET" ]; then
   S3_BUCKET=heroku-buildpack-wordpress
 fi
@@ -45,7 +49,7 @@ fi
 #
 NGINX_URL="https://s3.amazonaws.com/${S3_BUCKET}/nginx-${NGINX_VERSION}-heroku.tar.gz"
 PHP_URL="https://s3.amazonaws.com/${S3_BUCKET}/php-${PHP_VERSION}-with-fpm-heroku.tar.gz"
-WORDPRESS_URL="http://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"
+WORDPRESS_URL="http://${WORDPRESS_HOST}/wordpress-${WORDPRESS_VERSION}.tar.gz"
 #
 
 function indent() {
