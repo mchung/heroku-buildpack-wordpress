@@ -1,8 +1,8 @@
-# Heroku buildpack: Wordpress on Heroku
+# Heroku buildpack: WordPress on Heroku
 
-### This is a Heroku buildpack for running [Wordpress](http://wordpress.org) on [Heroku](http://heroku.com)
+### This is a Heroku buildpack for running [WordPress](http://wordpress.org) on [Heroku](http://heroku.com)
 
-It uses this [Wordpress](http://github.com/mchung/wordpress-on-heroku) project template to bootstrap a highly tuned Wordpress site built on the following stack:
+It uses this [WordPress](http://github.com/mchung/wordpress-on-heroku) project template to bootstrap a highly tuned WordPress site built on the following stack:
 
 * `nginx` - Nginx for serving web content.  Built specifically for Heroku.  [See compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_nginx).
 * `php` - PHP-FPM for process management.  [See compile options](https://github.com/mchung/heroku-buildpack-wordpress/blob/master/support/package_php).
@@ -11,18 +11,18 @@ It uses this [Wordpress](http://github.com/mchung/wordpress-on-heroku) project t
 * `Sendgrid` - Sendgrid for the email backend.
 * `MemCachier` - MemCachier for the memcached backend.
 
-You can see a live demo at [Wordpress on Heroku](http://wordpress-on-heroku.herokuapp.com).
+You can see a live demo at [WordPress on Heroku](http://wordpress-on-heroku.herokuapp.com).
 
 ## Getting started in 60 seconds
 
-Fork and rename the [Wordpress project template](http://github.com/mchung/wordpress-on-heroku).
+Fork and rename the [WordPress project template](http://github.com/mchung/wordpress-on-heroku).
 
 Let's clone the repository for a new blog, 99catfacts.com
 ```bash
 $ git clone git://github.com/your_name/wordpress-on-heroku.git 99catfacts.com
 ```
 
-Create Wordpress on Heroku.
+Create WordPress on Heroku.
 ```bash
 $ cd 99catfacts.com
 $ heroku create -s cedar
@@ -31,7 +31,7 @@ $ heroku config:add BUILDPACK_URL=https://github.com/mchung/heroku-buildpack-wor
 
 > Don't have the Heroku Toolbelt installed? Follow these [quickstart instructions](https://devcenter.heroku.com/articles/quickstart). Takes about 2 minutes.
 
-Deploy your Wordpress site to Heroku.
+Deploy your WordPress site to Heroku.
 ```bash
 $ git push heroku master
 ...
@@ -48,23 +48,23 @@ $ git push heroku master
 -----> Launching... done, v7
 ```
 
-Open your new Wordpress site in a web browser.
+Open your new WordPress site in a web browser.
 ```bash
 $ heroku apps:open
 ```
 
-> Happy? Add your site to the growing [list of Wordpress sites runnning on Heroku](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku).
+> Happy? Add your site to the growing [list of WordPress sites runnning on Heroku](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku).
 
 ## Overview
 
-The buildpack bootstraps a Wordpress site using the [mchung/wordpress-on-heroku](http://github.com/mchung/wordpress-on-heroku) project template.  That repo contains everything required to run your own Wordpress site on Heroku.
+The buildpack bootstraps a WordPress site using the [mchung/wordpress-on-heroku](http://github.com/mchung/wordpress-on-heroku) project template.  That repo contains everything required to run your own WordPress site on Heroku.
 
-There are several files available in `config` for configuring your new Wordpress site.
+There are several files available in `config` for configuring your new WordPress site.
 
 ```
 └── config                # Your config files goes here.
     ├── public            # The public directory
-    │   └── wp-content    # Wordpress themes and plugins
+    │   └── wp-content    # WordPress themes and plugins
     │       ├── plugins
     │       └── themes
     └── vendor            # Config files for vendored apps
@@ -74,9 +74,9 @@ There are several files available in `config` for configuring your new Wordpress
             └── etc       # php.ini & php-fpm.conf
 ```
 
-When you deploy Wordpress to Heroku, everything in `config` is copied over to Heroku.  You can configure your blog by making changes to these files.
+When you deploy WordPress to Heroku, everything in `config` is copied over to Heroku.  You can configure your blog by making changes to these files.
 
-A few Wordpress environment variables can be controlled via Heroku using `heroku config:set`:
+A few WordPress environment variables can be controlled via Heroku using `heroku config:set`:
 
 * `FORCE_SSL_LOGIN`
 * `FORCE_SSL_ADMIN`
@@ -87,23 +87,23 @@ A few Wordpress environment variables can be controlled via Heroku using `heroku
 
 > To add a Heroku environment variable: `heroku config:set GOOG_UA_ID=UA=1234777-9`
 
-See `wp-config.php` and documentation from Wordpress for details.
+See `wp-config.php` and documentation from WordPress for details.
 
-Enabling and configuring the following Wordpress plugins will also speed up Wordpress on Heroku significantly.
+Enabling and configuring the following WordPress plugins will also speed up WordPress on Heroku significantly.
 
 * `heroku-sendgrid` - Configures phpmailer to send SMTP email with Sendgrid.
-* `heroku-google-analytics` - Configures Google Analytics to display on your Wordpress site.
+* `heroku-google-analytics` - Configures Google Analytics to display on your WordPress site.
   * GOOG_UA_ID=UA-9999999
-* `wpro` - Configures Wordpress to upload everything to S3.
-* `batcache` - Configures Wordpress to use memcached for caching.
+* `wpro` - Configures WordPress to upload everything to S3.
+* `batcache` - Configures WordPress to use memcached for caching.
 * `memcachier` - Use a modern memcached plugin.
 * `cloudflare` - OPTIONAL, but very awesome.
- * If Cloudflare is installed, the plugin configures Wordpress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects Wordpress from spammers.
+ * If Cloudflare is installed, the plugin configures WordPress to play nicely with CloudFlare.  It sets the correct IP addresses from visitors and comments, and also protects WordPress from spammers.
  * Keep in mind that the free version doesn't support SSL, so you'll need to set both `FORCE_SSL_ADMIN` and `FORCE_SSL_LOGIN` to false in order to login.
 
 ## Usage
 
-### Creating your Wordpress site on Heroku
+### Creating your WordPress site on Heroku
 ```bash
 $ git clone git://github.com/username/wordpress-on-heroku.git myblog
 $ cd myblog
@@ -144,7 +144,7 @@ $ git push heroku master
 
 ### Adding custom secret keys to wp-config.php
 
-Use the [Wordpress.org secret-key service](https://api.wordpress.org/secret-key/1.1/salt/) to override the default ones in `wp-config.php`.
+Use the [WordPress.org secret-key service](https://api.wordpress.org/secret-key/1.1/salt/) to override the default ones in `wp-config.php`.
 
 ### Configuring cron
 By default, wp-cron is fired on every page load and scheduled to run jobs like future posts or backups.  This buildpack disables wp-cron so that visitors don't have to wait to see the site.
@@ -191,11 +191,11 @@ define('WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST'] . '/mywordpress');
 
 ### Choosing specific versions of vendored packages
 
-See [VERSIONS](VERSIONS.md) for how to pick specific versions of Nginx, PHP, and Wordpress
+See [VERSIONS](VERSIONS.md) for how to pick specific versions of Nginx, PHP, and WordPress
 
 ### Workflow (optional)
 
-By keeping your changes separate, it'll be easier to pull in changes from the Wordpress site template.
+By keeping your changes separate, it'll be easier to pull in changes from the WordPress site template.
 
 Assign a remote `upstream`
 ```bash
@@ -228,7 +228,7 @@ Pretty freaking fast.
 
 System setup
 * Single Heroku dyno
-* Default Wordpress installation
+* Default WordPress installation
 * Default twentytwelve theme
 * Caching turned up
 * Cron disabled
@@ -258,7 +258,7 @@ Over 200 page views per second with less than 100ms response time sustained for 
 
 [See the WebPageTest report](http://www.webpagetest.org/result/130201_BB_624/)
 
-These tests are periodically rerun on [Wordpress on Heroku](http://wordpress-on-heroku.herokuapp.com).
+These tests are periodically rerun on [WordPress on Heroku](http://wordpress-on-heroku.herokuapp.com).
 
 ## But doesn't Heroku only run Ruby applications?
 
@@ -273,7 +273,7 @@ The [ephemeral filesystem](http://devcenter.heroku.com/articles/dyno-isolation)
 
 ## Security disclosure
 
-Each time Wordpress is deployed, Heroku will fetch the latest buildpack from GitHub and execute the instructions in `compile` and `deploy`.  This buildpack will download the latest precompiled versions of Nginx, PHP, and Wordpress from my personal [S3 bucket](http://heroku-buildpack-wordpress.s3.amazonaws.com) then add in config files from the [`config`](https://github.com/mchung/wordpress-on-heroku/tree/master/config) directory.
+Each time WordPress is deployed, Heroku will fetch the latest buildpack from GitHub and execute the instructions in `compile` and `deploy`.  This buildpack will download the latest precompiled versions of Nginx, PHP, and WordPress from my personal [S3 bucket](http://heroku-buildpack-wordpress.s3.amazonaws.com) then add in config files from the [`config`](https://github.com/mchung/wordpress-on-heroku/tree/master/config) directory.
 
 ## Hacking and Contributing
 
@@ -281,7 +281,7 @@ Not comfortable downloading and running a copy of someone else's PHP or Nginx ex
 
 * `package_nginx` - Used to compile and upload the latest version of Nginx to S3.
 * `package_php` - Used to compile and upload the latest version of PHP to S3.
-* `wordup` - Really useful helper script for creating and destroying Wordpress sites.
+* `wordup` - Really useful helper script for creating and destroying WordPress sites.
 
 ## TODO
 
@@ -300,7 +300,7 @@ Not comfortable downloading and running a copy of someone else's PHP or Nginx ex
 
 Thanks for reading this all the way through.
 
-If you use this buildpack in production, please update the [list of Wordpress sites running on Heroku](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku).
+If you use this buildpack in production, please update the [list of WordPress sites running on Heroku](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku).
 
 ## License
 
