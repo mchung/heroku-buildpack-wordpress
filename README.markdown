@@ -295,6 +295,7 @@ Not comfortable downloading and running a copy of someone else's PHP or Nginx ex
 * Marc Chung - Follow [@mchung](https://github.com/mchung) on GitHub and also [@heisenthought](https://twitter.com/heisenthought) on Twitter
 * Oskari Okko Ojala - [@okko](https://github.com/okko) on GitHub, [@okko](https://twitter.com/okko) on Twitter
 * Luis Herranz - [@LuisHerranz](https://github.com/LuisHerranz) on Github, [@luisherranz](https://twitter.com/luisherranz) on Twitter
+* Matt Mullenweg - [@m](https://github.com/m) on Github, [@photomatt](https://twitter.com/photomatt) on Twitter
 
 ## Thanks
 
