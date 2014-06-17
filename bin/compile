@@ -121,7 +121,7 @@ if [ ! -d ./vendor/php ]; then
 fi
 
 # WordPress
-echo "-----> Installing Wordpress v${BUILDPACK_WORDPRESS_VERSION}"
+echo "-----> Installing WordPress v${BUILDPACK_WORDPRESS_VERSION}"
 cd ${BUILD_DIR}
 curl --silent --max-time 60 --location $WORDPRESS_URL | tar xz
 
