@@ -18,7 +18,7 @@ case "$1" in
    --create|-c)
       instance_name=$2
 
-      echo "-----> Installing Wordpress on Heroku"
+      echo "-----> Installing WordPress on Heroku"
       git clone git://github.com/mchung/wordpress-on-heroku.git $instance_name | indent
       cd $instance_name
 
@@ -39,7 +39,7 @@ case "$1" in
    --destroy|-d)
       instance_name=$2
 
-      echo "-----> Uninstalling Wordpress (${instance_name}) :("
+      echo "-----> Uninstalling WordPress (${instance_name}) :("
       heroku destroy --app $instance_name
 
       echo "-----> Your local copy will remain untouched."

@@ -13,7 +13,7 @@ PHP
 * 5.4.11 (5.4-stable)
 * 5.3.9 (5.3-stable)
 
-Wordpress *downloaded directly* from [Wordpress](http://wordpress.org/download/release-archive/)
+WordPress *downloaded directly* from [WordPress](http://wordpress.org/download/release-archive/)
 * 3.9.1
 * 3.9
 * 3.8.2
@@ -24,7 +24,7 @@ Wordpress *downloaded directly* from [Wordpress](http://wordpress.org/download/r
 * 3.5.1
 * 3.5.0
 
-Configure Wordpress on Heroku to use specific versions of Nginx and PHP
+Configure WordPress on Heroku to use specific versions of Nginx and PHP
 ```bash
 $ git clone git://github.com/your_name/wordpress-on-heroku.git mydogblog
 $ cd mydogblog
@@ -37,7 +37,7 @@ $ heroku config:set BUILDPACK_URL=https://github.com/mchung/heroku-buildpack-wor
 $ git push heroku master
 ```
 
-Configure existing Wordpress on Heroku to use a specific version of Wordpress
+Configure existing WordPress on Heroku to use a specific version of WordPress
 ```bash
 $ cd existing_wp
 $ heroku labs:enable user-env-compile

@@ -7,7 +7,7 @@ v0.7
 
 2013-02-08  Marc Chung  <mchung@gmail.com>
 
-  * Changed the Wordpress on Heroku project template.  Older blogs deploying
+  * Changed the WordPress on Heroku project template.  Older blogs deploying
     against this buildpack will no longer work.  Refer to UPGRADING.md.
   * Added /app/bin to PATH
 

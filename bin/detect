@@ -2,7 +2,7 @@
 # Usage: bin/compile <build-dir>
 
 if [ -f $1/config/public/wp-config.php ]; then
-  echo "Wordpress"
+  echo "WordPress"
   exit 0
 else
   exit 1

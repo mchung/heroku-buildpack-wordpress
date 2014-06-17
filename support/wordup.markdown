@@ -1,18 +1,18 @@
-# Wordup automatically sets up Wordpress on Heroku.
+# Wordup automatically sets up WordPress on Heroku.
 
-Install Wordpress in < 60 seconds.
+Install WordPress in < 60 seconds.
 
 ## Who are you?
 
-1. Someone who uses Wordpress. Perhaps a developer, which is why you're reading this on GitHub.com
+1. Someone who uses WordPress. Perhaps a developer, which is why you're reading this on GitHub.com
 2. Someone who is comfortable with the command line. Perhaps a developer, which is why you're still reading this.
-3. Someone who likes to help their friends get up and running with Wordpress, but hates the setup, security, and ongoing maintenance (cleaning up logs, upgrading instances, locking down Wordpress, performance, etc.)
+3. Someone who likes to help their friends get up and running with WordPress, but hates the setup, security, and ongoing maintenance (cleaning up logs, upgrading instances, locking down WordPress, performance, etc.)
 
 ## Here's what you get
 
 ```
 $ time wordup -c new-wordpress-site
------> Installing Wordpress on Heroku
+-----> Installing WordPress on Heroku
        Cloning into 'new-wordpress-site'...
 remote: Counting objects: 166, done.
 remote: Compressing objects: 100% (121/121), done.
@@ -33,15 +33,15 @@ Compressing objects: 100% (121/121), done.
 Writing objects: 100% (166/166), 1.04 MiB | 178 KiB/s, done.
 Total 166 (delta 37), reused 166 (delta 37)
 -----> Fetching custom git buildpack... done
------> Wordpress app detected
+-----> WordPress app detected
 -----> Installing Nginx v1.3.11
 -----> Installing PHP v5.4.11
------> Installing Wordpress v3.5.1
+-----> Installing WordPress v3.5.1
 -----> Writing start.sh script
 -----> Done with compile
 -----> Discovering process types
        Procfile declares types     -> (none)
-       Default types for Wordpress -> web
+       Default types for WordPress -> web
 -----> Compiled slug size: 34.4MB
 -----> Launching... done, v7
        http://new-wordpress-site.herokuapp.com deployed to Heroku
@@ -61,11 +61,11 @@ sys 0m0.389s
 
 ## Example
 
-### Create a Wordpress instance
+### Create a WordPress instance
 
     wordup -c new_shiny_wordpress
 
-### Destroy a Wordpress instance
+### Destroy a WordPress instance
 
     wordup -d new_shiny_wordpress
 
@@ -81,6 +81,6 @@ Copy your themes or plugins into `setup/wp-content/plugins` or `setup/wp-content
 
 ## Requirements, Gotchas, and Other notes
 
-* Installs Wordpress 3.5.1
+* Installs WordPress 3.5.1
 * Requires git.
 * Requires a Heroku account.

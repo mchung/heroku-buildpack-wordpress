@@ -37,13 +37,13 @@ $ git push heroku master
 ...
 -----> Heroku receiving push
 -----> Fetching custom git buildpack... done
------> Wordpress app detected
+-----> WordPress app detected
 .
 [...]
 .
 -----> Discovering process types
        Procfile declares types     -> (none)
-       Default types for Wordpress -> web
+       Default types for WordPress -> web
 -----> Compiled slug size: 33.7MB
 -----> Launching... done, v7
 ```
@@ -53,7 +53,7 @@ Open your new WordPress site in a web browser.
 $ heroku apps:open
 ```
 
-> Happy? Add your site to the growing [list of WordPress sites runnning on Heroku](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku).
+> Happy? Add your site to the growing [list of WordPress sites runnning on Heroku](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-WordPress-on-Heroku).
 
 ## Overview
 
@@ -300,7 +300,7 @@ Not comfortable downloading and running a copy of someone else's PHP or Nginx ex
 
 Thanks for reading this all the way through.
 
-If you use this buildpack in production, please update the [list of WordPress sites running on Heroku](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-Wordpress-on-Heroku).
+If you use this buildpack in production, please update the [list of WordPress sites running on Heroku](https://github.com/mchung/heroku-buildpack-wordpress/wiki/Sites-running-WordPress-on-Heroku).
 
 ## License
 

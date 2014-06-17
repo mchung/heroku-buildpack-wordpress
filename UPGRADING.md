@@ -5,7 +5,7 @@
 v0.7 introduces a new project template layout. Refer to the README for details.
 
 Since buildpacks are coupled to project templates, older versions of the
-Wordpress on Heroku project template will no longer work with the latest
+WordPress on Heroku project template will no longer work with the latest
 version of the buildpack
 
 There are two ways to fix this.
