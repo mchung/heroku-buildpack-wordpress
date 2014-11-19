@@ -104,7 +104,6 @@ cat >>bin/setup.sh <<EOF
 cp -rf /app/config/* /app
 
 cp /app/vendor/php/php/fpm/status.html /app/public/status.html
-cp /app/vendor/php/apc.php /app/public/apc.php
 erb /app/vendor/nginx/conf/wordpress.conf.erb > /app/vendor/nginx/conf/wordpress.conf
 chmod 755 /app/public/wp-content
 
