@@ -1,5 +1,10 @@
 # Heroku buildpack: WordPress on Heroku
 
+### See also
+Heroku now (2015) supports PHP in the standard stack.
+* Deploying WordPress to Heroku (https://ksylvest.com/posts/2014-05-02/deploying-wordpress-to-heroku)
+* WordPress on Heroku, template (https://github.com/xyu/heroku-wp)
+
 ### This is a Heroku buildpack for running [WordPress](http://wordpress.org) on [Heroku](http://heroku.com)
 
 It uses this [WordPress](http://github.com/mchung/wordpress-on-heroku) project template to bootstrap a highly tuned WordPress site built on the following stack:
