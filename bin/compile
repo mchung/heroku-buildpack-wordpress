@@ -18,35 +18,79 @@ export_env_dir $3
 
 # START CONFIG
 
-# Support end-user configured NGINX_VERSION, PHP_VERSION, WORDPRESS_VERSION,
-# S3_BUCKET environment variables. This way, end-users
+# Prevent publishing if old environment variables set. This feature will be removed in the future
+# and thus the "global names" used before will be for application use.
+if [ -n "$NGINX_VERSION" ] || [ -n "$PHP_VERSION" ] || [ -n "$WORDPRESS_VERSION" ] || [ -n "$S3_BUCKET" ] || [ -n "$WORDPRESS_DIR" ]; then
+  echo "Aborting. Env variables controlling buildpack should be prefixed with \"BUILDPACK_\"."
+  echo ""
+  echo "Change the heroku config and then push again:"
+  echo ""
+  if [ -n "$NGINX_VERSION" ]; then
+      if [ -z "$BUILDPACK_NGINX_VERSION" ]; then
+          echo "    heroku config:set   BUILDPACK_NGINX_VERSION=$NGINX_VERSION"
+      fi
+      echo "    heroku config:unset NGINX_VERSION"
+  fi
+
+  if [ -n "$PHP_VERSION" ]; then
+      if [ -z "$BUILDPACK_PHP_VERSION" ]; then
+          echo "    heroku config:set   BUILDPACK_PHP_VERSION=$PHP_VERSION"
+      fi
+      echo "    heroku config:unset PHP_VERSION"
+  fi
+
+  if [ -n "$WORDPRESS_VERSION" ]; then
+      if [ -z "$BUILDPACK_WORDPRESS_VERSION" ]; then
+          echo "    heroku config:set   BUILDPACK_WORDPRESS_VERSION=$WORDPRESS_VERSION"
+      fi
+      echo "    heroku config:unset WORDPRESS_VERSION"
+  fi
+
+  if [ -n "$S3_BUCKET" ]; then
+      if [ -z "$BUILDPACK_S3_BUCKET" ]; then
+          echo "    heroku config:set   BUILDPACK_S3_BUCKET=$S3_BUCKET"
+      fi
+      echo "    heroku config:unset S3_BUCKET"
+  fi
+
+  if [ -n "$WORDPRESS_DIR" ]; then
+      if [ -z "$BUILDPACK_WORDPRESS_DIR" ]; then
+          echo "    heroku config:set   BUILDPACK_WORDPRESS_DIR=$WORDPRESS_DIR"
+      fi
+      echo "    heroku config:unset WORDPRESS_DIR"
+  fi
+
+  exit 250
+fi
+
+# Support end-user configured BUILDPACK_NGINX_VERSION, BUILDPACK_PHP_VERSION, BUILDPACK_WORDPRESS_VERSION,
+# BUILDPACK_S3_BUCKET, BUILDPACK_WORDPRESS_DIR environment variables. This way, end-users
 # can choose exactly which versions to run with. Requires user-env-compile for now,
 # but will continue to work when Heroku deprecates user-env-compile and ENV_DIR
 # appears to this script as a parameter.
 
-if [ -z "$NGINX_VERSION" ]; then
-  NGINX_VERSION=1.4.2
+if [ -z "$BUILDPACK_NGINX_VERSION" ]; then
+  BUILDPACK_NGINX_VERSION=1.4.2
 fi
 
-if [ -z "$PHP_VERSION" ]; then
-  PHP_VERSION=5.5.2
+if [ -z "$BUILDPACK_PHP_VERSION" ]; then
+  BUILDPACK_PHP_VERSION=5.5.2
 fi
 
-if [ -z "$WORDPRESS_VERSION" ]; then
-  WORDPRESS_VERSION=3.9.1
+if [ -z "$BUILDPACK_WORDPRESS_VERSION" ]; then
+  BUILDPACK_WORDPRESS_VERSION=3.9.2
 fi
 
-if [ -z "$S3_BUCKET" ]; then
-  S3_BUCKET=heroku-buildpack-wordpress
+if [ -z "$BUILDPACK_S3_BUCKET" ]; then
+  BUILDPACK_S3_BUCKET=heroku-buildpack-wordpress
 fi
 
 # END CONFIG
 
 #
-NGINX_URL="https://s3.amazonaws.com/${S3_BUCKET}/nginx-${NGINX_VERSION}-heroku.tar.gz"
-PHP_URL="https://s3.amazonaws.com/${S3_BUCKET}/php-${PHP_VERSION}-with-fpm-heroku.tar.gz"
-WORDPRESS_URL="http://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"
-#
+NGINX_URL="https://s3.amazonaws.com/${BUILDPACK_S3_BUCKET}/nginx-${BUILDPACK_NGINX_VERSION}-heroku.tar.gz"
+PHP_URL="https://s3.amazonaws.com/${BUILDPACK_S3_BUCKET}/php-${BUILDPACK_PHP_VERSION}-with-fpm-heroku.tar.gz"
+WORDPRESS_URL="http://wordpress.org/wordpress-${BUILDPACK_WORDPRESS_VERSION}.tar.gz"
 
 function indent() {
   c='s/^/       /'
@@ -63,7 +107,7 @@ mkdir -p $BUILD_DIR $CACHE_DIR
 # Nginx
 cd ${BUILD_DIR}
 if [ ! -d ./vendor/nginx ]; then
-  echo "-----> Installing Nginx v${NGINX_VERSION}"
+  echo "-----> Installing Nginx v${BUILDPACK_NGINX_VERSION}"
   mkdir -p ./vendor/nginx && cd ./vendor/nginx
   curl --silent --max-time 60 --location $NGINX_URL | tar xz
 fi
@@ -71,24 +115,24 @@ fi
 # PHP
 cd ${BUILD_DIR}
 if [ ! -d ./vendor/php ]; then
-  echo "-----> Installing PHP v${PHP_VERSION}"
+  echo "-----> Installing PHP v${BUILDPACK_PHP_VERSION}"
   mkdir -p ./vendor/php && cd ./vendor/php
   curl --silent --max-time 60 --location $PHP_URL | tar xz
 fi
 
 # WordPress
-echo "-----> Installing WordPress v${WORDPRESS_VERSION}"
+echo "-----> Installing WordPress v${BUILDPACK_WORDPRESS_VERSION}"
 cd ${BUILD_DIR}
 curl --silent --max-time 60 --location $WORDPRESS_URL | tar xz
 
 # Support installation of WordPress into a subdirectory instead of the docroot
-if [ -n "$WORDPRESS_DIR" ]; then
-  echo "       Installing to subdirectory ${WORDPRESS_DIR}"
+if [ -n "$BUILDPACK_WORDPRESS_DIR" ]; then
+  echo "       BUILDPACK_WORDPRESS_DIR is set to ${BUILDPACK_WORDPRESS_DIR}"
   mkdir "public"
-  mv wordpress "public/$WORDPRESS_DIR"
-  WORDPRESS_INSTALLATION_DIR="public/$WORDPRESS_DIR"
+  mv wordpress "public/$BUILDPACK_WORDPRESS_DIR"
+  WORDPRESS_INSTALLATION_DIR="public/$BUILDPACK_WORDPRESS_DIR"
 else
-  echo "       WORDPRESS_DIR not set. Installing WordPress to /"
+  echo "       BUILDPACK_WORDPRESS_DIR not set. Installing WordPress to /"
   mv wordpress public
   WORDPRESS_INSTALLATION_DIR="public"
 fi
