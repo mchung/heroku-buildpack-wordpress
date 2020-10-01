@@ -1,5 +1,5 @@
 # Heroku buildpack: WordPress on Heroku
-
+# this very good way to deploy outr project 
 ### See also
 Heroku now (2015) supports PHP in the standard stack.
 * [Deploying WordPress to Heroku](https://ksylvest.com/posts/2014-05-02/deploying-wordpress-to-heroku)
